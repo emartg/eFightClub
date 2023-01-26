@@ -35,16 +35,15 @@ Juan de Carlos López:
 
 - **Funcionalidades públicas**: El usuario no registrado puede visualizar los torneos públicos en la página, y sus resultados. 
  
-- **Funcionalidades privadas**: Un usuario registrado podrá inscribirse y participar en torneos, al participar en un partido, cada usuario debe confirmar que se encuentra preparado antes de comenzar. 
-Además, permite al usuario crear y personalizar sus propios torneos, con normas y el diagrama del torneo. 
+- **Funcionalidades privadas**: Un usuario registrado podrá: 
 
-- Unirse a un torneo de un juego en concreto.
+     - Unirse a un torneo de un juego en concreto.
 
-- Creación y gestión de un torneo.
+     - Creación, gestión y personalización de un torneo. Implica elegir el juego, definir las normas y *brackets*.
 
-- Suscripción a un torneo.
+     - Suscripción a un torneo para recibir notificaciones.
 
-- Gestión de un perfil de usuario.
+     - Gestión de un perfil de usuario.
 
 ### Entidades 
 
@@ -66,6 +65,9 @@ Además, permite al usuario crear y personalizar sus propios torneos, con normas
  
 - Sistema de confirmación para iniciar y para finalizar un partido entre los contendientes.
  
+- Sistema de aleatorización de los enfrentamientos de los torneos.
+
+- Sistema de actualización de los *brackets*.
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
