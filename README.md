@@ -38,6 +38,14 @@ Juan de Carlos López:
 - **Funcionalidades privadas**: Un usuario registrado podrá inscribirse y participar en torneos, al participar en un partido, cada usuario debe confirmar que se encuentra preparado antes de comenzar. 
 Además, permite al usuario crear y personalizar sus propios torneos, con normas y el diagrama del torneo. 
 
+- Unirse a un torneo de un juego en concreto.
+
+- Creación y gestión de un torneo.
+
+- Suscripción a un torneo.
+
+- Gestión de un perfil de usuario.
+
 ### Entidades 
 
 - **Administrador**: Representa a los administradores del sistema. Realizarán la gestión tanto de los torneos como de las cuentas del sistema. 
@@ -56,15 +64,8 @@ Además, permite al usuario crear y personalizar sus propios torneos, con normas
 
 - Envío de correo electrónico al usuario tras registrarse, al crear, unirse o suscribirse a un torneo.
  
-- Unirse a un torneo de un juego en concreto.
-
-- Creación y gestión de un torneo.
-
-- Suscripción a un torneo.
-
 - Sistema de confirmación para iniciar y para finalizar un partido entre los contendientes.
  
-- Gestión de un perfil de usuario.
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
