@@ -80,7 +80,7 @@ Juan de Carlos López:
 ## Fase II
 
 ### Diagramas
-#### Diagrama de navegación la aplicación web
+#### Diagrama de navegación de la aplicación web
 ![NAV](/diagrams/diagram_nav_dad.png)
 
 ## Licencia
