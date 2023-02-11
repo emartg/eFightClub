@@ -23,7 +23,9 @@ Juan de Carlos López:
     - [Descripción de la aplicación web](#descripción-de-la-aplicación-web) 
     - [Funcionalidades](#funcionalidades) 
     - [Entidades](#entidades) 
-    - [Funcionalidades del servicio interno](#funcionalidades-del-servicio-interno) 
+    - [Funcionalidades del servicio interno](#funcionalidades-del-servicio-interno)
+- [Fase II](#fase-2)
+	- [Diagramas](#diagramas)
 - [Licencia](#licencia) 
  
 ## Fase I 
@@ -74,6 +76,12 @@ Juan de Carlos López:
 - Sistema de aleatorización de los enfrentamientos de los eventos.
 
 - Sistema de actualización de los *brackets* tras la finalización de una partida.
+
+## Fase II
+
+### Diagramas
+#### Diagrama de navegación la aplicación web
+![NAV](/diagrams/diagram_nav_dad.png)
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
