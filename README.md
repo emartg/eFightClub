@@ -29,45 +29,51 @@ Juan de Carlos López:
 ## Fase I 
  
 ### Descripción de la aplicación web 
-`eFightClub` es una aplicación web que permite visualizar y participar en torneos de videojuegos de lucha online. 
+`eFightClub` es una aplicación web que permite visualizar y participar en torneos de videojuegos de lucha *online*. 
  
 ### Funcionalidades 
 
-- **Funcionalidades públicas**: El usuario no registrado puede visualizar los torneos públicos en la página, y sus resultados. 
+- **Funcionalidades públicas**: El usuario no registrado podrá:
+     
+     - Visualizar los torneos públicos en la página y sus resultados.
+     
+     - Registrarse con un correo y nombre únicos y una contraseña.
  
-- **Funcionalidades privadas**: Un usuario registrado podrá: 
+- **Funcionalidades privadas**: Un usuario registrado podrá además: 
 
-     - Unirse a un torneo de un juego en concreto.
+     - Crear un torneo. Implica elegir el *banner* y la imagen del evento, determinar el juego y definir su estructura.
+     
+     - Gestionar un torneo creado.
+     
+     - Confirmar el resultado de un partido en el que se esté participando.
+     
+     - Suscribirse a un torneo para recibir notificaciones.
+     
+     - Unirse a un torneo de un juego en concreto, lo que supone suscribirse a sus noticias de manera automática.
 
-     - Creación, gestión y personalización de un torneo. Implica elegir el juego, definir las normas y *brackets*.
-
-     - Suscripción a un torneo para recibir notificaciones.
-
-     - Gestión de un perfil de usuario.
+     - Ver y gestionar su perfil.
 
 ### Entidades 
-
-- **Administrador**: Representa a los administradores del sistema. Realizarán la gestión tanto de los torneos como de las cuentas del sistema. 
  
-- **Usuario**: Representa a los usuarios del sistema que podrán crear, unirse o suscribirse a torneos. 
+- **Usuario (*User*)**: Representa a los usuarios del sistema, que podrán crear, unirse o suscribirse a torneos (eventos). 
  
-- **Torneo**: Representa a los torneos creados en el sistema. Estos torneos son de un juego seleccionable y tienen un esquema personalizable compuesto por partidas entre jugadores. 
+- **Evento (*Event*)**: Representa a los torneos creados en el sistema. Estos torneos son de un juego concreto y tienen un esquema personalizable compuesto por partidas entre jugadores.
  
-- **Juego**: Representa el juego que se está jugando en un torneo en específico. El juego de un torneo se puede seleccionar en la creación entre una serie de predefinidos. 
+- **Partida (*Match*)**: Representa un enfrentamiento entre dos usuarios. Puede estar vacía si aún no se conoce a los contendientes.
  
-- **Partida**: Representa un enfrentamiento entre dos usuarios. Puede estar vacía si aún no se conoce a los contendientes.
- 
-- **Noticia**: Representa a las noticias de los torneos a los cuales un usuario registrado está suscrito para ser notificado de su progreso.
+- **Notificación (*Notification*)**: Representa una noticia sobre un torneo (evento) al cual un usuario registrado está suscrito para ser notificado de su progreso.
 
 ### Funcionalidades del servicio interno
 
-- Envío de correo electrónico al usuario tras registrarse, al crear, unirse o suscribirse a un torneo.
- 
-- Sistema de confirmación para iniciar y para finalizar un partido entre los contendientes.
- 
-- Sistema de aleatorización de los enfrentamientos de los torneos.
+- Envío de correo electrónico al usuario tras registrarse, al crear, unirse o suscribirse a un evento.
 
-- Sistema de actualización de los *brackets*.
+- Sistema de envío de notificaciones en base a lo sucedido en los eventos.
+
+- Sistema de login y registro de usuarios.
+ 
+- Sistema de aleatorización de los enfrentamientos de los eventos.
+
+- Sistema de actualización de los *brackets* tras la finalización de una partida.
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
