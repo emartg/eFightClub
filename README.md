@@ -24,7 +24,7 @@ Juan de Carlos López:
     - [Funcionalidades](#funcionalidades) 
     - [Entidades](#entidades) 
     - [Funcionalidades del servicio interno](#funcionalidades-del-servicio-interno)
-- [Fase II](#fase-2)
+- [Fase II](#fase-II)
 	- [Diagramas](#diagramas)
 - [Licencia](#licencia) 
  
@@ -83,8 +83,11 @@ Juan de Carlos López:
 #### Diagrama de navegación de la aplicación web
 ![NAV](/diagrams/diagram_nav_dad.png)
 
-#### Diagrama de navegación de entidad/relación
+#### Diagrama de entidad/relación
 ![NAV](/diagrams/diagram_er_dad.png)
+
+#### Diagrama de entidad/relación con atributos
+![NAV](/diagrams/diagram_er_attr_dad.png)
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
