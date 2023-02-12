@@ -83,5 +83,8 @@ Juan de Carlos López:
 #### Diagrama de navegación de la aplicación web
 ![NAV](/diagrams/diagram_nav_dad.png)
 
+#### Diagrama de navegación de entidad/relación
+![NAV](/diagrams/diagram_er_dad.png)
+
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
