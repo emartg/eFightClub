@@ -17,4 +17,37 @@ public class Notification {
 	private String title;
 	private String text = null;
 
+	//Constructors
+	
+	protected Notification() {}
+	
+	public Notification (Event parentEvent, String titleNew) {	
+		this.event = parentEvent;
+		this.title = titleNew;
+	}
+	
+	public Notification (Event parentEvent, String titleNew, String textNew) {	
+		this.event = parentEvent;
+		this.title = titleNew;
+		this.text = textNew;
+	}
+	
+	//Getters
+	public Event GetEvent () {		
+		return this.event;
+	}
+	public String GetTitle () {
+		return this.title;
+	}
+	public String GetText() {
+		return this.text;
+	}
+	
+	//Setters
+	public void SetTitle (String titleNew) {		
+		this.title = titleNew;
+	}
+	public void SetText (String textNew) {
+		this.text = textNew;
+	}
 }
