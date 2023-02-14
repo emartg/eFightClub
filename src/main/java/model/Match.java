@@ -51,6 +51,30 @@ public class Match {
 		this.player2 = p2;
 	}
 	
+	public Match (Event eventNew) {
+		this.event = eventNew;
+        long millis=System.currentTimeMillis();  
+		this.date = new java.sql.Date(millis);
+		this.winner = 0;
+	}
+	
+	public Match (Event eventNew, User p1) {
+		this.event = eventNew;
+	    long millis=System.currentTimeMillis();  
+	    this.date = new java.sql.Date(millis);
+	    this.winner = 0;
+		this.player1 = p1;
+	}
+
+	public Match (Event eventNew, User p1, User p2) {
+		this.event = eventNew;
+	    long millis=System.currentTimeMillis();  
+		this.date = new java.sql.Date(millis);
+		this.winner = 0;
+		this.player1 = p1;
+		this.player2 = p2;
+	}
+	
 	//Getters
 	public Event GetEvent () {
 		return this.event;		
@@ -60,21 +84,27 @@ public class Match {
 	}
 	public User GetPlayer1 () {
 		if (this.player1==null) {			
-			throw new NullPointerException("No se ha asignado un jugador todavía");
+			throw new NullPointerException("No player assigned yet");
 		}
 		return this.player1;		
 	}
 	public User GetPlayer2 () {
 		if (this.player2==null) {			
-			throw new NullPointerException("No se ha asignado un jugador todavía");
+			throw new NullPointerException("No player assigned yet");
 		}
 		return this.player2;		
 	}
 	
-	//Alternative Winner Getter returns the User object of the winner; not the int value of the variable
-	public User GetWinner() {
+	public int GetWinner() {
 		if (this.winner ==0) {
-			throw new NullPointerException ("No se ha asignado el ganador todavía");
+			throw new NullPointerException ("No winner assigned yet");
+		}
+		return this.winner;
+	}
+	//Alternative Winner Getter returns the User object instead of int value
+	public User GetWinnerUser() {
+		if (this.winner ==0) {
+			throw new NullPointerException ("No winner assigned yet");
 		}
 		if (this.winner ==1) {
 			return this.player1;
@@ -98,7 +128,7 @@ public class Match {
 	public void SetPlayerEmpty (User pNew) {
 		if (this.player1!=null) {
 			if (this.player2 != null) {
-				throw new IllegalArgumentException("Ya hay 2 jugadores asignados");
+				throw new IllegalArgumentException("There are already 2 players assigned");
 			}else {
 				SetPlayer2(pNew);
 			}			
@@ -108,7 +138,7 @@ public class Match {
 	}
 	public void SetWinner (int winnerNew) {		
 		if (winnerNew < 1 || winnerNew>2) {
-			throw new IllegalArgumentException("El valor de winner solo puede ser 1 o 2");
+			throw new IllegalArgumentException("Winner value must be either 1 or 2");
 		}
 		this.winner = winnerNew;
 	}

@@ -65,6 +65,16 @@ public class Event {
 		matches.add(new Match(this, this.startingDate));
 	}
 	
+	public Event (String nameNew, String gameNew, User creatorNew) {		
+		this.name = nameNew;
+		this.game = gameNew;
+	    long millis=System.currentTimeMillis();  
+		this.startingDate = new java.sql.Date(millis);
+		this.creator = creatorNew;
+		this.winner=null;
+		matches.add(new Match(this, this.startingDate));
+	}
+	
 	//Getters
 	public String GetName() {
 		return this.name;		
@@ -80,7 +90,7 @@ public class Event {
 	}
 	public User GetWinner() {
 		if (this.winner==null) {
-			throw new NullPointerException("No hay ganador definido");
+			throw new NullPointerException("There's no winner defined yet");
 		}
 		return this.winner;
 	}
@@ -114,7 +124,7 @@ public class Event {
 	//Add methods for lists
 	public void AddParticipant(User participantNew) {
 		if (this.participants.contains(participantNew)) {
-			throw new IllegalArgumentException("Jugador ya se encuentra en el evento");
+			throw new IllegalArgumentException("This player is already participating in the event");
 		}
 		this.participants.add(participantNew);
 		this.AddSubscriber(participantNew);
@@ -124,7 +134,7 @@ public class Event {
 		if (!this.subscribers.contains(subscriberNew)) {
 			this.subscribers.add(subscriberNew);
 		}else {
-			throw new IllegalArgumentException("Jugador ya se encuentra suscrito al evento");
+			throw new IllegalArgumentException("This player is already subscribed to the event");
 		}
 	}
 	public void AddMatch (Date matchDate) {

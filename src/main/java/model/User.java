@@ -30,17 +30,24 @@ public class User {
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)
 	private List<Event> eventsCreated = null;
 
-	//Constructores 
+	//Constructors 
 	protected User () {} 
 	
+	public User (String usernameNew, String emailNew, String passwordNew) {
+		this.username = usernameNew;
+		this.email = emailNew;
+		this.password = passwordNew;		
+		wins = 0;
+		losses = 0;
+		ratio = 0.0f;			
+	}	
 	public User (String usernameNew, String emailNew, String passwordNew, String passwordNewCheck) {
 		if (!CheckPassword(passwordNew, passwordNewCheck)) {			
-			throw new IllegalArgumentException ("Las contraseñas no son iguales");
+			throw new IllegalArgumentException ("Passwords do not match");
 		}
 		this.username = usernameNew;
 		this.email = emailNew;
-		this.password = passwordNew;
-		
+		this.password = passwordNew;		
 		wins = 0;
 		losses = 0;
 		ratio = 0.0f;			
@@ -83,7 +90,7 @@ public class User {
 	}
 	
 	
-	//en caso de hacer lo de introducir contraseña 2 veces
+	//auxiliary function to check whether 2 passwords are equal or not
 	public boolean CheckPassword (String passwordA, String passwordB) {
 		if (passwordA.equals(passwordB)) {
 			return true;		

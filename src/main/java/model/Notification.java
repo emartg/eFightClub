@@ -17,7 +17,7 @@ public class Notification {
 	private String title;
 	private String text = null;
 
-	//Constructores
+	//Constructors
 	
 	protected Notification() {}
 	
