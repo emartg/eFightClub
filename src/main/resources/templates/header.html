@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="/styles/style.css">
+	</head>
+	<body>
+		<div class="header">			
+			<nav>
+				<h1>eFightClub</h1>	
+				<ul>
+					<li><a href="#">Events</a></li>
+					{{#logged}}
+					<li><a href="#">Create event</a></li>
+					<li><a href="#">My events</a></li>
+					<li><a href="#">My account</a></li>
+					{{/logged}}
+					{{^logged}}
+					<li><a href="log">Log in</a></li>
+					{{/logged}}
+					{{#logged}}
+					<li><a href="#">Log out</a></li>
+					{{/logged}}
+				</ul>				
+			</nav>
+		</div>
+
