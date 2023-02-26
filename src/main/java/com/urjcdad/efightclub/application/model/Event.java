@@ -1,8 +1,9 @@
-package model;
+package com.urjcdad.efightclub.application.model;
 
 import java.sql.Blob;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -23,20 +24,20 @@ public class Event {
 	private String icon = null;
 	
 	@ManyToOne
-	private User creator;
+	private Users creator;
 	@ManyToOne
-	private User winner;
+	private Users winner;
 	
 	@OneToMany
-	private List<User>participants;
+	private List<Users>participants = new ArrayList<>();
 	@OneToMany
-	private List<User>subscribers;
+	private List<Users>subscribers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
-	private List<Match> matches;
+	private List<Match> matches = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
-	private List<Notification> notifications;
+	private List<Notification> notifications = new ArrayList<>();
 	
 	@Lob
 	@JsonIgnore
@@ -49,7 +50,7 @@ public class Event {
 	protected Event () {		
 	}
 	
-	public Event (String nameNew, String gameNew, Date startingDateNew, User creatorNew) {		
+	public Event (String nameNew, String gameNew, Date startingDateNew, Users creatorNew) {		
 		this.name = nameNew;
 		this.game = gameNew;
 		this.startingDate = startingDateNew;
@@ -58,7 +59,7 @@ public class Event {
 		matches.add(new Match(this, this.startingDate));
 	}
 	
-	public Event (String nameNew, String gameNew, User creatorNew) {		
+	public Event (String nameNew, String gameNew, Users creatorNew) {		
 		this.name = nameNew;
 		this.game = gameNew;
 	    long millis=System.currentTimeMillis();  
@@ -78,19 +79,19 @@ public class Event {
 	public Date GetStartingDate() {
 		return this.startingDate;		
 	}
-	public User GetCreator() {
+	public Users GetCreator() {
 		return this.creator;		
 	}
-	public User GetWinner() {
+	public Users GetWinner() {
 		if (this.winner==null) {
 			throw new NullPointerException("There's no winner defined yet");
 		}
 		return this.winner;
 	}
-	public List<User> GetParticipants(){
+	public List<Users> GetParticipants(){
 		return this.participants;
 	}
-	public List<User> GetSubscribers(){
+	public List<Users> GetSubscribers(){
 		return this.subscribers;
 	}
 	public List<Match> GetMatches(){
@@ -110,12 +111,12 @@ public class Event {
 	public void SetStartingDate (Date startingDateNew) {
 		this.startingDate= startingDateNew;
 	}
-	public void SetWinner (User winnerNew) {
+	public void SetWinner (Users winnerNew) {
 		this.winner= winnerNew;
 	}
 	
 	//Add methods for lists
-	public void AddParticipant(User participantNew) {
+	public void AddParticipant(Users participantNew) {
 		if (this.participants.contains(participantNew)) {
 			throw new IllegalArgumentException("This player is already participating in the event");
 		}
@@ -123,7 +124,7 @@ public class Event {
 		this.AddSubscriber(participantNew);
 	}
 	
-	public void AddSubscriber(User subscriberNew) {
+	public void AddSubscriber(Users subscriberNew) {
 		if (!this.subscribers.contains(subscriberNew)) {
 			this.subscribers.add(subscriberNew);
 		}else {
@@ -133,10 +134,10 @@ public class Event {
 	public void AddMatch (Date matchDate) {
 		this.matches.add(new Match(this,matchDate));		
 	}
-	public void AddMatch (Date matchDate, User p1) {
+	public void AddMatch (Date matchDate, Users p1) {
 		this.matches.add(new Match(this,matchDate, p1));		
 	}
-	public void AddMatch (Date matchDate, User p1, User p2) {
+	public void AddMatch (Date matchDate, Users p1, Users p2) {
 		this.matches.add(new Match(this,matchDate, p1, p2));		
 	}
 	public void AddNotification (String titleNew) {
@@ -147,14 +148,14 @@ public class Event {
 	}
 	
 	//Remove methods for lists
-	public void RemoveParticipant(User participantRemove) {		
+	public void RemoveParticipant(Users participantRemove) {		
 		if (this.participants.contains(participantRemove)) {
 			this.participants.remove(participantRemove);
 			this.RemoveSubscribers(participantRemove);
 		}
 	}
 	
-	public void RemoveSubscribers(User subscriberRemove) {
+	public void RemoveSubscribers(Users subscriberRemove) {
 		if (this.subscribers.contains(subscriberRemove)) {
 			this.subscribers.remove(subscriberRemove);
 		}		

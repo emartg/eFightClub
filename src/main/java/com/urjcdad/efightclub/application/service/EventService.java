@@ -1,4 +1,4 @@
-package service;
+package com.urjcdad.efightclub.application.service;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -8,9 +8,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import model.Event;
-import model.User;
-import repository.EventRepository;
+import com.urjcdad.efightclub.application.model.Event;
+import com.urjcdad.efightclub.application.model.Users;
+import com.urjcdad.efightclub.application.repository.EventRepository;
 
 @Service
 public class EventService {
@@ -20,8 +20,8 @@ public class EventService {
 	
 	@PostConstruct
 	public void init() {
-		events.save(new Event("Ultimate Showdown", "Tekken 7", new User ("mikk23", "mikkHd23@gmail.com","pass01")));
-		events.save(new Event("Street Eleven", "Street Fighter V", new User ("HiFiMusic", "musicHi@gmail.com","pass02")));
+		//events.save(new Event("Ultimate Showdown", "Tekken 7", new Users ("mikk23", "mikkHd23@gmail.com","pass01")));
+		//events.save(new Event("Street Eleven", "Street Fighter V", new Users ("HiFiMusic", "musicHi@gmail.com","pass02")));
 	}
 	
 	public Collection<Event> findAll() {

@@ -1,4 +1,4 @@
-package com.urjcdad.efightclub;
+package com.urjcdad.efightclub.application.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import model.User;
-import repository.UserRepository;
+import com.urjcdad.efightclub.application.model.Users;
+import com.urjcdad.efightclub.application.repository.UsersRepository;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UsersRepository userRepository;
 
 	@GetMapping("/")
 	public String home(Model model) {
@@ -36,9 +36,11 @@ public class HomeController {
 		model.addAttribute("username", username);
 		model.addAttribute("email", email);
 		model.addAttribute("password", password);
-		model.addAttribute("logged", true);
-		
-		User n = new User(username, email, password);
+		model.addAttribute("logged", true);		
+		Users n = new Users(username, email, password);
+		//n.SetUsername(username);
+		//n.SetEmail(email);
+		//n.SetPassword(password);
 		userRepository.save(n);
 		
 		return "home";
