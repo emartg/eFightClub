@@ -20,6 +20,12 @@ public class HomeController {
 		return "login";
 	}
 	
+	@GetMapping("/events")
+	public String events(Model model) {
+		
+		return "events";
+	}
+	
 	@PostMapping("/home")
 	public String home(Model model, 
 			@RequestParam String username, @RequestParam String email, @RequestParam String password) {
@@ -27,6 +33,8 @@ public class HomeController {
 		model.addAttribute("email", email);
 		model.addAttribute("password", password);
 		model.addAttribute("logged", true);
+
+		//model.addAttribute("event", event);
 		
 		return "home";
 	}

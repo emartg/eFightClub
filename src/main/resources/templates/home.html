@@ -1,11 +1,18 @@
 {{>header}}
-
-{{#logged}}	
+<!--  <img src="/images/background.jpg" alt="">  -->
+{{#logged}}
 <p>{{username}}, welcome to the eFightClub!</p>
-{{/logged}}	
+{{/logged}}
 
-{{^logged}}	
-<p>Welcome to the eFightClub!</p>
-{{/logged}}	
-		
-{{>footer}}		
+{{^logged}}
+{{/logged}}
+<div class="home-container">
+    <div class="ongoing-events">
+        <P>ONGOING EVENTS</P>
+    </div>
+    <div class="upcoming-events">
+        <p>UPCOMING EVENTS</p>
+    </div>
+</div>
+
+{{>footer}}
