@@ -24,14 +24,20 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/log")
-	public String log(Model model) {
+	@GetMapping("/login")
+	public String login(Model model) {
 		
-		return "log";
+		return "login";
 	}
 	
-	@PostMapping("/login")
-	public String login(Model model, 
+	@GetMapping("/events")
+	public String events(Model model) {
+		
+		return "events";
+	}
+	
+	@PostMapping("/home")
+	public String home(Model model, 
 			@RequestParam String username, @RequestParam String email, @RequestParam String password) {
 		model.addAttribute("username", username);
 		model.addAttribute("email", email);
