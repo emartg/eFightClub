@@ -41,9 +41,10 @@ public class Users {
 		wins = 0;
 		losses = 0;
 		ratio = 0.0f;			
-	}	
+	}
+	
 	public Users (String usernameNew, String emailNew, String passwordNew, String passwordNewCheck) {
-		if (!CheckPassword(passwordNew, passwordNewCheck)) {			
+		if (!checkPassword(passwordNew, passwordNewCheck)) {			
 			throw new IllegalArgumentException ("Passwords do not match");
 		}
 		this.username = usernameNew;
@@ -55,22 +56,22 @@ public class Users {
 	}
 	
 	//Getters
-	public String GetUsername() {
+	public String getUsername() {
 		return this.username;		
 	}
-	public String GetPassword() {
+	public String getPassword() {
 		return this.password;		
 	}
-	public String GetEmail() {
+	public String getEmail() {
 		return this.email;		
 	}
-	public int GetWins() {
+	public int getWins() {
 		return this.wins;		
 	}
-	public int GetLosses() {
+	public int getLosses() {
 		return this.losses;		
 	}
-	public float GetRatio() {
+	public float getRatio() {
 		if (this.wins + this.losses != 0) {
 			this.ratio=(float) (this.wins/(this.wins+ this.losses));
 		}		
@@ -78,21 +79,21 @@ public class Users {
 	}
 	
 	//Setters
-	public void SetUsername (String newUsername) {
+	public void setUsername (String newUsername) {
 		this.username = newUsername;
 	}
 	
-	public void SetPassword (String newPassword) {
+	public void setPassword (String newPassword) {
 		this.password = newPassword;
 	}
 	
-	public void SetEmail (String newEmail) {
+	public void setEmail (String newEmail) {
 		this.email = newEmail				;
 	}
 	
 	
 	//auxiliary function to check whether 2 passwords are equal or not
-	public boolean CheckPassword (String passwordA, String passwordB) {
+	public boolean checkPassword (String passwordA, String passwordB) {
 		if (passwordA.equals(passwordB)) {
 			return true;		
 		}		

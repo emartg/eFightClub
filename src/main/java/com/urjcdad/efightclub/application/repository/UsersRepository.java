@@ -9,6 +9,6 @@ import com.urjcdad.efightclub.application.model.Users;
 
  
 public interface UsersRepository extends JpaRepository <Users, Long>{
-	List<Users> findByUsername (String username);	
+	Users findByUsername (String username);	
 	List<Users> findByEmail (String email);	
 }
