@@ -17,9 +17,10 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idEvent;
 	
-	private String name;
+	private String eventName;
 	private String game;
-	private Date startingDate;
+	private Date regDate;
+	private Date kickoffDate;
 	private String banner = null;
 	private String icon = null;
 	
@@ -50,112 +51,109 @@ public class Event {
 	protected Event () {		
 	}
 	
-	public Event (String nameNew, String gameNew, Date startingDateNew, Users creatorNew) {		
-		this.name = nameNew;
-		this.game = gameNew;
-		this.startingDate = startingDateNew;
-		this.creator = creatorNew;
-		this.winner=null;
-		matches.add(new Match(this, this.startingDate));
-	}
-	
-	public Event (String nameNew, String gameNew, Users creatorNew) {		
-		this.name = nameNew;
-		this.game = gameNew;
-	    long millis=System.currentTimeMillis();  
-		this.startingDate = new java.sql.Date(millis);
-		this.creator = creatorNew;
-		this.winner=null;
-		matches.add(new Match(this, this.startingDate));
+	public Event (String eventName, String game, Date regDate, Date kickoffDate, Users creator) {		
+		this.eventName = eventName;
+		this.game = game;
+		this.regDate = regDate;
+		this.kickoffDate = kickoffDate;
+		this.creator = creator;
+		this.winner = null;
+		matches.add(new Match(this, this.kickoffDate));
 	}
 	
 	//Getters
-	public String GetName() {
-		return this.name;		
+	public String getEventName() {
+		return this.eventName;		
 	}
-	public String GetGame() {
+	public String getGame() {
 		return this.game;		
 	}
-	public Date GetStartingDate() {
-		return this.startingDate;		
+	public Date getRegistrationDate() {
+		return this.regDate;		
 	}
-	public Users GetCreator() {
+	public Date getKickoffDate() {
+		return this.kickoffDate;		
+	}
+	public Users getCreator() {
 		return this.creator;		
 	}
-	public Users GetWinner() {
+	public Users getWinner() {
 		if (this.winner==null) {
 			throw new NullPointerException("There's no winner defined yet");
 		}
 		return this.winner;
 	}
-	public List<Users> GetParticipants(){
+	public List<Users> getParticipants(){
 		return this.participants;
 	}
-	public List<Users> GetSubscribers(){
+	public List<Users> getSubscribers(){
 		return this.subscribers;
 	}
-	public List<Match> GetMatches(){
+	public List<Match> getMatches(){
 		return this.matches;
 	}
-	public List<Notification> GetNotifications(){
+	public List<Notification> getNotifications(){
 		return this.notifications;
 	}
 	
 	//Setters
-	public void SetName (String nameNew) {
-		this.name= nameNew;
+	public void setEventName (String eventName) {
+		this.eventName = eventName;
 	}
-	public void SetGame (String gameNew) {
-		this.game= gameNew;
+	public void setGame (String game) {
+		this.game= game;
 	}
-	public void SetStartingDate (Date startingDateNew) {
-		this.startingDate= startingDateNew;
+	public void setRegistrationDate (Date regDate) {
+		this.regDate = regDate;
 	}
-	public void SetWinner (Users winnerNew) {
-		this.winner= winnerNew;
+	public void setKickoffDate (Date kickoffDate) {
+		this.kickoffDate= kickoffDate;
+	}
+	public void setWinner (Users winner) {
+		this.winner= winner;
 	}
 	
 	//Add methods for lists
-	public void AddParticipant(Users participantNew) {
+	public void addParticipant(Users participantNew) {
 		if (this.participants.contains(participantNew)) {
 			throw new IllegalArgumentException("This player is already participating in the event");
 		}
 		this.participants.add(participantNew);
-		this.AddSubscriber(participantNew);
+		this.addSubscriber(participantNew);
 	}
 	
-	public void AddSubscriber(Users subscriberNew) {
+	public void addSubscriber(Users subscriberNew) {
 		if (!this.subscribers.contains(subscriberNew)) {
 			this.subscribers.add(subscriberNew);
 		}else {
 			throw new IllegalArgumentException("This player is already subscribed to the event");
 		}
 	}
-	public void AddMatch (Date matchDate) {
-		this.matches.add(new Match(this,matchDate));		
+	public void addMatch (Date matchDate) {
+		this.matches.add(new Match(this, matchDate));		
 	}
-	public void AddMatch (Date matchDate, Users p1) {
-		this.matches.add(new Match(this,matchDate, p1));		
+	public void addMatch (Date matchDate, Users p1) {
+		this.matches.add(new Match(this, matchDate, p1));		
 	}
-	public void AddMatch (Date matchDate, Users p1, Users p2) {
-		this.matches.add(new Match(this,matchDate, p1, p2));		
+	public void addMatch (Date matchDate, Users p1, Users p2) {
+		this.matches.add(new Match(this, matchDate, p1, p2));		
 	}
-	public void AddNotification (String titleNew) {
+	public void addNotification (String titleNew) {
 		this.notifications.add(new Notification(this, titleNew));
 	}
-	public void AddNotification (String titleNew, String textNew) {
+	public void addNotification (String titleNew, String textNew) {
 		this.notifications.add(new Notification(this, titleNew, textNew));
 	}
 	
 	//Remove methods for lists
-	public void RemoveParticipant(Users participantRemove) {		
+	public void removeParticipant(Users participantRemove) {		
 		if (this.participants.contains(participantRemove)) {
 			this.participants.remove(participantRemove);
-			this.RemoveSubscribers(participantRemove);
+			this.removeSubscribers(participantRemove);
 		}
 	}
 	
-	public void RemoveSubscribers(Users subscriberRemove) {
+	public void removeSubscribers(Users subscriberRemove) {
 		if (this.subscribers.contains(subscriberRemove)) {
 			this.subscribers.remove(subscriberRemove);
 		}		

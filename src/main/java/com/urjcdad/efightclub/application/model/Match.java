@@ -76,33 +76,33 @@ public class Match {
 	}
 	
 	//Getters
-	public Event GetEvent () {
+	public Event getEvent () {
 		return this.event;		
 	}
-	public Date GetDate () {
+	public Date getDate () {
 		return this.date;		
 	}
-	public Users GetPlayer1 () {
+	public Users getPlayer1 () {
 		if (this.player1==null) {			
 			throw new NullPointerException("No player assigned yet");
 		}
 		return this.player1;		
 	}
-	public Users GetPlayer2 () {
+	public Users getPlayer2 () {
 		if (this.player2==null) {			
 			throw new NullPointerException("No player assigned yet");
 		}
 		return this.player2;		
 	}
 	
-	public int GetWinner() {
+	public int getWinner() {
 		if (this.winner ==0) {
 			throw new NullPointerException ("No winner assigned yet");
 		}
 		return this.winner;
 	}
 	//Alternative Winner Getter returns the User object instead of int value
-	public Users GetWinnerUser() {
+	public Users getWinnerUser() {
 		if (this.winner ==0) {
 			throw new NullPointerException ("No winner assigned yet");
 		}
@@ -115,28 +115,28 @@ public class Match {
 	
 	
 	//Setters 
-	public void SetDate (Date dateNew) {		
+	public void setDate (Date dateNew) {		
 		this.date = dateNew;
 	}
-	public void SetPlayer1 (Users p1) {
+	public void setPlayer1 (Users p1) {
 		this.player1=p1;		
 	}
-	public void SetPlayer2 (Users p2) {
+	public void setPlayer2 (Users p2) {
 		this.player2=p2;		
 	}
 	//Alternative SetPlayers
-	public void SetPlayerEmpty (Users pNew) {
+	public void setPlayerEmpty (Users pNew) {
 		if (this.player1!=null) {
 			if (this.player2 != null) {
 				throw new IllegalArgumentException("There are already 2 players assigned");
 			}else {
-				SetPlayer2(pNew);
+				setPlayer2(pNew);
 			}			
 		}else {
-			SetPlayer1(pNew);
+			setPlayer1(pNew);
 		}
 	}
-	public void SetWinner (int winnerNew) {		
+	public void setWinner (int winnerNew) {		
 		if (winnerNew < 1 || winnerNew>2) {
 			throw new IllegalArgumentException("Winner value must be either 1 or 2");
 		}
