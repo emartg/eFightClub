@@ -51,7 +51,8 @@ public class Event {
 	protected Event () {		
 	}
 	
-	public Event (String eventName, String game, Date regDate, Date kickoffDate, Users creator) {		
+	public Event (String eventName, String game, Date regDate, 
+			Date kickoffDate, Users creator) {		
 		this.eventName = eventName;
 		this.game = game;
 		this.regDate = regDate;
