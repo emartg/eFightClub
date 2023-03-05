@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
+import com.urjcdad.efightclub.application.repository.EventRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,9 @@ public class HomeController {
 	
 	@Autowired
 	private UsersRepository userRepository;
+	
+	@Autowired
+	private EventRepository eventRepository;
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
@@ -39,7 +43,7 @@ public class HomeController {
 		return "login";
 	}
 	
-	@PostMapping("/home")
+	@PostMapping("/logged_in")
 	public String logIn(Model model, HttpSession session, 
 			@RequestParam String username, @RequestParam String email, 
 			@RequestParam String password) {
@@ -54,23 +58,36 @@ public class HomeController {
 		session.setAttribute("username", user.getUsername());
 		session.setAttribute("logged", true);
 		
-		return "home";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/create_event")
-	public String createEvent() {
+	public String createEvent(Model model, HttpSession session) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
 		return "create_event";
 	}
 	
-	/*
-	@PostMapping("/home")
+	@PostMapping("/event_created")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate) {
 		
 		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
-
-		return "home";
+		
+		Event event = new Event(eventName, game, regDate, kickoffDate, user);
+		eventRepository.save(event);
+		
+		return "redirect:/home";
 	}
-	*/
+	
+	@GetMapping("/logout")
+	public String viewHomeLoggedOut(Model model, HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/home";
+	}
 }
