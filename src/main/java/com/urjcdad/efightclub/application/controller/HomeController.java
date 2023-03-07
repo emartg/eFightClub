@@ -1,6 +1,7 @@
 package com.urjcdad.efightclub.application.controller;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,6 +36,8 @@ public class HomeController {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		List<Event> events = eventRepository.findAll();
+		model.addAttribute("events", events);
 		return "home";
 	}
 	
