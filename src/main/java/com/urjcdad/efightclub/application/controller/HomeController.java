@@ -1,6 +1,9 @@
 package com.urjcdad.efightclub.application.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -37,7 +40,20 @@ public class HomeController {
 			model.addAttribute("logged", true);
 		}
 		List<Event> events = eventRepository.findAll();
-		model.addAttribute("events", events);
+		List<Event> eventsOngoing = new ArrayList<Event>();
+		List<Event> eventsNew = new ArrayList<Event>();
+		long yourmilliseconds = System.currentTimeMillis();
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
+		Date currentDate = new Date(yourmilliseconds);	
+		for (Event event:events) {
+			if(event.getKickoffDate().compareTo(currentDate)<0) {
+				eventsOngoing.add(event);
+			}else {
+				eventsNew.add(event);
+			}
+		}
+		model.addAttribute("events", eventsOngoing);
+		model.addAttribute("eventsNext", eventsNew);
 		return "home";
 	}
 	
