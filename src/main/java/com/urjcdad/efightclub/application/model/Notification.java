@@ -1,10 +1,12 @@
-package model;
+package com.urjcdad.efightclub.application.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+@Entity
 public class Notification {
 	
 	@Id
@@ -33,21 +35,21 @@ public class Notification {
 	}
 	
 	//Getters
-	public Event GetEvent () {		
+	public Event getEvent () {		
 		return this.event;
 	}
-	public String GetTitle () {
+	public String getTitle () {
 		return this.title;
 	}
-	public String GetText() {
+	public String getText() {
 		return this.text;
 	}
 	
 	//Setters
-	public void SetTitle (String titleNew) {		
+	public void setTitle (String titleNew) {		
 		this.title = titleNew;
 	}
-	public void SetText (String textNew) {
+	public void setText (String textNew) {
 		this.text = textNew;
 	}
 }

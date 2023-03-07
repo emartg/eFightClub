@@ -1,11 +1,20 @@
 {{>header}}
 
-{{#logged}}	
-<p>{{username}}, welcome to the eFightClub!</p>
-{{/logged}}	
+<div class="home-container">
+    <div class="ongoing-events">
+        <P>Ongoing events</P>
+        <ul>
+        {{#events}}
+        <li>{{eventName}}
+        {{/events}}
+        </ul>
+    </div>
+    <div class="upcoming-events">
+        <p>Upcoming events</p>
+         {{#eventsNext}}
+        <li>{{eventName}}
+        {{/eventsNext}}
+    </div>
+</div>
 
-{{^logged}}	
-<p>Welcome to the eFightClub!</p>
-{{/logged}}	
-		
-{{>footer}}		
+{{>footer}}

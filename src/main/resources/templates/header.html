@@ -1,25 +1,30 @@
-<html>
-	<head>
-		<link rel="stylesheet" href="/styles/style.css">
-	</head>
-	<body>
-		<div class="header">			
-			<nav>
-				<h1>eFightClub</h1>	
-				<ul>
-					<li><a href="#">Events</a></li>
-					{{#logged}}
-					<li><a href="#">Create event</a></li>
-					<li><a href="#">My events</a></li>
-					<li><a href="#">My account</a></li>
-					{{/logged}}
-					{{^logged}}
-					<li><a href="log">Log in</a></li>
-					{{/logged}}
-					{{#logged}}
-					<li><a href="#">Log out</a></li>
-					{{/logged}}
-				</ul>				
-			</nav>
-		</div>
+{{>basic_header}}
+<ul class="main-menu">
+	<li class="menu-item">
+		<a href="/home">HOME</a>
+	</li>
+	{{#logged}}
+	<li class="menu-item">
+		<a href="/create_event">CREATE EVENT</a>
+	</li>
+	<li class="menu-item">
+		<a href="#">MY EVENTS</a>
+	</li>
+	<li class="menu-item">
+		<a href="#">MY ACCOUNT</a>
+	</li>
+	{{/logged}}
+	{{^logged}}
+	<li class="login-button">
+		<a href="/login">LOG IN</a>
+	</li>
+	{{/logged}}
+	{{#logged}}
+	<li class="login-button">
+		<a href="/logout">LOG OUT</a>
+	</li>
+	{{/logged}}
+</ul>
+</header>
 
+<script src="/scripts/header.js"></script>
