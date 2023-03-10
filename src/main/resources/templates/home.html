@@ -3,6 +3,11 @@
 <div class="home-container">
     <div class="ongoing-events">
         <P>Ongoing events</P>
+        <ul>
+        {{#events}}
+        <li>{{eventName}}
+        {{/events}}
+        </ul>
     </div>
     <div class="upcoming-events">
         <p>Upcoming events</p>
