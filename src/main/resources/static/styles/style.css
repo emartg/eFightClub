@@ -14,6 +14,7 @@
 	box-sizing: border-box;
 	font-family: 'Poppins', sans-serif;	
 }
+/* Header */
 
 header {
 	height: auto;
@@ -55,6 +56,8 @@ a:visited {
 	color: #FAEDF0;
 }
 
+/* Login */
+
 .login-button {
 	background-color: #FFCE1F;
 	color:#03031B;
@@ -83,39 +86,65 @@ a:visited {
 
 .login-box {		
 	background-color: #16213E;	
-	width: 30%;
+	height: 700px;
+	width: 560px;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
 	padding: 20px;	
+	border-radius: 14px;
 }
-.login-box h3{
+.form h3{
 	color:#FAEDF0;
-	
+	padding-right: 270px;
+	padding-bottom: 30px;
+	font-size: 30px;
+
 }
 .form{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 .form-item{
-	padding: 8px;
+	padding: 17px;
 }
 form li{
 	list-style-type: none;
+	text-align: left;
+}
+
+.form-submit{
+	padding-top: 20px;
+	padding-bottom: 30px;
 }
 .form-submit input[type=submit]{
+	width: 230px;
+	height: 65px;
 	padding: 10px 30px;
 	color: #16213E;
 	text-align: center;	
 	background-color: #FFCE1F;
 }
+.form-signin{
+	padding: 5px;
+}
+
+.form-signin a{
+	color: #FFCE1F;
+	text-decoration: underline;
+	font-size: 14px;
+}
 
 input[type=text]{
-	border-radius: 4px;
-	width: 230px;
-	height: 50px;
+	border-radius: 20px;
+	width: 410px;
+	height: 65px;
 	background-color: #FAEDF0;
 	
 }
@@ -124,6 +153,7 @@ input[placeholder]{
 	font-size: 11px;
 	position: relative;	
 }
+/* Home */
 .home-container{
 	padding-top: 100px;
 	width: 100vw;
@@ -134,13 +164,119 @@ input[placeholder]{
 	padding: 30px 45px 0px;
 }
 
-.ongoing-events{
-	height: 40%;
-	background-color: #FAEDF0;
+/* Upcoming and Ongoing events */
+
+.section-title{
+	width: 340;
+	font-size: 25px;
+	padding-top: 25px;
+	padding-left: 25px;
 }
-.upcoming-events{
-	height: 40%;
-	background-color: white;
+.ongoing-event{
+	height: 40%;	
+	background-color: #FAEDF0;
+	display: flex;
+	flex-direction: row;
+}
+.ongoing-event li{	
+	list-style-type: none;
+}
+.ongoing-event-list{
+	display: inline-flex;	
+	padding: 25px;
+}
+.ongoing-event-post{	
+	height: 300px;
+	width: 230px;		
+	position: relative;
+	background-color:#FFCE1F ;
+	border-radius: 20px;
+}
+.ongoing-event-post__text-list{
+	display: inline-flex;
+}
+.ongoing-event-post__text{
+	width: 230px;
+	height: 90px;
+	background-color: #0F3460;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	color: #FAEDF0;
+	position: absolute;
+	bottom: 0px;
+	padding-top: 8px;
+	padding-left: 18px;	
+}
+.ongoing-event-post__text--title{
+	padding-bottom: 5px;
+	font-size: 16px;
+}
+.ongoing-event-post__text--game{
+	padding-bottom: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+.ongoing-event-post__text--state{
+	padding-right: 10px;
+}
+.ongoing-event-post__text--state2{
+	padding-right: 18px;
+	position: absolute;
+	right: 0px;
+}
+.upcoming-event{
+	height: 40%;	
+	background-color:white;
+	display: flex;
+	flex-direction: row;
+}
+.upcoming-event li{	
+	list-style-type: none;
+}
+.upcoming-event-list{
+	display: inline-flex;	
+	padding: 25px;
+}
+.upcoming-event-post{	
+	height: 300px;
+	width: 230px;		
+	position: relative;
+	background-color:#E94560 ;
+	border-radius: 20px;
+}
+.upcoming-event-post__text-list{
+	display: inline-flex;
+}
+.upcoming-event-post__text{
+	width: 230px;
+	height: 90px;
+	background-color: #0F3460;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	color: #FAEDF0;
+	position: absolute;
+	bottom: 0px;
+	padding-top: 8px;
+	padding-left: 18px;	
+}
+.upcoming-event-post__text--title{
+	padding-bottom: 5px;
+	font-size: 16px;
+}
+.upcoming-event-post__text--game{
+	padding-bottom: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+.upcoming-event-post__text--state{
+	padding-right: 10px;
+	color: #FFCE1F;
+}
+.upcoming-event-post__text--state2{
+	padding-right: 18px;
+	position: absolute;
+	right: 0px;
+	color: #FFCE1F;
 }
 
 .create-event{
@@ -150,6 +286,15 @@ input[placeholder]{
     transform: translate(-50%,-50%);
 }
 
+/* Event */
+.event{
+	position: absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/* Footer */
 .footer{
 	position: fixed;
 	bottom: 0;

@@ -1,5 +1,7 @@
 package com.urjcdad.efightclub.application.controller;
 
+import org.springframework.data.domain.Page;
+import java.awt.print.Pageable;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -45,7 +47,7 @@ public class HomeController {
 		long yourmilliseconds = System.currentTimeMillis();
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
 		Date currentDate = new Date(yourmilliseconds);	
-		for (Event event:events) {
+		for (Event event:events) {	
 			if(event.getKickoffDate().compareTo(currentDate)<0) {
 				eventsOngoing.add(event);
 			}else {
@@ -100,6 +102,16 @@ public class HomeController {
 		eventRepository.save(event);
 		
 		return "redirect:/home";
+	}
+	
+	@GetMapping("/event/{id}")
+	public String event(Model model, HttpSession session) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+	
+		return "event";
 	}
 	
 	@GetMapping("/logout")
