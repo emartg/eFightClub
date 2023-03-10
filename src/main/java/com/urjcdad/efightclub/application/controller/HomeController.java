@@ -104,14 +104,13 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/")
-	public String event(Model model, HttpSession session, Pageable pageable) {
+	@GetMapping("/event/{id}")
+	public String event(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
-		//Page<Event> events = postService.findAll(pageable);
-		
+	
 		return "event";
 	}
 	
