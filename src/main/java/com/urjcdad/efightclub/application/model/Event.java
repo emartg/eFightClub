@@ -169,9 +169,4 @@ public class Event {
 			this.subscribers.remove(subscriberRemove);
 		}		
 	}
-	
-	//Sorting methods for dates
-	public void sort() {
-		
-	}
 }

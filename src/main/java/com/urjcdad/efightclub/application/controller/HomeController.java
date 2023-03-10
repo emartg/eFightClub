@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
@@ -89,6 +90,7 @@ public class HomeController {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
 		return "create_event";
 	}
 	
@@ -106,11 +108,13 @@ public class HomeController {
 	}
 	
 	@GetMapping("/event/{id}")
-	public String event(Model model, HttpSession session) {
+	public String event(Model model, HttpSession session, @PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
+		model.addAttribute("eventName", eventService.findById(id));
 	
 		return "event";
 	}

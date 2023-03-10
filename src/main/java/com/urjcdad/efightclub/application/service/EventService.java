@@ -1,8 +1,6 @@
 package com.urjcdad.efightclub.application.service;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.urjcdad.efightclub.application.model.Event;
-import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
 
 @Service
@@ -23,8 +20,6 @@ public class EventService {
 	
 	@PostConstruct
 	public void init() {
-		//events.save(new Event("Ultimate Showdown", "Tekken 7", new Users ("mikk23", "mikkHd23@gmail.com","pass01")));
-		//events.save(new Event("Street Eleven", "Street Fighter V", new Users ("HiFiMusic", "musicHi@gmail.com","pass02")));
 	}
 	
 	public Collection<Event> findAll() {
