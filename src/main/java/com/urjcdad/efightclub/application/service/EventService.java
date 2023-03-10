@@ -1,6 +1,9 @@
 package com.urjcdad.efightclub.application.service;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -31,13 +34,18 @@ public class EventService {
 	public Optional<Event> findById(long id) {
 		return events.findById(id);
 	}
+	
+	public void deleteById(long id) {
+		this.events.deleteById(id);
+	}
 
 	public void save(Event post) {
 		events.save(post);
 	}
-
-	public void deleteById(long id) {
-		this.events.deleteById(id);
+	
+	public void sortEventsByDescDate(List<Event> list) {
+		list.sort((o1, o2) 
+				-> o1.getKickoffDate().compareTo(o2.getKickoffDate()));
 	}
 
 }

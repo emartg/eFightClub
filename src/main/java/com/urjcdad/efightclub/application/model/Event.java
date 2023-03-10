@@ -170,5 +170,8 @@ public class Event {
 		}		
 	}
 	
-	
+	//Sorting methods for dates
+	public void sort() {
+		
+	}
 }

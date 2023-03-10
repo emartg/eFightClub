@@ -1,10 +1,6 @@
 package com.urjcdad.efightclub.application.controller;
 
-import org.springframework.data.domain.Page;
-import java.awt.print.Pageable;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +16,7 @@ import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
+import com.urjcdad.efightclub.application.service.EventService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,6 +28,9 @@ public class HomeController {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private EventService eventService;
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
@@ -40,10 +40,12 @@ public class HomeController {
 		}
 		
 		List<Event> events = eventRepository.findAll();
+		eventService.sortEventsByDescDate(events);
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> upcomingEvents = new ArrayList<Event>();
 		
 		// Check the current time to determine
+		// whether the event is ongoing or upcoming
 		long yourmilliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(yourmilliseconds);	
 		for (Event event: events)
