@@ -6,17 +6,19 @@
             <P>Ongoing events</P>
         </div>
 
-        {{#events}}
-        <li class="ongoing-event-list">{{>ongoing_event_post}}
-            {{/events}}
+        {{#ongoingEvents}}
+        <li class="ongoing-event-list">
+        	{{>ongoing_event_post}}
+        {{/ongoingEvents}}
     </div>
     <div class="upcoming-event">
         <div class="section-title">
             <P>Upcoming events</P>
         </div>
-        {{#eventsNext}}
-        <li class="upcoming-event-list">{{>upcoming_event_post}}
-            {{/eventsNext}}
+        {{#upcomingEvents}}
+   		<li class="upcoming-event-list">
+   			{{>upcoming_event_post}}
+        {{/upcomingEvents}}
     </div>
 </div>
 
