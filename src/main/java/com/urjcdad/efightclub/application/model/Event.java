@@ -3,6 +3,7 @@ package com.urjcdad.efightclub.application.model;
 import java.sql.Blob;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Event {
 	private String game;
 	private Date regDate;
 	private Date kickoffDate;
+	private String regDateStr;
+	private String kickoffDateStr;
 	private String banner = null;
 	private String icon = null;
 	
@@ -57,6 +60,9 @@ public class Event {
 		this.game = game;
 		this.regDate = regDate;
 		this.kickoffDate = kickoffDate;
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		regDateStr = sdf.format(regDate);
+		kickoffDateStr = sdf.format(kickoffDate);
 		this.creator = creator;
 		this.winner = null;
 		matches.add(new Match(this, this.kickoffDate));
@@ -69,7 +75,7 @@ public class Event {
 	public String getGame() {
 		return this.game;		
 	}
-	public Date getRegistrationDate() {
+	public Date getRegDate() {
 		return this.regDate;		
 	}
 	public Date getKickoffDate() {
@@ -98,20 +104,24 @@ public class Event {
 	}
 	
 	//Setters
-	public void setEventName (String eventName) {
+	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public void setGame (String game) {
-		this.game= game;
+	public void setGame(String game) {
+		this.game = game;
 	}
-	public void setRegistrationDate (Date regDate) {
+	public void setRegDate(Date regDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		regDateStr = sdf.format(regDate);
 		this.regDate = regDate;
 	}
-	public void setKickoffDate (Date kickoffDate) {
-		this.kickoffDate= kickoffDate;
+	public void setKickoffDate(Date kickoffDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		kickoffDateStr = sdf.format(kickoffDate);
+		this.kickoffDate = kickoffDate;
 	}
-	public void setWinner (Users winner) {
-		this.winner= winner;
+	public void setWinner(Users winner) {
+		this.winner = winner;
 	}
 	
 	//Add methods for lists
