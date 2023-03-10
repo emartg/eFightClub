@@ -1,19 +1,22 @@
 {{>header}}
 
 <div class="home-container">
-    <div class="ongoing-events">
-        <P>Ongoing events</P>
-        <ul>
+    <div class="ongoing-event">
+        <div class="section-title">
+            <P>Ongoing events</P>
+        </div>
+
         {{#events}}
-        <li>{{eventName}}
-        {{/events}}
-        </ul>
+        <li class="ongoing-event-list">{{>ongoing_event_post}}
+            {{/events}}
     </div>
-    <div class="upcoming-events">
-        <p>Upcoming events</p>
-         {{#eventsNext}}
-        <li>{{eventName}}
-        {{/eventsNext}}
+    <div class="upcoming-event">
+        <div class="section-title">
+            <P>Upcoming events</P>
+        </div>
+        {{#eventsNext}}
+        <li class="upcoming-event-list">{{>upcoming_event_post}}
+            {{/eventsNext}}
     </div>
 </div>
 
