@@ -13,7 +13,7 @@ public class Match {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long idMatch;
+	private long id;
 	
 	private Date date;
 	private int winner = 0;
@@ -27,8 +27,8 @@ public class Match {
 	private Event event;
 	
 	//Constructors 
-	
-	protected Match () {}
+	protected Match () {
+	}
 	
 	public Match (Event eventNew, Date dateNew) {
 		this.event = eventNew;
@@ -53,14 +53,14 @@ public class Match {
 	
 	public Match (Event eventNew) {
 		this.event = eventNew;
-        long millis=System.currentTimeMillis();  
+        long millis = System.currentTimeMillis();  
 		this.date = new java.sql.Date(millis);
 		this.winner = 0;
 	}
 	
 	public Match (Event eventNew, Users p1) {
 		this.event = eventNew;
-	    long millis=System.currentTimeMillis();  
+	    long millis = System.currentTimeMillis();  
 	    this.date = new java.sql.Date(millis);
 	    this.winner = 0;
 		this.player1 = p1;
@@ -68,7 +68,7 @@ public class Match {
 
 	public Match (Event eventNew, Users p1, Users p2) {
 		this.event = eventNew;
-	    long millis=System.currentTimeMillis();  
+	    long millis = System.currentTimeMillis();  
 		this.date = new java.sql.Date(millis);
 		this.winner = 0;
 		this.player1 = p1;
@@ -76,70 +76,68 @@ public class Match {
 	}
 	
 	//Getters
-	public Event getEvent () {
-		return this.event;		
+	public Long getId() {
+		return id;
 	}
-	public Date getDate () {
-		return this.date;		
+	public Event getEvent() {
+		return event;		
 	}
-	public Users getPlayer1 () {
-		if (this.player1==null) {			
+	public Date getDate() {
+		return date;		
+	}
+	public Users getPlayer1() {
+		if (player1 == null)		
 			throw new NullPointerException("No player assigned yet");
-		}
-		return this.player1;		
+		return player1;		
 	}
-	public Users getPlayer2 () {
-		if (this.player2==null) {			
+	public Users getPlayer2() {
+		if (player2 == null)			
 			throw new NullPointerException("No player assigned yet");
-		}
-		return this.player2;		
+		return player2;		
 	}
 	
 	public int getWinner() {
-		if (this.winner ==0) {
+		if (winner == 0)
 			throw new NullPointerException ("No winner assigned yet");
-		}
-		return this.winner;
+		return winner;
 	}
-	//Alternative Winner Getter returns the User object instead of int value
+	//Alternative winner Getter returns the User object instead of int value
 	public Users getWinnerUser() {
-		if (this.winner ==0) {
+		if (winner ==0)
 			throw new NullPointerException ("No winner assigned yet");
-		}
-		if (this.winner ==1) {
-			return this.player1;
-		}else {
-			return this.player2;		
-		}		
+		if (winner ==1)
+			return player1;
+		else
+			return player2;
 	}
 	
 	
 	//Setters 
-	public void setDate (Date dateNew) {		
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setDate(Date dateNew) {		
 		this.date = dateNew;
 	}
-	public void setPlayer1 (Users p1) {
-		this.player1=p1;		
+	public void setPlayer1(Users p1) {
+		this.player1 = p1;		
 	}
-	public void setPlayer2 (Users p2) {
-		this.player2=p2;		
+	public void setPlayer2(Users p2) {
+		this.player2 = p2;		
 	}
-	//Alternative SetPlayers
 	public void setPlayerEmpty (Users pNew) {
-		if (this.player1!=null) {
-			if (this.player2 != null) {
+		if (player1 != null)
+			if (player2 != null)
 				throw new IllegalArgumentException("There are already 2 players assigned");
-			}else {
-				setPlayer2(pNew);
-			}			
-		}else {
+			else
+				setPlayer2(pNew);	
+		else
 			setPlayer1(pNew);
-		}
+		
 	}
-	public void setWinner (int winnerNew) {		
-		if (winnerNew < 1 || winnerNew>2) {
+	public void setWinner(int winnerNew) {		
+		if (winnerNew < 1 || winnerNew > 2)
 			throw new IllegalArgumentException("Winner value must be either 1 or 2");
-		}
 		this.winner = winnerNew;
 	}
 	

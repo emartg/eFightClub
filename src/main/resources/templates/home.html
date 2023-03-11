@@ -12,7 +12,7 @@
    				<div class="ongoing-event-post__text">
         			<ul>
            			<li class="ongoing-event-post__text--title">
-           				<a href="#">{{eventName}}</a>
+           				<a href="/event/{{id}}">{{eventName}}</a>
            			</li>
            			<li class="ongoing-event-post__text--game">
            				{{game}}
@@ -42,20 +42,20 @@
    			<div class="upcoming-event-post">
 		    	<div class="upcoming-event-post__text">
 		        	<ul>
-		            	<li class="upcoming-event-post__text--title">
-		            		<a href="#">{{eventName}}</a>
-		            	</li>
-		            	<li class="upcoming-event-post__text--game">
-		            		{{game}}
-	            		</li>
+	            	<li class="upcoming-event-post__text--title">
+	            		<a href="/event/{{id}}">{{eventName}}</a>
+	            	</li>
+	            	<li class="upcoming-event-post__text--game">
+	            		{{game}}
+            		</li>
 		        	</ul>
 		        	<ul class="upcoming-event-post__text-list">
-		            	<li class="upcoming-event-post__text--state">
-		            		{{kickoffDateStr}}
-            			</li>
-		            	<li class="upcoming-event-post__text--state2">
-	            			REGISTER
-            			</li>
+	            	<li class="upcoming-event-post__text--state">
+	            		{{kickoffDateStr}}
+           			</li>
+	            	<li class="upcoming-event-post__text--state2">
+            			REGISTER
+           			</li>
 		        	</ul>
 		    	</div>
 			</div>

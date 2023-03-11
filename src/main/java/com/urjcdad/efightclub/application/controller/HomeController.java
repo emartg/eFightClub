@@ -84,7 +84,7 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/create_event")
+	@GetMapping("/event/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -94,7 +94,7 @@ public class HomeController {
 		return "create_event";
 	}
 	
-	@PostMapping("/event_created")
+	@PostMapping("/event/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate) {
@@ -108,15 +108,30 @@ public class HomeController {
 	}
 	
 	@GetMapping("/event/{id}")
-	public String event(Model model, HttpSession session, @PathVariable long id) {
+	public String showEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
 		
-		model.addAttribute("eventName", eventService.findById(id));
+		Event event = eventRepository.findById(id).get();
+		model.addAttribute("event", event);
 	
-		return "event";
+		return "show_event";
+	}
+	
+	@GetMapping("/event/{id}/delete")
+	public String deleteEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		
+		eventRepository.deleteById(id);
+	
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/logout")
