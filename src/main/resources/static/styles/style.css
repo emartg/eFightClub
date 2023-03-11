@@ -153,7 +153,9 @@ input[placeholder]{
 	font-size: 11px;
 	position: relative;	
 }
+
 /* Home */
+
 .home-container{
 	padding-top: 100px;
 	width: 100vw;
@@ -164,7 +166,7 @@ input[placeholder]{
 	padding: 30px 45px 0px;
 }
 
-/* Upcoming and Ongoing events */
+/* Upcoming and ongoing events */
 
 .section-title{
 	width: 340;
@@ -287,7 +289,7 @@ input[placeholder]{
 }
 
 /* Event */
-.event{
+.show-event{
 	position: absolute;
 	top: 50%;
     left: 50%;

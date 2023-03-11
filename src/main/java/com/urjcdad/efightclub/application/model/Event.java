@@ -3,6 +3,7 @@ package com.urjcdad.efightclub.application.model;
 import java.sql.Blob;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +16,14 @@ public class Event {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idEvent;
+	private Long id;
 	
 	private String eventName;
 	private String game;
 	private Date regDate;
 	private Date kickoffDate;
+	private String regDateStr;
+	private String kickoffDateStr;
 	private String banner = null;
 	private String icon = null;
 	
@@ -57,90 +60,102 @@ public class Event {
 		this.game = game;
 		this.regDate = regDate;
 		this.kickoffDate = kickoffDate;
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		regDateStr = sdf.format(regDate);
+		kickoffDateStr = sdf.format(kickoffDate);
 		this.creator = creator;
 		this.winner = null;
 		matches.add(new Match(this, this.kickoffDate));
 	}
 	
 	//Getters
+	public Long getId() {
+		return id;
+	}
 	public String getEventName() {
-		return this.eventName;		
+		return eventName;		
 	}
 	public String getGame() {
-		return this.game;		
+		return game;		
 	}
-	public Date getRegistrationDate() {
-		return this.regDate;		
+	public Date getRegDate() {
+		return regDate;		
 	}
 	public Date getKickoffDate() {
-		return this.kickoffDate;		
+		return kickoffDate;		
 	}
 	public Users getCreator() {
-		return this.creator;		
+		return creator;		
 	}
 	public Users getWinner() {
-		if (this.winner==null) {
+		if (winner==null) {
 			throw new NullPointerException("There's no winner defined yet");
 		}
-		return this.winner;
+		return winner;
 	}
 	public List<Users> getParticipants(){
-		return this.participants;
+		return participants;
 	}
 	public List<Users> getSubscribers(){
-		return this.subscribers;
+		return subscribers;
 	}
 	public List<Match> getMatches(){
-		return this.matches;
+		return matches;
 	}
 	public List<Notification> getNotifications(){
-		return this.notifications;
+		return notifications;
 	}
 	
 	//Setters
-	public void setEventName (String eventName) {
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-	public void setGame (String game) {
-		this.game= game;
+	public void setGame(String game) {
+		this.game = game;
 	}
-	public void setRegistrationDate (Date regDate) {
+	public void setRegDate(Date regDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		regDateStr = sdf.format(regDate);
 		this.regDate = regDate;
 	}
-	public void setKickoffDate (Date kickoffDate) {
-		this.kickoffDate= kickoffDate;
+	public void setKickoffDate(Date kickoffDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		kickoffDateStr = sdf.format(kickoffDate);
+		this.kickoffDate = kickoffDate;
 	}
-	public void setWinner (Users winner) {
-		this.winner= winner;
+	public void setWinner(Users winner) {
+		this.winner = winner;
 	}
 	
 	//Add methods for lists
 	public void addParticipant(Users participantNew) {
-		if (this.participants.contains(participantNew)) {
+		if (participants.contains(participantNew)) {
 			throw new IllegalArgumentException("This player is already participating in the event");
 		}
-		this.participants.add(participantNew);
-		this.addSubscriber(participantNew);
+		participants.add(participantNew);
+		addSubscriber(participantNew);
 	}
 	
 	public void addSubscriber(Users subscriberNew) {
-		if (!this.subscribers.contains(subscriberNew)) {
-			this.subscribers.add(subscriberNew);
-		}else {
+		if (!subscribers.contains(subscriberNew))
+			subscribers.add(subscriberNew);
+		else
 			throw new IllegalArgumentException("This player is already subscribed to the event");
-		}
 	}
 	public void addMatch (Date matchDate) {
-		this.matches.add(new Match(this, matchDate));		
+		matches.add(new Match(this, matchDate));		
 	}
 	public void addMatch (Date matchDate, Users p1) {
-		this.matches.add(new Match(this, matchDate, p1));		
+		matches.add(new Match(this, matchDate, p1));		
 	}
 	public void addMatch (Date matchDate, Users p1, Users p2) {
-		this.matches.add(new Match(this, matchDate, p1, p2));		
+		matches.add(new Match(this, matchDate, p1, p2));		
 	}
 	public void addNotification (String titleNew) {
-		this.notifications.add(new Notification(this, titleNew));
+		notifications.add(new Notification(this, titleNew));
 	}
 	public void addNotification (String titleNew, String textNew) {
 		this.notifications.add(new Notification(this, titleNew, textNew));
@@ -148,17 +163,15 @@ public class Event {
 	
 	//Remove methods for lists
 	public void removeParticipant(Users participantRemove) {		
-		if (this.participants.contains(participantRemove)) {
-			this.participants.remove(participantRemove);
-			this.removeSubscribers(participantRemove);
+		if (participants.contains(participantRemove)) {
+			participants.remove(participantRemove);
+			removeSubscribers(participantRemove);
 		}
 	}
 	
 	public void removeSubscribers(Users subscriberRemove) {
-		if (this.subscribers.contains(subscriberRemove)) {
-			this.subscribers.remove(subscriberRemove);
+		if (subscribers.contains(subscriberRemove)) {
+			subscribers.remove(subscriberRemove);
 		}		
 	}
-	
-	
 }

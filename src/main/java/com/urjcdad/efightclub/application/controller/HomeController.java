@@ -1,10 +1,6 @@
 package com.urjcdad.efightclub.application.controller;
 
-import org.springframework.data.domain.Page;
-import java.awt.print.Pageable;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
+import com.urjcdad.efightclub.application.service.EventService;
 
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class HomeController {
@@ -34,6 +29,9 @@ public class HomeController {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private EventService eventService;
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
@@ -41,21 +39,25 @@ public class HomeController {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
 		List<Event> events = eventRepository.findAll();
-		List<Event> eventsOngoing = new ArrayList<Event>();
-		List<Event> eventsNew = new ArrayList<Event>();
+		eventService.sortEventsByDescDate(events);
+		List<Event> ongoingEvents = new ArrayList<Event>();
+		List<Event> upcomingEvents = new ArrayList<Event>();
+		
+		// Check the current time to determine
+		// whether the event is ongoing or upcoming
 		long yourmilliseconds = System.currentTimeMillis();
-		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");    
 		Date currentDate = new Date(yourmilliseconds);	
-		for (Event event:events) {	
-			if(event.getKickoffDate().compareTo(currentDate)<0) {
-				eventsOngoing.add(event);
-			}else {
-				eventsNew.add(event);
-			}
-		}
-		model.addAttribute("events", eventsOngoing);
-		model.addAttribute("eventsNext", eventsNew);
+		for (Event event: events)
+			if(event.getKickoffDate().compareTo(currentDate) < 0)
+				ongoingEvents.add(event);
+			else
+				upcomingEvents.add(event);
+		
+		model.addAttribute("ongoingEvents", ongoingEvents);
+		model.addAttribute("upcomingEvents", upcomingEvents);
+		
 		return "home";
 	}
 	
@@ -82,16 +84,17 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/create_event")
+	@GetMapping("/event/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
 		return "create_event";
 	}
 	
-	@PostMapping("/event_created")
+	@PostMapping("/event/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate) {
@@ -105,13 +108,30 @@ public class HomeController {
 	}
 	
 	@GetMapping("/event/{id}")
-	public String event(Model model, HttpSession session) {
+	public String showEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
+		Event event = eventRepository.findById(id).get();
+		model.addAttribute("event", event);
 	
-		return "event";
+		return "show_event";
+	}
+	
+	@GetMapping("/event/{id}/delete")
+	public String deleteEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		
+		eventRepository.deleteById(id);
+	
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/logout")

@@ -11,7 +11,7 @@ public class Notification {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long idNotification;
+	private long id;
 	
 	@ManyToOne
 	private Event event;
@@ -20,36 +20,42 @@ public class Notification {
 	private String text = null;
 
 	//Constructors
+	protected Notification() {
+	}
 	
-	protected Notification() {}
-	
-	public Notification (Event parentEvent, String titleNew) {	
+	public Notification(Event parentEvent, String titleNew) {	
 		this.event = parentEvent;
 		this.title = titleNew;
 	}
 	
-	public Notification (Event parentEvent, String titleNew, String textNew) {	
+	public Notification(Event parentEvent, String titleNew, String textNew) {	
 		this.event = parentEvent;
 		this.title = titleNew;
 		this.text = textNew;
 	}
 	
 	//Getters
-	public Event getEvent () {		
-		return this.event;
+	public Long getId() {
+		return id;
 	}
-	public String getTitle () {
-		return this.title;
+	public Event getEvent() {		
+		return event;
+	}
+	public String getTitle() {
+		return title;
 	}
 	public String getText() {
-		return this.text;
+		return text;
 	}
 	
 	//Setters
-	public void setTitle (String titleNew) {		
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setTitle(String titleNew) {		
 		this.title = titleNew;
 	}
-	public void setText (String textNew) {
+	public void setText(String textNew) {
 		this.text = textNew;
 	}
 }
