@@ -84,7 +84,7 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/event/create")
+	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -94,20 +94,21 @@ public class HomeController {
 		return "create_event";
 	}
 	
-	@PostMapping("/event/new")
+	@PostMapping("/events/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
-			@RequestParam Date regDate, @RequestParam Date kickoffDate) {
+			@RequestParam Date regDate, @RequestParam Date kickoffDate,
+			@RequestParam Integer numSlots) {
 		
 		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
 		
-		Event event = new Event(eventName, game, regDate, kickoffDate, user);
+		Event event = new Event(eventName, game, regDate, kickoffDate, numSlots, user);
 		eventRepository.save(event);
 		
-		return "redirect:/home";
+		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/event/{id}")
+	@GetMapping("/events/{id}")
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -121,7 +122,7 @@ public class HomeController {
 		return "show_event";
 	}
 	
-	@GetMapping("/event/{id}/delete")
+	@GetMapping("/events/{id}/delete")
 	public String deleteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -134,12 +135,33 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/my_events")
+	@GetMapping("/events/my_events")
 	public String myEvents(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 		}
+		
+		String currentUsername = session.getAttribute("username").toString();
+		Users currentUser = userRepository.findByUsername(currentUsername);
+		List<Event> events = eventRepository.findByCreator(currentUser);
+		eventService.sortEventsByDescDate(events);
+		List<Event> ongoingEvents = new ArrayList<Event>();
+		List<Event> upcomingEvents = new ArrayList<Event>();
+		
+		// Check the current time to determine
+		// whether the event is ongoing or upcoming
+		long yourmilliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(yourmilliseconds);	
+		for (Event event: events)
+			if(event.getKickoffDate().compareTo(currentDate) < 0)
+				ongoingEvents.add(event);
+			else
+				upcomingEvents.add(event);
+		
+		model.addAttribute("ongoingEvents", ongoingEvents);
+		model.addAttribute("upcomingEvents", upcomingEvents);
+		
 		return "my_events";
 	}
 	

@@ -13,7 +13,7 @@ public class Match {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private Date date;
 	private int winner = 0;

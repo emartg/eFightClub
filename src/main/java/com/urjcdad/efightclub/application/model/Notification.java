@@ -11,7 +11,7 @@ public class Notification {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	@ManyToOne
 	private Event event;
