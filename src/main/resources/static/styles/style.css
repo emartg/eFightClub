@@ -373,6 +373,29 @@ input[placeholder]{
 .event-edit{
 	color: #FFCE1F;
 }
+.event-create-post{
+    height: 70px;
+    width: 85vw;        
+    position: relative;
+    border-style: dashed;
+    border-color: #0F3460;
+}
+.event-create-post a.fill-div{
+    color: #0F3460;
+    
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+.event-create-post a.fill-div p{
+    font-size: 40px;    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
 /* Footer */
 .footer{
 	position: fixed;

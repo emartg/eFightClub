@@ -1,67 +1,130 @@
 {{>header}}
+
 <div class="myevents-container">
     <div class="event ongoing">
         <div class="myevents-section-title">
-            <P>Ongoing events</P>
+        	<P>Ongoing events</P>
         </div>
         <ul>
-            <li class="event-list">
-                <div class="event-post">
-                    <ul>
-                        <li class="event-item">
-                            <div class="event-logo">
-                                LOGO
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-banner">
-                                BAAAAAAAANER
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-name">
-                                <ul>
-                                    <li>AVLON Series VIII</li>
-                                    <li>Tekken7</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-status--logo">
-                                LIVE
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-status--text">
-                                <ul>
-                                    <li>Semi-finals</li>
-                                    <li>Participating</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-status--players">
-                                <ul>
-                                    <li>8</li>
-                                    <li>ICONO</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="event-item">
-                            <div class="event-edit">
-                                <a href=""><p>Edit</p></a>
-                            </div>   
-                        </li>
-                    </ul>
-                </div>
-            </li>
+        	{{#ongoingEvents}}
+        	<li class="event-list">
+	            <div class="event-post">
+	                <ul>
+	                    <li class="event-item">
+	                        <div class="event-logo">
+	                            Logo
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-banner">
+	                            Banner
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-name">
+	                            <ul>
+	                                <li>{{eventName}}</li>
+	                                <li>{{game}}</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-status--logo">
+	                            LIVE
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-status--text">
+	                            <ul>
+	                                <li>Phase</li>
+	                                <li>Participating?</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-status--players">
+	                            <ul>
+	                                <li>{{numSlots}}</li>
+	                                <li>Icon</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-edit">
+	                            <a href="/events/{{id}}">
+	                            	<p>EDIT</p>
+	                            </a>
+	                        </div>   
+	                    </li>
+	                </ul>
+	            </div>
+	        </li>
+	        {{/ongoingEvents}}
         </ul>
     </div>
     <div class="event upcoming">
         <div class="myevents-section-title">
             <P>Upcoming events</P>
         </div>
-
+        <ul>
+        	{{#upcomingEvents}}
+        	<li class="event-list">
+	            <div class="event-post">
+	                <ul>
+	                    <li class="event-item">
+	                        <div class="event-logo">
+	                            Logo
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-banner">
+	                            Banner
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-name">
+	                            <ul>
+	                                <li>{{eventName}}</li>
+	                                <li>{{game}}</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-status--text">
+	                            <ul>
+	                                <li>Registration due date: {{regDateStr}}</li>
+	                                <li>Kick-off date: {{kickoffDateStr}}</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-status--players">
+	                            <ul>
+	                                <li>{{numParticipants}}/{{numSlots}}</li>
+	                                <li>Icon</li>
+	                            </ul>
+	                        </div>
+	                    </li>
+	                    <li class="event-item">
+	                        <div class="event-edit">
+	                            <a href="/events/{{id}}">
+	                            	<p>EDIT</p>
+	                            </a>
+	                        </div>   
+	                    </li>
+	                </ul>
+	            </div>
+	        </li>
+	        {{/upcomingEvents}}
+	        <li class="event-list">
+		        <div class="event-create-post">
+                    <a href="/events/create" class="fill-div">
+                        <p>+</p>
+                    </a>
+	            </div>
+            </li>
+        </ul>
     </div>
 </div>
+
 {{>footer}}

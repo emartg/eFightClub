@@ -15,7 +15,7 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private String username;
 	private String email;
@@ -45,9 +45,8 @@ public class Users {
 	}
 	
 	public Users (String usernameNew, String emailNew, String passwordNew, String passwordNewCheck) {
-		if (!checkPassword(passwordNew, passwordNewCheck)) {			
+		if (!checkPassword(passwordNew, passwordNewCheck))	
 			throw new IllegalArgumentException ("Passwords do not match");
-		}
 		this.username = usernameNew;
 		this.email = emailNew;
 		this.password = passwordNew;		
@@ -100,10 +99,9 @@ public class Users {
 	
 	//auxiliary function to check whether 2 passwords are equal or not
 	public boolean checkPassword(String passwordA, String passwordB) {
-		if (passwordA.equals(passwordB)) {
+		if (passwordA.equals(passwordB))
 			return true;		
-		}		
-			return false;		
+		return false;
 	}
 	
 	
