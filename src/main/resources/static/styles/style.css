@@ -172,7 +172,7 @@ input[placeholder]{
 	width: 340;
 	font-size: 25px;
 	padding-top: 25px;
-	padding-left: 25px;
+	padding-left: 25px;	
 }
 .ongoing-event{
 	height: 40%;	
@@ -296,6 +296,83 @@ input[placeholder]{
     transform: translate(-50%,-50%);
 }
 
+/* My events */
+
+.myevents-container{
+	padding-top: 100px;
+	width: 100vw;
+	color: #0F3460;
+	font-weight: bold;	
+}
+.myevents-section-title{	
+	padding-left: 7.5%;
+	padding-top: 30px;
+	font-size: 19px;
+	align-self: normal;
+}
+.event{
+	height: 40%;		
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.event li{
+	list-style-type: none;
+}
+.ongoing{
+	background-color: #FAEDF0;
+}
+.upcoming{
+	background-color: white;
+}
+.event-list{
+	padding: 20px 0px;	
+}
+.event-post{
+	height: 70px;
+	width: 85vw;		
+	position: relative;
+	background-color:#0F3460;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;	
+}
+.event-item{
+	display: inline-flex;
+	padding-left: 20px;	
+}
+.event-logo{
+	/*PROVISIONAL*/
+	color: #FAEDF0;
+	/*PROVISIONAL*/	
+	height: 50px;
+	width: 50px;
+	background-color: #E94560;	
+}
+.event-banner{
+	/*PROVISIONAL*/
+	color: #FAEDF0;
+	/*PROVISIONAL*/	
+	height: 50px;
+	width: 250px;
+	background-color: #E94560;		
+}
+.event-name{
+	color: #FAEDF0;
+}
+.event-status--logo{
+	color: #E94560;
+}
+.event-status--text{
+	color: #FAEDF0;
+}
+.event-status--players{
+	color: #FAEDF0;
+}
+.event-edit{
+	color: #FFCE1F;
+}
 /* Footer */
 .footer{
 	position: fixed;
