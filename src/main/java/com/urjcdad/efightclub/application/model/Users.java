@@ -15,7 +15,7 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long idUser;
+	private long id;
 	
 	private String username;
 	private String email;
@@ -32,7 +32,8 @@ public class Users {
 	private List<Event> eventsCreated = new ArrayList<>();
 
 	//Constructors 
-	protected Users () {} 
+	protected Users () {
+	} 
 	
 	public Users (String usernameNew, String emailNew, String passwordNew) {
 		this.username = usernameNew;
@@ -56,44 +57,49 @@ public class Users {
 	}
 	
 	//Getters
+	public Long getId() {
+		return id;
+	}
 	public String getUsername() {
-		return this.username;		
+		return username;		
 	}
 	public String getPassword() {
-		return this.password;		
+		return password;		
 	}
 	public String getEmail() {
-		return this.email;		
+		return email;		
 	}
 	public int getWins() {
-		return this.wins;		
+		return wins;		
 	}
 	public int getLosses() {
-		return this.losses;		
+		return losses;		
 	}
 	public float getRatio() {
-		if (this.wins + this.losses != 0) {
-			this.ratio=(float) (this.wins/(this.wins+ this.losses));
-		}		
-		return this.ratio;		
+		if (wins + losses != 0)
+			ratio = (float) (wins/(wins + losses));
+		return ratio;		
 	}
 	
 	//Setters
-	public void setUsername (String newUsername) {
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setUsername(String newUsername) {
 		this.username = newUsername;
 	}
 	
-	public void setPassword (String newPassword) {
+	public void setPassword(String newPassword) {
 		this.password = newPassword;
 	}
 	
-	public void setEmail (String newEmail) {
-		this.email = newEmail				;
+	public void setEmail(String newEmail) {
+		this.email = newEmail;
 	}
 	
 	
 	//auxiliary function to check whether 2 passwords are equal or not
-	public boolean checkPassword (String passwordA, String passwordB) {
+	public boolean checkPassword(String passwordA, String passwordB) {
 		if (passwordA.equals(passwordB)) {
 			return true;		
 		}		

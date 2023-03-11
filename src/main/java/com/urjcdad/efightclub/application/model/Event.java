@@ -16,7 +16,7 @@ public class Event {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idEvent;
+	private Long id;
 	
 	private String eventName;
 	private String game;
@@ -69,41 +69,47 @@ public class Event {
 	}
 	
 	//Getters
+	public Long getId() {
+		return id;
+	}
 	public String getEventName() {
-		return this.eventName;		
+		return eventName;		
 	}
 	public String getGame() {
-		return this.game;		
+		return game;		
 	}
 	public Date getRegDate() {
-		return this.regDate;		
+		return regDate;		
 	}
 	public Date getKickoffDate() {
-		return this.kickoffDate;		
+		return kickoffDate;		
 	}
 	public Users getCreator() {
-		return this.creator;		
+		return creator;		
 	}
 	public Users getWinner() {
-		if (this.winner==null) {
+		if (winner==null) {
 			throw new NullPointerException("There's no winner defined yet");
 		}
-		return this.winner;
+		return winner;
 	}
 	public List<Users> getParticipants(){
-		return this.participants;
+		return participants;
 	}
 	public List<Users> getSubscribers(){
-		return this.subscribers;
+		return subscribers;
 	}
 	public List<Match> getMatches(){
-		return this.matches;
+		return matches;
 	}
 	public List<Notification> getNotifications(){
-		return this.notifications;
+		return notifications;
 	}
 	
 	//Setters
+	public void setId(long id) {
+		this.id = id;
+	}
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
@@ -126,31 +132,30 @@ public class Event {
 	
 	//Add methods for lists
 	public void addParticipant(Users participantNew) {
-		if (this.participants.contains(participantNew)) {
+		if (participants.contains(participantNew)) {
 			throw new IllegalArgumentException("This player is already participating in the event");
 		}
-		this.participants.add(participantNew);
-		this.addSubscriber(participantNew);
+		participants.add(participantNew);
+		addSubscriber(participantNew);
 	}
 	
 	public void addSubscriber(Users subscriberNew) {
-		if (!this.subscribers.contains(subscriberNew)) {
-			this.subscribers.add(subscriberNew);
-		}else {
+		if (!subscribers.contains(subscriberNew))
+			subscribers.add(subscriberNew);
+		else
 			throw new IllegalArgumentException("This player is already subscribed to the event");
-		}
 	}
 	public void addMatch (Date matchDate) {
-		this.matches.add(new Match(this, matchDate));		
+		matches.add(new Match(this, matchDate));		
 	}
 	public void addMatch (Date matchDate, Users p1) {
-		this.matches.add(new Match(this, matchDate, p1));		
+		matches.add(new Match(this, matchDate, p1));		
 	}
 	public void addMatch (Date matchDate, Users p1, Users p2) {
-		this.matches.add(new Match(this, matchDate, p1, p2));		
+		matches.add(new Match(this, matchDate, p1, p2));		
 	}
 	public void addNotification (String titleNew) {
-		this.notifications.add(new Notification(this, titleNew));
+		notifications.add(new Notification(this, titleNew));
 	}
 	public void addNotification (String titleNew, String textNew) {
 		this.notifications.add(new Notification(this, titleNew, textNew));
@@ -158,15 +163,15 @@ public class Event {
 	
 	//Remove methods for lists
 	public void removeParticipant(Users participantRemove) {		
-		if (this.participants.contains(participantRemove)) {
-			this.participants.remove(participantRemove);
-			this.removeSubscribers(participantRemove);
+		if (participants.contains(participantRemove)) {
+			participants.remove(participantRemove);
+			removeSubscribers(participantRemove);
 		}
 	}
 	
 	public void removeSubscribers(Users subscriberRemove) {
-		if (this.subscribers.contains(subscriberRemove)) {
-			this.subscribers.remove(subscriberRemove);
+		if (subscribers.contains(subscriberRemove)) {
+			subscribers.remove(subscriberRemove);
 		}		
 	}
 }

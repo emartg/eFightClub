@@ -34,8 +34,8 @@ public class EventService {
 		this.events.deleteById(id);
 	}
 
-	public void save(Event post) {
-		events.save(post);
+	public void save(Event event) {
+		events.save(event);
 	}
 	
 	public void sortEventsByDescDate(List<Event> list) {

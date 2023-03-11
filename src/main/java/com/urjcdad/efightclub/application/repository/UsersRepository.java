@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.urjcdad.efightclub.application.model.Users;
 
- 
 public interface UsersRepository extends JpaRepository <Users, Long>{
-	Users findByUsername (String username);	
-	List<Users> findByEmail (String email);	
+	Users findByUsername(String username);	
+	List<Users> findByEmail(String email);	
 }
