@@ -100,6 +100,40 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
+	@GetMapping("/events/{id}/compete")
+	public String competeEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			long yourmilliseconds = System.currentTimeMillis();
+			Date currentDate = new Date(yourmilliseconds);	
+			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Event event = eventRepository.findById(id).get();
+			if (event.getRegDate().compareTo(currentDate) > 0) {
+				event.addParticipant(user);		
+				eventRepository.save(event);
+			}
+		}
+		
+	
+		return "redirect:/home";
+	}
+	
+	@GetMapping("/events/{id}/subscribe")
+	public String subscribeEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Event event = eventRepository.findById(id).get();
+			event.addSubscriber(user);		
+		}		
+	
+		return "redirect:/home";
+	}
+	
 	@GetMapping("/events/my_events")
 	public String myEvents(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
