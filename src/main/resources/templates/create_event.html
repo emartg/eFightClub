@@ -1,42 +1,76 @@
 {{>header}}
 
-<div class="create-event">
-    <h1>Create an event</h1>
-    <form method='post' action='/events/new'>
-	    <ul class="event-form">
-    	<li class="event-form-item">
-            <p>Event image</p>
-        	<input type='file' name='image' accept=".jpg, .jpeg, .png"/>    
-        </li>
-   		<li class="event-form-item">
-            <p>Event banner image</p>
-        	<input type='file' name='banner' accept=".jpg, .jpeg, .png"/>    
-        </li>
-        <li class="event-form-item">
-            <h3>Event name</h3>
-            <input type='text' name='eventName'/>
-        </li>
-        <li class="event-form-item">
-            <h3>Game</h3>
-            <input type='text' name='game'/>
-        </li>
-        <li class="event-form-item">
-            <h3>Number of slots</h3>
-            <input type='text' name='numSlots'/>
-        </li>
-        <li class="event-form-item">
-            <h3>Registration due date</h3>
-            <input type='date' name='regDate'/>
-        </li>
-        <li class="event-form-item">
-            <h3>Kick-off date</h3>
-            <input type='date' name='kickoffDate'/>
-        </li>
-        <li class="event-form-submit">
-            <input type='submit' value='PUBLISH'/>
-        </li>
-	    </ul>
-	</form>
+<div class="create-event-container">
+    <div class="create-event__form-container">
+        <h1 class="create-event--title">Create an event</h1>
+        <form method='post' action='/events/new'>
+            <ul class="create-event--form">
+                <div class="create-event--form--1">
+                    <li class="create-event--form__icon">
+                        <p>Icon placeholder</p>
+                        <input type='file' name='image' accept=".jpg, .jpeg, .png" />
+                    </li>
+                </div>
+                <div class="create-event--form--2">
+                    <ul >
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <h3>Event banner image</h3>
+                            <input type='file' name='banner' accept=".jpg, .jpeg, .png" class="create-event--form-field"/>
+                        </li>
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <h3>Event name</h3>
+                            <input type='text' name='eventName' />
+                        </li>
+                        <li class="horizontal-list create-event--form--list-spacing"b>
+                            <h3>Game</h3>
+                            <input type='text' name='game' />
+                        </li>
+                    </ul>
+                </div>
+                <div class="create-event--form--3">
+                    <ul>
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <h3>Number of participants</h3>
+                            <input type='number' name='numSlots' min="4" max="16" step="4" class="create-event--form-field"/>
+                        </li>
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <h3>Registration due date</h3>
+                            <input type='date' name='regDate' />
+                        </li>
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <h3>Kick-off date</h3>
+                            <input type='date' name='kickoffDate' />
+                        </li>
+                        <li class="horizontal-list create-event--form--list-spacing">
+                            <input type='submit' value='PUBLISH' />
+                        </li>
+                    </ul>
+                </div>
+                
+            </ul>
+            <ul class="create-event--dates">
+                <li class="create-event--dates-item">
+                    <p>Roun of 16 date</p>
+                    <input type="date" name="16Date">
+                </li>
+                <li class="create-event--dates-item">
+                    <p>Quarter-finals date</p>
+                    <input type="date" name="quartersDate">
+                </li>
+                <li class="create-event--dates-item">
+                    <p>Semi-finals date</p>
+                    <input type="date" name="semisDate">
+                </li>
+                <li >
+                    <p>Finals date</p>
+                    <input type="date" name="finalsDate">
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="create-event__bracket">
+        <p class="create-event--title">Brackets preview</p>
+    </div>
 </div>
 
 {{>footer}}
