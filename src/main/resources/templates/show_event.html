@@ -1,8 +1,63 @@
 {{>header}}
 
-<div class="show-event">
+<div class="show-event-container">
+    <h1 class="create-event--title">Edit ongoing event</h1>
+    <div class="show-event-body">
+        <div class="show-event-left">
+            <div class="show-event-icon">
+                <p>Icon placeholder</p>
+            </div>            
+            {{#ongoing}}
+            <p id="show-event-status">LIVE</p>
+            <p >Current stage</p>
+            <p>{{event.numParticipants}} participants</p>
+            {{/ongoing}}
+            {{#upcoming}}
+            <p>Registrations ends {{event.regDateStr}}</p>
+            <p>Event starts {{event.kickoffDateStr}}</p>
+            <p>{{event.numParticipants}}/{{event.numSlots}}</p>
+            {{/upcoming}}
+        </div>
+        <div class="show-event-right">
+            <div class="horizontal-list show-event-right--items-alignment">
+                <p>Banner Image</p>
+                <input type="image" src="">
+            </div>
+            <div class="horizontal-list show-event-right--items-alignment">
+                <p>Event name</p>
+                <input type="text" name="">
+            </div>
+            <div class="horizontal-list show-event-right--items-alignment">
+
+                <p>Game</p>
+                <input type="text" name="">
+            </div>
+            {{#upcoming}}
+            <div class="horizontal-list show-event-right--items-alignment">
+                <p>Registration due date</p>
+                <input type="date" name="">
+            </div>
+            <div class="horizontal-list show-event-right--items-alignment">
+                <p>Kick-off-date</p>
+                <input type="date" name="">
+            </div>
+            {{/upcoming}}
+            <div class="cancel-event">
+                <a href="/events/{{event.id}}/delete">Delete event</a>
+            </div>
+            <div class="modify-event">
+                <a href=>Save Changes</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 
     <p>{{event.eventName}}</p>
-    <a href="/events/{{event.id}}/delete">Delete event</a>
+    
+    -->
+
 </div>
 
 {{>footer}}
