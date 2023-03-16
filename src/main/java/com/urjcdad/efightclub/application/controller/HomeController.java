@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
@@ -40,15 +39,20 @@ public class HomeController {
 			model.addAttribute("logged", true);
 		}
 		
+		// Get all the events in the repository
 		List<Event> events = eventRepository.findAll();
-		eventService.sortEventsByDescDate(events);
+		
+		// Lists for ongoing and upcoming events
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> upcomingEvents = new ArrayList<Event>();
 		
+		// Sort events by descending date
+		eventService.sortEventsByDescDate(events);
+		
 		// Check the current time to determine
-		// whether the event is ongoing or upcoming
-		long yourmilliseconds = System.currentTimeMillis();
-		Date currentDate = new Date(yourmilliseconds);	
+		// whether each event is an ongoing or upcoming event
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);	
 		for (Event event: events)
 			if(event.getKickoffDate().compareTo(currentDate) < 0)
 				ongoingEvents.add(event);

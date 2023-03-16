@@ -19,22 +19,25 @@ public class Notification {
 	private String title;
 	private String text = null;
 
-	//Constructors
-	protected Notification() {
+	/*
+	 * Constructors
+	 */
+	protected Notification() {}
+	
+	public Notification(Event event, String title) {	
+		this.event = event;
+		this.title = title;
 	}
 	
-	public Notification(Event parentEvent, String titleNew) {	
-		this.event = parentEvent;
-		this.title = titleNew;
+	public Notification(Event event, String title, String text) {	
+		this.event = event;
+		this.title = title;
+		this.text = text;
 	}
 	
-	public Notification(Event parentEvent, String titleNew, String textNew) {	
-		this.event = parentEvent;
-		this.title = titleNew;
-		this.text = textNew;
-	}
-	
-	//Getters
+	/*
+	 * Getters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -48,14 +51,17 @@ public class Notification {
 		return text;
 	}
 	
-	//Setters
+	/*
+	 * Setters
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
-	public void setTitle(String titleNew) {		
-		this.title = titleNew;
+	public void setTitle(String title) {		
+		this.title = title;
 	}
-	public void setText(String textNew) {
-		this.text = textNew;
+	public void setText(String text) {
+		this.text = text;
 	}
+	
 }

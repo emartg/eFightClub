@@ -26,56 +26,53 @@ public class Match {
 	@ManyToOne
 	private Event event;
 	
-	//Constructors 
-	protected Match () {
+	/*
+	 * Constructors 
+	 */
+	protected Match() {}
+	
+	public Match(Event event, Date date) {
+		this.event = event;
+		this.date = date;
 	}
 	
-	public Match (Event eventNew, Date dateNew) {
-		this.event = eventNew;
-		this.date = dateNew;
-		this.winner = 0;
-	}
-	
-	public Match (Event eventNew, Date dateNew, Users p1) {
-		this.event = eventNew;
-		this.date = dateNew;
-		this.winner = 0;
-		this.player1 = p1;
+	public Match(Event event, Date date, Users player1) {
+		this.event = event;
+		this.date = date;
+		this.player1 = player1;
 	}
 
-	public Match (Event eventNew, Date dateNew, Users p1, Users p2) {
-		this.event = eventNew;
-		this.date = dateNew;
-		this.winner = 0;
-		this.player1 = p1;
-		this.player2 = p2;
+	public Match(Event event, Date date, Users player1, Users player2) {
+		this.event = event;
+		this.date = date;
+		this.player1 = player1;
+		this.player2 = player2;
 	}
 	
-	public Match (Event eventNew) {
-		this.event = eventNew;
+	public Match(Event event) {
+		this.event = event;
         long millis = System.currentTimeMillis();  
 		this.date = new java.sql.Date(millis);
-		this.winner = 0;
 	}
 	
-	public Match (Event eventNew, Users p1) {
-		this.event = eventNew;
+	public Match(Event event, Users player1) {
+		this.event = event;
 	    long millis = System.currentTimeMillis();  
-	    this.date = new java.sql.Date(millis);
-	    this.winner = 0;
-		this.player1 = p1;
+	    date = new java.sql.Date(millis);
+		this.player1 = player1;
 	}
 
-	public Match (Event eventNew, Users p1, Users p2) {
-		this.event = eventNew;
+	public Match(Event event, Users player1, Users player2) {
+		this.event = event;
 	    long millis = System.currentTimeMillis();  
-		this.date = new java.sql.Date(millis);
-		this.winner = 0;
-		this.player1 = p1;
-		this.player2 = p2;
+		date = new java.sql.Date(millis);
+		this.player1 = player1;
+		this.player2 = player2;
 	}
 	
-	//Getters
+	/*
+	 * Getters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -95,51 +92,49 @@ public class Match {
 			throw new NullPointerException("No player assigned yet");
 		return player2;		
 	}
-	
 	public int getWinner() {
 		if (winner == 0)
-			throw new NullPointerException ("No winner assigned yet");
+			throw new NullPointerException("No winner assigned yet");
 		return winner;
 	}
-	//Alternative winner Getter returns the User object instead of int value
 	public Users getWinnerUser() {
-		if (winner ==0)
-			throw new NullPointerException ("No winner assigned yet");
-		if (winner ==1)
+		if (winner == 0)
+			throw new NullPointerException("No winner assigned yet");
+		if (winner == 1)
 			return player1;
 		else
 			return player2;
 	}
 	
-	
-	//Setters 
+	/*
+	 * Setters 
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
-	public void setDate(Date dateNew) {		
-		this.date = dateNew;
+	public void setDate(Date date) {		
+		this.date = date;
 	}
-	public void setPlayer1(Users p1) {
-		this.player1 = p1;		
+	public void setPlayer1(Users player1) {
+		this.player1 = player1;		
 	}
-	public void setPlayer2(Users p2) {
-		this.player2 = p2;		
+	public void setPlayer2(Users player2) {
+		this.player2 = player2;		
 	}
-	public void setPlayerEmpty (Users pNew) {
+	public void setAnyPlayer(Users player) {
 		if (player1 != null)
 			if (player2 != null)
-				throw new IllegalArgumentException("There are already 2 players assigned");
+				throw new IllegalArgumentException("There are already two players in the match");
 			else
-				setPlayer2(pNew);	
+				setPlayer2(player);	
 		else
-			setPlayer1(pNew);
+			setPlayer1(player);
 		
 	}
-	public void setWinner(int winnerNew) {		
-		if (winnerNew < 1 || winnerNew > 2)
-			throw new IllegalArgumentException("Winner value must be either 1 or 2");
-		this.winner = winnerNew;
+	public void setWinner(int winner) {		
+		if (winner < 1 || winner > 2)
+			throw new IllegalArgumentException("The winner must be either 1 or 2");
+		this.winner = winner;
 	}
-	
 	
 }

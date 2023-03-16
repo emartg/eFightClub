@@ -24,7 +24,7 @@ public class Event {
 	private Date kickoffDate;
 	private String regDateStr;
 	private String kickoffDateStr;
-	private Integer numParticipants;
+	private Integer numParticipants = 0;
 	private Integer numSlots;
 	private String banner = null;
 	private String icon = null;
@@ -52,12 +52,13 @@ public class Event {
 	@JsonIgnore
 	private Blob iconFile = null;
 
-	//Constructors
-	protected Event () {		
-	}
+	/*
+	 * Constructors
+	 */
+	protected Event() {}
 	
-	public Event (String eventName, String game, Date regDate, 
-			Date kickoffDate, Integer numSlots, Users creator) {		
+	public Event(String eventName, String game, Date regDate, Date kickoffDate,
+			Integer numSlots, Users creator) {		
 		this.eventName = eventName;
 		this.game = game;
 		this.regDate = regDate;
@@ -65,14 +66,14 @@ public class Event {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 		regDateStr = sdf.format(regDate);
 		kickoffDateStr = sdf.format(kickoffDate);
-		this.numParticipants = 0;
 		this.numSlots = numSlots;
 		this.creator = creator;
 		this.winner = null;
-		matches.add(new Match(this, this.kickoffDate));
 	}
 	
-	//Getters
+	/*
+	 * Getters
+	 */
 	public Long getId() {
 		return id;
 	}
@@ -99,7 +100,7 @@ public class Event {
 	}
 	public Users getWinner() {
 		if (winner == null)
-			throw new NullPointerException("There's no winner defined yet");
+			throw new NullPointerException("There is no winner yet");
 		return winner;
 	}
 	public List<Users> getParticipants(){
@@ -115,7 +116,9 @@ public class Event {
 		return notifications;
 	}
 	
-	//Setters
+	/*
+	 * Setters
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -145,48 +148,54 @@ public class Event {
 		this.winner = winner;
 	}
 	
-	//Add methods for lists
-	public void addParticipant(Users participant) {
-		if (participants.contains(participant))
+	/*
+	 * Methods to add elements to the event
+	 */
+	public void addParticipant(Users user) {
+		if (participants.contains(user))
 			throw new IllegalArgumentException("This player is already participating in the event");
 		else if (numParticipants >= numSlots)
 			throw new IllegalArgumentException("This event is full");
-		participants.add(participant);
+		
+		participants.add(user);
 		numParticipants++;
-		addSubscriber(participant);
+		addSubscriber(user);
 	}
-	public void addSubscriber(Users subscriber) {
-		if (!subscribers.contains(subscriber))
-			subscribers.add(subscriber);
+	public void addSubscriber(Users user) {
+		if (!subscribers.contains(user))
+			subscribers.add(user);
 		else
 			throw new IllegalArgumentException("This player is already subscribed to the event");
 	}
-	public void addMatch(Date matchDate) {
-		matches.add(new Match(this, matchDate));		
+	public void addMatch(Date date) {
+		matches.add(new Match(this, date));		
 	}
-	public void addMatch(Date matchDate, Users p1) {
-		matches.add(new Match(this, matchDate, p1));		
+	public void addMatch(Date date, Users player1) {
+		matches.add(new Match(this, date, player1));	
 	}
-	public void addMatch(Date matchDate, Users p1, Users p2) {
-		matches.add(new Match(this, matchDate, p1, p2));		
+	public void addMatch(Date date, Users player1, Users player2) {
+		matches.add(new Match(this, date, player1, player2));		
 	}
-	public void addNotification(String titleNew) {
-		notifications.add(new Notification(this, titleNew));
+	public void addNotification(String title) {
+		notifications.add(new Notification(this, title));
 	}
-	public void addNotification(String titleNew, String textNew) {
-		notifications.add(new Notification(this, titleNew, textNew));
+	public void addNotification(String title, String text) {
+		notifications.add(new Notification(this, title, text));
 	}
 	
-	//Remove methods for lists
-	public void removeParticipant(Users participantRemove) {		
-		if (participants.contains(participantRemove)) {
-			participants.remove(participantRemove);
+	/*
+	 * Methods to remove elements from the event
+	 */
+	public void removeParticipant(Users user) {		
+		if (participants.contains(user)) {
+			participants.remove(user);
 			numParticipants--;
-			removeSubscribers(participantRemove);
+			removeSubscribers(user);
 		}
 	}
-	public void removeSubscribers(Users subscriberRemove) {
-		if (subscribers.contains(subscriberRemove))
-			subscribers.remove(subscriberRemove);	
+	public void removeSubscribers(Users user) {
+		if (subscribers.contains(user))
+			subscribers.remove(user);
 	}
+	
 }
