@@ -1,0 +1,64 @@
+{{>header}}
+
+<div class="edit-event-container">
+	{{#event.ongoing}}
+    <h1 class="create-event--title">Edit ongoing event</h1>
+    {{/event.ongoing}}
+    {{^event.ongoing}}
+    <h1 class="create-event--title">Edit upcoming event</h1>
+    {{/event.ongoing}}
+    <div class="edit-event-body">
+    	{{#event.ongoing}}
+        <form method='post' action='/events/{{event.id}}/modify_ongoing'>
+        {{/event.ongoing}}
+        {{^event.ongoing}}
+	    <form method='post' action='/events/{{event.id}}/modify_upcoming'>
+	    {{/event.ongoing}}
+	        <div class="edit-event-right">
+	        	<div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Icon</p>
+	                <input type="image" src="">
+	            </div>
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Banner image</p>
+	                <input type="image" src="">
+	            </div>
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Event name</p>
+	                <input type="text" name="eventName" value="{{event.eventName}}">
+	            </div>
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Game</p>
+	                <input type="text" name="game" value="{{event.game}}">
+	            </div>
+	            {{^event.ongoing}}
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Registration due date</p>
+	                <input type="date" name="regDate" value="{{event.regDate}}">
+	            </div>
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Kick-off date</p>
+	                <input type="date" name="kickoffDate" value="{{event.kickoffDate}}">
+	            </div>
+	            <div class="horizontal-list edit-event-right--items-alignment">
+	                <p>Number of participants</p>
+	                <input type="radio" id="4" name="numSlots" value="4" checked="checked">
+					<label for="4">4</label><br>
+					<input type="radio" id="8" name="numSlots" value="8">
+					<label for="8">8</label><br>
+					<input type="radio" id="16" name="numSlots" value="16">
+					<label for="16">16</label>
+                </div>
+                {{/event.ongoing}}
+	            <div class="modify-event">
+	                <input type='submit' value='PUBLISH' />
+	            </div>
+	            <div class="cancel-event">
+        			<a href="/events/{{event.id}}/delete">CANCEL EVENT</a>
+        		</div>
+	        </div>
+        </form>
+    </div>
+</div>
+
+{{>footer}}

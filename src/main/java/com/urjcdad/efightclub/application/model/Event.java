@@ -24,6 +24,7 @@ public class Event {
 	private Date kickoffDate;
 	private String regDateStr;
 	private String kickoffDateStr;
+	private Boolean ongoing;
 	private Integer numParticipants = 0;
 	private Integer numSlots;
 	private String banner = null;
@@ -34,10 +35,10 @@ public class Event {
 	@ManyToOne
 	private Users winner;
 	
-	@OneToMany
-	private List<Users>participants = new ArrayList<>();
-	@OneToMany
-	private List<Users>subscribers = new ArrayList<>();
+	@ManyToMany
+	private List<Users> participants = new ArrayList<>();
+	@ManyToMany
+	private List<Users> subscribers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
 	private List<Match> matches = new ArrayList<>();
@@ -66,6 +67,9 @@ public class Event {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 		regDateStr = sdf.format(regDate);
 		kickoffDateStr = sdf.format(kickoffDate);
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);
+		ongoing = kickoffDate.compareTo(currentDate) < 0;
 		this.numSlots = numSlots;
 		this.creator = creator;
 		this.winner = null;
@@ -88,6 +92,12 @@ public class Event {
 	}
 	public Date getKickoffDate() {
 		return kickoffDate;		
+	}
+	public Boolean getOngoing() {
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);
+		ongoing = kickoffDate.compareTo(currentDate) < 0;
+		return ongoing;
 	}
 	public Integer getNumParticipants() {
 		return numParticipants;
@@ -136,6 +146,9 @@ public class Event {
 	public void setKickoffDate(Date kickoffDate) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
 		kickoffDateStr = sdf.format(kickoffDate);
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);
+		ongoing = kickoffDate.compareTo(currentDate) < 0;
 		this.kickoffDate = kickoffDate;
 	}
 	public void setNumParticipants(Integer numParticipants) {

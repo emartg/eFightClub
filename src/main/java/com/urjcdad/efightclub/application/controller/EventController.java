@@ -47,32 +47,33 @@ public class EventController {
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
-			@RequestParam Integer numSlots) {
+			@RequestParam String numSlots) {
 		
 		// Ensure the user has entered all the required parameters to
 		// create an event. Otherwise, reload the page
 		if (eventName == "" || game == "" || regDate == null || 
-				kickoffDate == null || numSlots==null)
+				kickoffDate == null || numSlots == "")
 			return "redirect:/events/create";
-		
-		// Get the current user and create an event under its name
-		Users user = userRepository.findByUsername(session.getAttribute("username").toString());		
-		Event event = new Event(eventName, game, regDate, kickoffDate, numSlots, user);
 		
 		// Ensure that the new event registration due date is a 
 		// date in the future. Otherwise, reload the page
 		/*
 		long your_milliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(your_milliseconds);	
-		if (event.getRegDate().compareTo(currentDate) < 0)
+		if (regDate.compareTo(currentDate) < 0)
 			return "redirect:/events/create";
 		*/
 		
 		// Ensure that the new event registration due date is 
 		// an earlier date that the kick-off date. 
 		// Otherwise, reload the page
-		if (event.getKickoffDate().compareTo(event.getRegDate()) < 0)
+		if (kickoffDate.compareTo(regDate) < 0)
 			return "redirect:/events/create";
+		
+		// Get the current user and create an event under its name
+		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+		Integer slots = Integer.parseInt(numSlots); // parse the number of participants to an integer
+		Event event = new Event(eventName, game, regDate, kickoffDate, slots, user);
 		
 		eventRepository.save(event);
 		
@@ -87,10 +88,98 @@ public class EventController {
 			model.addAttribute("logged", true);
 		}
 		
+		// Get the existing event from the repository
 		Event event = eventRepository.findById(id).get();
 		model.addAttribute("event", event);
 	
 		return "show_event";
+	}
+	
+	@GetMapping("/events/{id}/edit")
+	public String editEvent(Model model, HttpSession session,
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		
+		// Get the existing event from the repository
+		Event event = eventRepository.findById(id).get();
+		model.addAttribute("event", event);
+		
+		return "edit_event";
+	}
+	
+	@PostMapping("/events/{id}/modify_ongoing")
+	public String editEvent(Model model, HttpSession session, 
+			@RequestParam String eventName, @RequestParam String game,
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		
+		// Get the existing event from the repository
+		Event event = eventRepository.findById(id).get();
+		
+		// Update the different event fields
+		if (eventName != "")
+			event.setEventName(eventName);
+		if (game != "")
+			event.setGame(game);
+		
+		// Update the database
+		eventRepository.save(event);
+	
+		return "redirect:/events/my_events";
+	}
+	
+	@PostMapping("/events/{id}/modify_upcoming")
+	public String editEvent(Model model, HttpSession session, 
+			@RequestParam String eventName, @RequestParam String game,
+			@RequestParam Date regDate, @RequestParam Date kickoffDate,
+			@RequestParam String numSlots, @PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		
+		// Ensure that the event registration due date is a 
+		// date in the future. Otherwise, reload the page
+		/*
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);	
+		if (regDate.compareTo(currentDate) < 0)
+			return "redirect:/events/{id}/edit";
+		*/
+		
+		// Ensure that the event registration due date is 
+		// an earlier date that the kick-off date. 
+		// Otherwise, reload the page
+		if (kickoffDate.compareTo(regDate) < 0)
+			return "redirect:/events/{id}/edit";
+		
+		// Get the existing event from the repository
+		Event event = eventRepository.findById(id).get();
+		
+		// Update the different event fields
+		if (eventName != "")
+			event.setEventName(eventName);
+		if (game != "")
+			event.setGame(game);
+		if (regDate != null)
+			event.setRegDate(regDate);
+		if (kickoffDate != null)
+			event.setKickoffDate(kickoffDate);
+		if (numSlots != "") {
+			Integer slots = Integer.parseInt(numSlots);
+			event.setNumSlots(slots);
+		}
+		
+		// Update the database
+		eventRepository.save(event);
+	
+		return "redirect:/events/my_events";
 	}
 	
 	@GetMapping("/events/{id}/delete")

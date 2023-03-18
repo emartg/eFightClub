@@ -7,7 +7,7 @@
             <ul class="create-event--form">
                 <div class="create-event--form--1">
                     <li class="create-event--form__icon">
-                        <p>Icon placeholder</p>
+                        <p>Event image</p>
                         <input type='file' name='image' accept=".jpg, .jpeg, .png" />
                     </li>
                 </div>
@@ -31,7 +31,12 @@
                     <ul>
                         <li class="horizontal-list create-event--form--list-spacing">
                             <h3>Number of participants</h3>
-                            <input type='number' name='numSlots' min="4" max="16" step="4" class="create-event--form-field"/>
+			                <input type="radio" id="4" name="numSlots" value="4" checked="checked">
+							<label for="4">4</label><br>
+							<input type="radio" id="8" name="numSlots" value="8">
+							<label for="8">8</label><br>
+							<input type="radio" id="16" name="numSlots" value="16">
+							<label for="16">16</label>
                         </li>
                         <li class="horizontal-list create-event--form--list-spacing">
                             <h3>Registration due date</h3>
@@ -46,11 +51,10 @@
                         </li>
                     </ul>
                 </div>
-                
             </ul>
             <ul class="create-event--dates">
                 <li class="create-event--dates-item">
-                    <p>Roun of 16 date</p>
+                    <p>Round of 16 date</p>
                     <input type="date" name="16Date">
                 </li>
                 <li class="create-event--dates-item">

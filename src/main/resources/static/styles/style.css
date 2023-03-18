@@ -282,45 +282,45 @@ form li {
 
 
 /* Event */
-.show-event-container{
+.edit-event-container{
 	padding-top: 100px;
 	width: 80vw;				
 }
-.show-event-container p{
+.edit-event-container p{
 	font-weight: bold;
 	font-size: 20;
 	color: #0F3460;
 }
-.show-event-container li{
+.edit-event-container li{
 	list-style: none;
 }
-.show-event-body{
+.edit-event-body{
 	display: flex;
 	flex-direction: row;
 }
-.show-event-left{
+.edit-event-left{
 	padding-left: 80px;
 }
-.show-event-right{
+.edit-event-right{
 	padding-left: 150px;	
 	padding-top: 40px;
 }
-.show-event-right--items-alignment{
+.edit-event-right--items-alignment{
 	justify-content: space-between;	
 	width: 500px;	
 	padding-bottom: 50px;
 }
-.show-event-icon{
+.edit-event-icon{
 	width: 300px;
 	height: 300px;
 	background-color: #E94560;
 	border-radius: 10px;	
 }
-.show-event-left p{
+.edit-event-left p{
 	padding-top: 10px;
 
 }
-#show-event-status{
+#edit-event-status{
 	color: #E94560;	
 }
 .cancel-event a:visited{

@@ -1,63 +1,43 @@
 {{>header}}
 
-<div class="show-event-container">
-    <h1 class="create-event--title">Edit ongoing event</h1>
-    <div class="show-event-body">
-        <div class="show-event-left">
-            <div class="show-event-icon">
+<div class="edit-event-container">
+    <h1 class="create-event--title">{{event.eventName}}</h1>
+    <div class="edit-event-body">
+        <div class="edit-event-left">
+            <div class="edit-event-icon">
                 <p>Icon placeholder</p>
-            </div>            
-            {{#ongoing}}
-            <p id="show-event-status">LIVE</p>
-            <p >Current stage</p>
+            </div>
+            {{#event.ongoing}}
+            <p id="edit-event-status">LIVE</p>
+            <p >Stage</p>
             <p>{{event.numParticipants}} participants</p>
-            {{/ongoing}}
-            {{#upcoming}}
+            {{/event.ongoing}}
+            {{^event.ongoing}}
             <p>Registrations ends {{event.regDateStr}}</p>
             <p>Event starts {{event.kickoffDateStr}}</p>
             <p>{{event.numParticipants}}/{{event.numSlots}}</p>
-            {{/upcoming}}
+            {{/event.ongoing}}
         </div>
-        <div class="show-event-right">
-            <div class="horizontal-list show-event-right--items-alignment">
-                <p>Banner Image</p>
-                <input type="image" src="">
+        <div class="edit-event-right">
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Banner image</p>
             </div>
-            <div class="horizontal-list show-event-right--items-alignment">
-                <p>Event name</p>
-                <input type="text" name="">
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Event name: {{event.eventName}}</p>
             </div>
-            <div class="horizontal-list show-event-right--items-alignment">
-
-                <p>Game</p>
-                <input type="text" name="">
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Game: {{event.game}}</p>
             </div>
-            {{#upcoming}}
-            <div class="horizontal-list show-event-right--items-alignment">
-                <p>Registration due date</p>
-                <input type="date" name="">
+            {{^event.ongoing}}
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Registration due date: {{event.regDateStr}}</p>
             </div>
-            <div class="horizontal-list show-event-right--items-alignment">
-                <p>Kick-off-date</p>
-                <input type="date" name="">
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Kick-off date: {{event.kickoffDateStr}}</p>
             </div>
-            {{/upcoming}}
-            <div class="cancel-event">
-                <a href="/events/{{event.id}}/delete">Delete event</a>
-            </div>
-            <div class="modify-event">
-                <a href=>Save Changes</a>
-            </div>
+            {{/event.ongoing}}
         </div>
     </div>
-
-
-
-    <!-- 
-    <p>{{event.eventName}}</p>
-    
-    -->
-
 </div>
 
 {{>footer}}
