@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
@@ -23,7 +22,6 @@ import com.urjcdad.efightclub.application.service.EventService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/events")
 public class EventController {
 	
 	@Autowired
@@ -35,7 +33,7 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-	@GetMapping("/create")
+	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -45,7 +43,7 @@ public class EventController {
 		return "create_event";
 	}
 	
-	@PostMapping("/new")
+	@PostMapping("/events/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
@@ -70,7 +68,7 @@ public class EventController {
 		// an earlier date that the kick-off date. 
 		// Otherwise, reload the page
 		if (kickoffDate.compareTo(regDate) < 0)
-			return "redirect:/create";
+			return "redirect:/events/create";
 		
 		// Get the current user and create an event under its name
 		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
@@ -82,7 +80,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/events/{id}")
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -97,7 +95,7 @@ public class EventController {
 		return "show_event";
 	}
 	
-	@GetMapping("/{id}/edit")
+	@GetMapping("/events/{id}/edit")
 	public String editEvent(Model model, HttpSession session,
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -112,7 +110,7 @@ public class EventController {
 		return "edit_event";
 	}
 	
-	@PostMapping("/{id}/modify_ongoing")
+	@PostMapping("/events/{id}/modify_ongoing")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@PathVariable long id) {
@@ -136,7 +134,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@PostMapping("/{id}/modify_upcoming")
+	@PostMapping("/events/{id}/modify_upcoming")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
@@ -184,7 +182,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/{id}/delete")
+	@GetMapping("/events/{id}/delete")
 	public String deleteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -197,7 +195,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/{id}/register")
+	@GetMapping("/events/{id}/register")
 	public String competeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -220,7 +218,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/{id}/subscribe")
+	@GetMapping("/events/{id}/subscribe")
 	public String subscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -236,7 +234,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/my_events")
+	@GetMapping("/events/my_events")
 	public String myEvents(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
