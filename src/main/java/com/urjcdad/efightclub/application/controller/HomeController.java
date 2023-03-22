@@ -34,6 +34,12 @@ public class HomeController {
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
+		if (session.getAttribute("error") != null) {
+			session.removeAttribute("error");
+			session.removeAttribute("errorMsg");
+			session.removeAttribute("errorUsername");
+			session.removeAttribute("errorEmail");
+		}
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
@@ -66,16 +72,35 @@ public class HomeController {
 	}
 	
 	@GetMapping("/login")
-	public String logIn() {
+	public String logIn(Model model, HttpSession session) {
+		if (session.getAttribute("error") != null) {
+			model.addAttribute("error", true);
+			model.addAttribute("errorMsg",session.getAttribute("errorMsg"));
+			model.addAttribute("errorUsername", session.getAttribute("errorUsername"));
+			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
+			session.removeAttribute("error");
+		}
 		return "login";
 	}
 	
 	@PostMapping("/logged_in")
 	public String logIn(Model model, HttpSession session, 
 			@RequestParam String username, @RequestParam String email, 
-			@RequestParam String password) {
+			@RequestParam String password ,@RequestParam String reenterPassword) {	
+		if (username == ""||email==""||password==""|| reenterPassword=="") {
+			session.setAttribute("error", true);
+			session.setAttribute("errorUsername", username);
+			session.setAttribute("errorEmail", email);
+			session.setAttribute("errorMsg", "Rellene todos los campos para continuar");
+			
+			return "redirect:/login";
+		}
 		
-		if (username == ""||email==""||password=="") {
+		if (!password.equals(reenterPassword)) {
+			session.setAttribute("error", true);
+			session.setAttribute("errorUsername", username);
+			session.setAttribute("errorEmail", email);
+			session.setAttribute("errorMsg", "Las contraseñas no coinciden");
 			return "redirect:/login";
 		}
 		
@@ -93,12 +118,22 @@ public class HomeController {
 				session.setAttribute("logged", true);			
 				return "redirect:/home";
 			}else {
+				session.setAttribute("error", true);
+				session.setAttribute("errorUsername", username);
+				session.setAttribute("errorEmail", email);
+				session.setAttribute("errorMsg", "Los datos del usuario no coinciden");
+				
 				return "redirect:/login";
 			}
 		}else {
 			userRepository.save(user);
 			session.setAttribute("username", user.getUsername());
-			session.setAttribute("logged", true);			
+			session.setAttribute("logged", true);
+			session.removeAttribute("error");
+			session.removeAttribute("errorMsg");
+			session.removeAttribute("errorUsername");
+			session.removeAttribute("errorEmail");
+
 			return "redirect:/home";
 		}	
 	}
