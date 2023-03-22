@@ -91,7 +91,7 @@ public class HomeController {
 			session.setAttribute("error", true);
 			session.setAttribute("errorUsername", username);
 			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "Rellene todos los campos para continuar");
+			session.setAttribute("errorMsg", "Missing data");
 			
 			return "redirect:/login";
 		}
@@ -100,7 +100,7 @@ public class HomeController {
 			session.setAttribute("error", true);
 			session.setAttribute("errorUsername", username);
 			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "Las contraseñas no coinciden");
+			session.setAttribute("errorMsg", "The passwords do not match");
 			return "redirect:/login";
 		}
 		
@@ -121,7 +121,7 @@ public class HomeController {
 				session.setAttribute("error", true);
 				session.setAttribute("errorUsername", username);
 				session.setAttribute("errorEmail", email);
-				session.setAttribute("errorMsg", "Los datos del usuario no coinciden");
+				session.setAttribute("errorMsg", "The entered data does not match with any existing user");
 				
 				return "redirect:/login";
 			}
