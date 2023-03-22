@@ -102,8 +102,7 @@ public class HomeController {
 			return "redirect:/home";
 		}	
 	}
-	
-	
+
 	@GetMapping("/logout")
 	public String viewHomeLoggedOut(Model model, HttpSession session) {
 		
@@ -112,4 +111,5 @@ public class HomeController {
 		
 		return "redirect:/home";
 	}
+	
 }
