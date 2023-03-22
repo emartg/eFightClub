@@ -1,43 +1,30 @@
 {{>header}}
+<div class="show-event-banner">
+    <!-- <img src="/events/{{id}}/banner"></img> -->
+    <p>Banner image</p>
+</div>
 
-<div class="edit-event-container">
-    <h1 class="create-event--title">{{event.eventName}}</h1>
-    <div class="edit-event-body">
-        <div class="edit-event-left">
-            <div class="edit-event-icon">
-            	<!-- <img src="/events/{{id}}/image"></img> -->
-            	<p>Image placeholder</p>
-            </div>
-            {{#event.ongoing}}
-            <p id="edit-event-status">LIVE</p>
-            <p >Stage</p>
-            <p>{{event.numParticipants}} participants</p>
-            {{/event.ongoing}}
-            {{^event.ongoing}}
-            <p>Registrations ends {{event.regDateStr}}</p>
-            <p>Event starts {{event.kickoffDateStr}}</p>
-            <p>{{event.numParticipants}}/{{event.numSlots}}</p>
-            {{/event.ongoing}}
+<div class="show-event-container vertical-list">
+    <div id="show-event-info" class="horizontal-list">
+        <div id="show-event-icon">
+            <!-- <img src="/events/{{id}}/image"></img> -->
+            <p>Image placeholder</p>
         </div>
-        <div class="edit-event-right">
-            <div class="horizontal-list edit-event-right--items-alignment">
-           	 	<!-- <img src="/events/{{id}}/banner"></img> -->
-           	 	<p>Banner image</p>
-            </div>
-            <div class="horizontal-list edit-event-right--items-alignment">
-                <p>Event name: {{event.eventName}}</p>
-            </div>
-            <div class="horizontal-list edit-event-right--items-alignment">
-                <p>Game: {{event.game}}</p>
-            </div>
-            {{^event.ongoing}}
-            <div class="horizontal-list edit-event-right--items-alignment">
-                <p>Registration due date: {{event.regDateStr}}</p>
-            </div>
-            <div class="horizontal-list edit-event-right--items-alignment">
-                <p>Kick-off date: {{event.kickoffDateStr}}</p>
-            </div>
-            {{/event.ongoing}}
+        <div id="show-event-info--1">
+            <p>{{event.eventName}}</p>
+            <p>{{event.game}}</p>
+            <p id="edit-event-status">LIVE</p>
+        </div>
+
+        <p id="show-event-info--2">Semi-finals</p>
+    </div>
+    <div id="show-event-game" class="horizontal-list">
+        <div id="show-event-game__participants">
+            <p>participan list </p>
+
+        </div>
+        <div id="show-event-game__bracket">
+            <p>bracket </p>
         </div>
     </div>
 </div>
