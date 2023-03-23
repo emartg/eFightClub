@@ -120,6 +120,12 @@ a:visited {
 	height: 65px;
 	background-color: #FAEDF0;
 }
+.form-item input[type=password]{
+	border-radius: 20px;
+	width: 410px;
+	height: 65px;
+	background-color: #FAEDF0;
+}
 .form-item input[placeholder]{
 	padding-left: 8px;	
 	font-size: 11px;
