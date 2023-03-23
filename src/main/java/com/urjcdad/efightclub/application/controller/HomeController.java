@@ -71,8 +71,19 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("/log_in")
 	public String logIn(Model model, HttpSession session) {
+		if (session.getAttribute("error") != null) {
+			model.addAttribute("error", true);
+			model.addAttribute("errorMsg", session.getAttribute("errorMsg"));
+			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
+			session.removeAttribute("error");
+		}
+		return "log_in";
+	}
+	
+	@GetMapping("/sign_up")
+	public String signUp(Model model, HttpSession session) {
 		if (session.getAttribute("error") != null) {
 			model.addAttribute("error", true);
 			model.addAttribute("errorMsg",session.getAttribute("errorMsg"));
@@ -80,28 +91,71 @@ public class HomeController {
 			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
 			session.removeAttribute("error");
 		}
-		return "login";
+		return "sign_up";
 	}
 	
 	@PostMapping("/logged_in")
 	public String logIn(Model model, HttpSession session, 
+			@RequestParam String email, @RequestParam String password) {	
+		if (email.isBlank() || password.isBlank()) {
+			session.setAttribute("error", true);
+			session.setAttribute("errorEmail", email);
+			session.setAttribute("errorMsg", "You must fill the form before entering");
+			
+			return "redirect:/log_in";
+		}
+		
+		model.addAttribute("email", email);
+		model.addAttribute("password", password);
+		model.addAttribute("logged", true);
+		
+		Users user = userRepository.findByEmail(email);
+		if (user != null) { 
+			if (password.equals(user.getPassword())) { // The credentials are correct				
+				session.setAttribute("username", user.getUsername());
+				session.setAttribute("logged", true);	
+				
+				return "redirect:/home";
+			} else { // The user exists in the database, but the password is incorrect
+				session.setAttribute("error", true);
+				session.setAttribute("errorEmail", email);
+				session.setAttribute("errorMsg", "The password is incorrect");
+				
+				return "redirect:/log_in";
+			}
+		} else { // The user does not exist in the database (the email is new)
+			session.setAttribute("error", true);
+			session.setAttribute("errorEmail", email);
+			session.setAttribute("errorMsg", "The email has not been registered yet");
+			
+			return "redirect:/log_in";
+		}	
+	}
+	
+	@PostMapping("/signed_up")
+	public String signUp(Model model, HttpSession session, 
 			@RequestParam String username, @RequestParam String email, 
-			@RequestParam String password ,@RequestParam String reenterPassword) {	
-		if (username == ""||email==""||password==""|| reenterPassword=="") {
+			@RequestParam String password ,@RequestParam String reenterPassword) {
+		
+		// Check whether all strings are not blank
+		if (username.isBlank() || email.isBlank()
+				|| password.isBlank() || reenterPassword.isBlank()) {
 			session.setAttribute("error", true);
 			session.setAttribute("errorUsername", username);
 			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "Missing data");
+			session.setAttribute("errorMsg", "You must fill the form before entering");
 			
-			return "redirect:/login";
+			return "redirect:/sign_up";
 		}
 		
+		// Check whether the passwords match
 		if (!password.equals(reenterPassword)) {
 			session.setAttribute("error", true);
 			session.setAttribute("errorUsername", username);
 			session.setAttribute("errorEmail", email);
 			session.setAttribute("errorMsg", "The passwords do not match");
-			return "redirect:/login";
+			
+			return "redirect:/sign_up";
 		}
 		
 		model.addAttribute("username", username);
@@ -109,26 +163,30 @@ public class HomeController {
 		model.addAttribute("password", password);
 		model.addAttribute("logged", true);
 		
-		
-		Users user = new Users(username, email, password);
-		Users check = userRepository.findByUsername(username);
-		if (check != null) {
-			if (check.getEmail().equals(user.getEmail())&&check.getPassword().equals(user.getPassword())) {				
-				session.setAttribute("username", user.getUsername());
-				session.setAttribute("logged", true);			
-				return "redirect:/home";
-			}else {
-				session.setAttribute("error", true);
-				session.setAttribute("errorUsername", username);
-				session.setAttribute("errorEmail", email);
-				session.setAttribute("errorMsg", "The entered data does not match with any existing user");
-				
-				return "redirect:/login";
+		Users otherUserByUsername = userRepository.findByUsername(username);
+		Users otherUserByEmail = userRepository.findByEmail(email);
+		if (otherUserByUsername != null || otherUserByEmail != null) {
+			session.setAttribute("error", true);
+			session.setAttribute("errorUsername", username);
+			session.setAttribute("errorEmail", email);
+			
+			if (otherUserByUsername != null) { // The name is not unique
+				session.setAttribute("errorMsg", "The username is already taken");
+			
+				return "redirect:/sign_up";
 			}
-		}else {
+			
+			// The email is associated with an existing account
+			session.setAttribute("errorMsg", "The email corresponds to an existing user");
+				
+			return "redirect:/sign_up";
+		} else { // The user is new and can be added to the database
+			Users user = new Users(username, email, password);
 			userRepository.save(user);
-			session.setAttribute("username", user.getUsername());
+			
+			session.setAttribute("username", username);
 			session.setAttribute("logged", true);
+			
 			session.removeAttribute("error");
 			session.removeAttribute("errorMsg");
 			session.removeAttribute("errorUsername");
@@ -138,9 +196,8 @@ public class HomeController {
 		}	
 	}
 
-	@GetMapping("/logout")
+	@GetMapping("/log_out")
 	public String viewHomeLoggedOut(Model model, HttpSession session) {
-		
 		session.setAttribute("username", null);
 		session.setAttribute("logged", null);
 		
