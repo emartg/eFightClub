@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
@@ -22,6 +23,7 @@ import com.urjcdad.efightclub.application.service.EventService;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/events")
 public class EventController {
 	
 	@Autowired
@@ -33,7 +35,7 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-	@GetMapping("/events/create")
+	@GetMapping("/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -43,7 +45,7 @@ public class EventController {
 		return "create_event";
 	}
 	
-	@PostMapping("/events/new")
+	@PostMapping("/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
@@ -51,8 +53,8 @@ public class EventController {
 		
 		// Ensure the user has entered all the required parameters to
 		// create an event. Otherwise, reload the page
-		if (eventName == "" || game == "" || regDate == null || 
-				kickoffDate == null || numSlots == "")
+		if (eventName.isBlank() || game.isBlank() || regDate == null || 
+				kickoffDate == null || numSlots.isBlank())
 			return "redirect:/events/create";
 		
 		// Ensure that the new event registration due date is a 
@@ -80,7 +82,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/events/{id}")
+	@GetMapping("/{id}")
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -95,7 +97,7 @@ public class EventController {
 		return "show_event";
 	}
 	
-	@GetMapping("/events/{id}/edit")
+	@GetMapping("/{id}/edit")
 	public String editEvent(Model model, HttpSession session,
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -110,7 +112,7 @@ public class EventController {
 		return "edit_event";
 	}
 	
-	@PostMapping("/events/{id}/modify_ongoing")
+	@PostMapping("/{id}/modify_ongoing")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@PathVariable long id) {
@@ -123,9 +125,9 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();
 		
 		// Update the different event fields
-		if (eventName != "")
+		if (!eventName.isBlank())
 			event.setEventName(eventName);
-		if (game != "")
+		if (!game.isBlank())
 			event.setGame(game);
 		
 		// Update the database
@@ -134,7 +136,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@PostMapping("/events/{id}/modify_upcoming")
+	@PostMapping("/{id}/modify_upcoming")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
@@ -163,9 +165,9 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();
 		
 		// Update the different event fields
-		if (eventName != "")
+		if (!eventName.isBlank())
 			event.setEventName(eventName);
-		if (game != "")
+		if (!game.isBlank())
 			event.setGame(game);
 		if (regDate != null)
 			event.setRegDate(regDate);
@@ -178,7 +180,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/events/{id}/delete")
+	@GetMapping("/{id}/delete")
 	public String deleteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -191,8 +193,8 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/events/{id}/register")
-	public String competeEvent(Model model, HttpSession session, 
+	@GetMapping("/{id}/register")
+	public String register(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -214,8 +216,8 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/events/{id}/subscribe")
-	public String subscribeEvent(Model model, HttpSession session, 
+	@GetMapping("/{id}/subscribe")
+	public String subscribe(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -230,7 +232,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/events/my_events")
+	@GetMapping("/my_events")
 	public String myEvents(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));

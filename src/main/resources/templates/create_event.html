@@ -3,27 +3,27 @@
 <div class="create-event-container">
     <div class="create-event__form-container">
         <h1 class="create-event--title">Create an event</h1>
-        <form method='post' action='/events/new'>
+        <form method='post' action='/events/new' enctype="multipart/form-data">
             <ul class="create-event--form">
                 <div class="create-event--form--1">
                     <li class="create-event--form__icon">
                         <p>Event image</p>
-                        <input type='file' name='image' accept=".jpg, .jpeg, .png" />
+                        <input type='file' name='imageName' accept=".jpg, .jpeg, .png"/>
                     </li>
                 </div>
                 <div class="create-event--form--2">
                     <ul >
                         <li class="horizontal-list create-event--form--list-spacing">
                             <h3>Event banner image</h3>
-                            <input type='file' name='banner' accept=".jpg, .jpeg, .png" class="create-event--form-field"/>
+                            <input type='file' name='bannerFile' accept=".jpg, .jpeg, .png" class="create-event--form-field"/>
                         </li>
                         <li class="horizontal-list create-event--form--list-spacing">
                             <h3>Event name</h3>
-                            <input type='text' name='eventName' />
+                            <input type='text' name='eventName'/>
                         </li>
                         <li class="horizontal-list create-event--form--list-spacing"b>
                             <h3>Game</h3>
-                            <input type='text' name='game' />
+                            <input type='text' name='game'/>
                         </li>
                     </ul>
                 </div>

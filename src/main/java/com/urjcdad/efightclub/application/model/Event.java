@@ -27,8 +27,6 @@ public class Event {
 	private Boolean ongoing;
 	private Integer numParticipants = 0;
 	private Integer numSlots;
-	private String banner = null;
-	private String icon = null;
 	
 	@ManyToOne
 	private Users creator;
@@ -46,22 +44,27 @@ public class Event {
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
 	private List<Notification> notifications = new ArrayList<>();
 	
+	private String bannerName = null;
+	private String imageName = null;
 	@Lob
 	@JsonIgnore
 	private Blob bannerFile = null;
 	@Lob
 	@JsonIgnore
-	private Blob iconFile = null;
+	private Blob imageFile = null;
 
 	/*
 	 * Constructors
 	 */
 	protected Event() {}
 	
-	public Event(String eventName, String game, Date regDate, Date kickoffDate,
-			Integer numSlots, Users creator) {		
+	public Event(String eventName, String game, 
+			Date regDate, Date kickoffDate,
+			Integer numSlots, Users creator) {
+		
 		this.eventName = eventName;
 		this.game = game;
+		
 		this.regDate = regDate;
 		this.kickoffDate = kickoffDate;
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
@@ -70,9 +73,38 @@ public class Event {
 		long your_milliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(your_milliseconds);
 		ongoing = kickoffDate.compareTo(currentDate) < 0;
+		
 		this.numSlots = numSlots;
 		this.creator = creator;
 		this.winner = null;
+	}
+	
+	public Event(String eventName, String game, 
+			Date regDate, Date kickoffDate,
+			Integer numSlots, Users creator,
+			String imageName, String bannerName,
+			Blob imageFile, Blob bannerFile) {
+		
+		this.eventName = eventName;
+		this.game = game;
+		
+		this.regDate = regDate;
+		this.kickoffDate = kickoffDate;
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+		regDateStr = sdf.format(regDate);
+		kickoffDateStr = sdf.format(kickoffDate);
+		long your_milliseconds = System.currentTimeMillis();
+		Date currentDate = new Date(your_milliseconds);
+		ongoing = kickoffDate.compareTo(currentDate) < 0;
+		
+		this.numSlots = numSlots;
+		this.creator = creator;
+		this.winner = null;
+		
+		this.imageName = imageName;
+		this.bannerName = bannerName;
+		this.imageFile = imageFile;
+		this.bannerFile = bannerFile;
 	}
 	
 	/*
@@ -90,8 +122,14 @@ public class Event {
 	public Date getRegDate() {
 		return regDate;		
 	}
+	public String getRegDateStr() {
+		return regDateStr;		
+	}
 	public Date getKickoffDate() {
 		return kickoffDate;		
+	}
+	public String getKickoffDateStr() {
+		return kickoffDateStr;		
 	}
 	public Boolean getOngoing() {
 		long your_milliseconds = System.currentTimeMillis();
@@ -112,6 +150,18 @@ public class Event {
 		if (winner == null)
 			throw new NullPointerException("There is no winner yet");
 		return winner;
+	}
+	public String getImageName() {
+		return imageName;
+	}
+	public String getBannerName() {
+		return bannerName;
+	}
+	public Blob getImageFile() {
+		return imageFile;
+	}
+	public Blob getBannerFile() {
+		return bannerFile;
 	}
 	public List<Users> getParticipants(){
 		return participants;
@@ -159,6 +209,18 @@ public class Event {
 	}
 	public void setWinner(Users winner) {
 		this.winner = winner;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+	public void setBannerName(String bannerName) {
+		this.bannerName = bannerName;
+	}
+	public void setImageFile(Blob imageFile) {
+		this.imageFile = imageFile;
+	}
+	public void setBannerFile(Blob bannerFile) {
+		this.bannerFile = bannerFile;
 	}
 	
 	/*
