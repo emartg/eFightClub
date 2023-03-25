@@ -138,7 +138,7 @@ public class EventController {
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
-			@PathVariable long id) {
+			@RequestParam String numSlots, @PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
@@ -171,6 +171,10 @@ public class EventController {
 			event.setRegDate(regDate);
 		if (kickoffDate != null)
 			event.setKickoffDate(kickoffDate);
+		if (numSlots != "") {
+			Integer slots = Integer.parseInt(numSlots);
+			event.setNumSlots(slots);
+		}
 		
 		// Update the database
 		eventRepository.save(event);

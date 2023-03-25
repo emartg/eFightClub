@@ -120,12 +120,6 @@ a:visited {
 	height: 65px;
 	background-color: #FAEDF0;
 }
-.form-item input[type=password]{
-	border-radius: 20px;
-	width: 410px;
-	height: 65px;
-	background-color: #FAEDF0;
-}
 .form-item input[placeholder]{
 	padding-left: 8px;	
 	font-size: 11px;
@@ -511,15 +505,16 @@ form li {
 }
 /*show event*/
 .show-event-banner{
-	height: 300px;
-	background-color: #FAEDF0;
+
 }
 .show-event-container{
+	padding-top: 100px;
 	width: 100vw;
 	color: #0F3460;
 }
 #show-event-info{
 	padding-left: 60px;
+	padding-top: 110px;
 	font-size: 20px;
 	font-weight: bold;
 }
