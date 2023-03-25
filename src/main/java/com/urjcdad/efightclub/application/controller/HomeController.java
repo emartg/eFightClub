@@ -203,7 +203,7 @@ public class HomeController {
 		
 		return "redirect:/home";
 	}
-<<<<<<< HEAD
+
 	@GetMapping("/my_account")
 	public String viewMyAccount(Model model, HttpSession session) {			
 		if (session.getAttribute("logged") != null) {
@@ -212,7 +212,5 @@ public class HomeController {
 		}
 		return "my_account";
 	}
-=======
-	
->>>>>>> parent of 473b1b4 (Revert "Merge branch 'main' into Branch-Edson")
+
 }
