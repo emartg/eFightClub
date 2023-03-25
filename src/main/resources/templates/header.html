@@ -8,17 +8,17 @@
 		<a href="/events/my_events">MY EVENTS</a>
 	</li>
 	<li class="menu-item">
-		<a href="#">MY ACCOUNT</a>
+		<a href="/my_account">MY ACCOUNT</a>
 	</li>
 	{{/logged}}
 	{{^logged}}
 	<li class="login-button">
-		<a href="/log_in">LOG IN</a>
+		<a href="/login">LOG IN</a>
 	</li>
 	{{/logged}}
 	{{#logged}}
 	<li class="login-button">
-		<a href="/log_out">LOG OUT</a>
+		<a href="/logout">LOG OUT</a>
 	</li>
 	{{/logged}}
 </ul>

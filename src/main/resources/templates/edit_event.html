@@ -10,20 +10,20 @@
 	<div class="edit-event-body">
 		{{#event.ongoing}}
 		<form method='post' action='/events/{{event.id}}/modify_ongoing'>
-		{{/event.ongoing}}
-		{{^event.ongoing}}
-		<form method='post' action='/events/{{event.id}}/modify_upcoming'>
-		{{/event.ongoing}}
+			{{/event.ongoing}}
+			{{^event.ongoing}}
+			<form method='post' action='/events/{{event.id}}/modify_upcoming'>
+			{{/event.ongoing}}
 			<div class="edit-event-body">
 				<div class="edit-event-left">
 					<div class="edit-event-icon">
 						<!-- <img src="/events/{{id}}/image"></img> -->
 						<p>Image placeholder</p>
-						<input type='file' name='imageFile' accept=".jpg, .jpeg, .png" />
+						<input type="image">
 					</div>
 					{{#event.ongoing}}
 					<p id="edit-event-status">LIVE</p>
-					<p>Stage</p>
+					<p >Stage</p>
 					<p>{{event.numParticipants}} participants</p>
 					{{/event.ongoing}}
 					{{^event.ongoing}}
@@ -34,26 +34,26 @@
 				</div>
 				<div class="edit-event-right">
 					<div class="horizontal-list items-alignment">
-						<!-- <img src="/events/{{id}}/banner"></img> -->
-						<p>Banner image</p>
-						<input type='file' name='bannerFile' accept=".jpg, .jpeg, .png" class="create-event--form-field"/>
+							<!-- <img src="/events/{{id}}/banner"></img> -->
+							<p>Banner image</p>
+							<input type="image">
 					</div>
 					<div class="horizontal-list items-alignment">
 						<p>Event name:</p>
-						<input type="text" name="eventName" value="{{event.eventName}}">
+						<input type="text" value="{{event.eventName}}">
 					</div>
 					<div class="horizontal-list items-alignment">
 						<p>Game:</p>
-						<input type="text" name="game" value="{{event.game}}">
+						<input type="text" value="{{event.game}}">
 					</div>
 					{{^event.ongoing}}
 					<div class="horizontal-list items-alignment">
 						<p>Registration due date:</p>
-						<input type="date" name="regDate" value="{{event.regDate}}">
+						<input type="date" value="{{event.regDateStr}}">
 					</div>
 					<div class="horizontal-list items-alignment">
 						<p>Kick-off date:</p>
-						<input type="date" name="kickoffDate" value="{{event.kickoffDate}}">
+						<input type="date" value="{{event.kickoffDateStr}}">
 					</div>
 					{{/event.ongoing}}
 					<div class="modify-event">
@@ -64,7 +64,7 @@
 					</div>
 				</div>
 			</div>
-		</form>
+			</form>
 	</div>
 </div>
 

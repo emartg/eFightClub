@@ -42,6 +42,15 @@ public class Users {
 		this.password = password;				
 	}
 	
+	public Users(String username, String email, String password, 
+			String passwordCheck) {
+		if (!password.equals(passwordCheck))	
+			throw new IllegalArgumentException("The passwords do not match");
+		this.username = username;
+		this.email = email;
+		this.password = password;			
+	}
+	
 	/*
 	 * Getters
 	 */
