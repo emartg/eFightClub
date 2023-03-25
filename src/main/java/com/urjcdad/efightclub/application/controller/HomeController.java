@@ -147,4 +147,12 @@ public class HomeController {
 		
 		return "redirect:/home";
 	}
+	@GetMapping("/my_account")
+	public String viewMyAccount(Model model, HttpSession session) {			
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+		}
+		return "my_account";
+	}
 }
