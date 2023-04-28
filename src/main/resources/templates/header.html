@@ -1,26 +1,26 @@
 {{>basic_header}}
 <ul class="main-menu">
-	<li class="menu-item">
-		<a href="/home">HOME</a>
-	</li>
-	{{#logged}}
-	<li class="menu-item">
-		<a href="/events/my_events">MY EVENTS</a>
-	</li>
-	<li class="menu-item">
-		<a href="/my_account">MY ACCOUNT</a>
-	</li>
-	{{/logged}}
-	{{^logged}}
-	<li class="login-button">
-		<a href="/log_in">LOG IN</a>
-	</li>
-	{{/logged}}
-	{{#logged}}
-	<li class="login-button">
-		<a href="/log_out">LOG OUT</a>
-	</li>
-	{{/logged}}
+    <li class="menu-item">
+        <a href="/home">HOME</a>
+    </li>
+    {{#logged}}
+    <li class="menu-item">
+        <a href="/events/my_events">MY EVENTS</a>
+    </li>
+    <li class="menu-item">
+        <a href="/my_account">MY ACCOUNT</a>
+    </li>
+    {{/logged}}
+    {{^logged}}
+    <li class="login-button">
+        <a href="/login">LOG IN</a>
+    </li>
+    {{/logged}}
+    {{#logged}}
+    <li class="login-button">
+        <a href="/logout">LOG OUT</a>
+    </li>
+    {{/logged}}
 </ul>
 </header>
 
