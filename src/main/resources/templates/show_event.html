@@ -1,108 +1,58 @@
 {{>header}}
-<div class="show-event-banner">
-    <!-- <img src="/events/{{id}}/banner"></img> -->
-    <p>Banner image</p>
-</div>
 
-<div class="show-event-container vertical-list">
-    <div id="show-event-info" class="horizontal-list">
-        <div id="show-event-icon">
-            <!-- <img src="/events/{{id}}/image"></img> -->
-            <p>Image placeholder</p>
-        </div>
-        <div id="show-event-info--1">
-            <p>{{event.eventName}}</p>
-            <p>{{event.game}}</p>
+<div class="edit-event-container">
+    <h1 class="create-event--title">{{event.eventName}}</h1>
+    <div class="edit-event-body">
+        <div class="edit-event-left">
+            <div class="edit-event-icon">
+                <p>Icon placeholder</p>
+            </div>
+            {{#event.ongoing}}
             <p id="edit-event-status">LIVE</p>
+            <p >Stage</p>
+            <p>{{event.numParticipants}} participants</p>
+            {{/event.ongoing}}
+            {{^event.ongoing}}
+            <p>Registrations ends {{event.regDateStr}}</p>
+            <p>Event starts {{event.kickoffDateStr}}</p>
+            <p>{{event.numParticipants}}/{{event.numSlots}}</p>
+            {{/event.ongoing}}
         </div>
+<<<<<<< Updated upstream
+        <div class="edit-event-right">
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Banner image</p>
+            </div>
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Event name: {{event.eventName}}</p>
+            </div>
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Game: {{event.game}}</p>
+            </div>
+            {{^event.ongoing}}
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Registration due date: {{event.regDateStr}}</p>
+            </div>
+            <div class="horizontal-list edit-event-right--items-alignment">
+                <p>Kick-off date: {{event.kickoffDateStr}}</p>
+            </div>
+            {{/event.ongoing}}
+=======
 
         <p id="show-event-info--2">Semi-finals</p>
     </div>
     <div id="show-event-game" class="horizontal-list">
         <div id="show-event-game__participants">
-            <p>List of participants</p>
-
+            <p>participant list: </p>
+            	{{#event}}
+            		{{#participants}}
+            				{{username}}
+            		{{/participants}}
+            	{{/event}}
         </div>
         <div id="show-event-game__bracket">
-            
-<div class="bracket">
-    <section class="round quarterfinals">
-      <div class="winners">
-        <div class="matchups">
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant winner"><span>Uno</span></div>
-              <div class="participant"><span>Ocho</span></div>
-            </div>
-          </div>
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant"><span>Dos</span></div>
-              <div class="participant winner"><span>Siete</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="connector">
-          <div class="merger"></div>
-          <div class="line"></div>
-        </div>
-      </div>
-      <div class="winners">
-        <div class="matchups">
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant"><span>Treis</span></div>
-              <div class="participant winner"><span>Seis</span></div>
-            </div>
-          </div>
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant"><span>Cuatro</span></div>
-              <div class="participant winner"><span>Cinco</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="connector">
-          <div class="merger"></div>
-          <div class="line"></div>
-        </div>
-      </div>
-    </section>
-    <section class="round semifinals">
-      <div class="winners">
-        <div class="matchups">
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant winner"><span>Uno</span></div>
-              <div class="participant"><span>Dos</span></div>
-            </div>
-          </div>
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant winner"><span>Seis</span></div>
-              <div class="participant"><span>Cinco</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="connector">
-          <div class="merger"></div>
-          <div class="line"></div>
-        </div>
-      </div>
-    </section>
-    <section class="round finals">
-      <div class="winners">
-        <div class="matchups">
-          <div class="matchup">
-            <div class="participants">
-              <div class="participant winner"><span>Uno</span></div>
-              <div class="participant"><span>Seis</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+            <p>bracket </p>
+>>>>>>> Stashed changes
         </div>
     </div>
 </div>

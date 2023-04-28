@@ -5,6 +5,8 @@ import java.sql.Blob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -39,7 +41,7 @@ public class Event {
 	private List<Users> subscribers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
-	private List<Match> matches = new ArrayList<>();
+	private List<Matches> matches = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
 	private List<Notification> notifications = new ArrayList<>();
@@ -169,7 +171,7 @@ public class Event {
 	public List<Users> getSubscribers(){
 		return subscribers;
 	}
-	public List<Match> getMatches(){
+	public List<Matches> getMatches(){
 		return matches;
 	}
 	public List<Notification> getNotifications(){
@@ -235,21 +237,26 @@ public class Event {
 		participants.add(user);
 		numParticipants++;
 		addSubscriber(user);
+		if (numParticipants >= numSlots) {
+			assortMatches();
+		}
 	}
 	public void addSubscriber(Users user) {
 		if (!subscribers.contains(user))
 			subscribers.add(user);
-		else
-			throw new IllegalArgumentException("This player is already subscribed to the event");
+		else {
+			//throw new IllegalArgumentException("This player is already subscribed to the event");			
+		}
 	}
+	
 	public void addMatch(Date date) {
-		matches.add(new Match(this, date));		
+		matches.add(new Matches(this, date));		
 	}
 	public void addMatch(Date date, Users player1) {
-		matches.add(new Match(this, date, player1));	
+		matches.add(new Matches(this, date, player1));	
 	}
 	public void addMatch(Date date, Users player1, Users player2) {
-		matches.add(new Match(this, date, player1, player2));		
+		matches.add(new Matches(this, date, player1, player2));		
 	}
 	public void addNotification(String title) {
 		notifications.add(new Notification(this, title));
@@ -258,6 +265,51 @@ public class Event {
 		notifications.add(new Notification(this, title, text));
 	}
 	
+	public boolean isParticipant(Users user) {
+		if (participants.contains(user)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isSubscriber(Users user) {
+		if (subscribers.contains(user)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isFull() {
+		if (numParticipants >= numSlots) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void assortMatches() {
+		List <Users> temp = new ArrayList<Users> (participants);
+		Collections.shuffle(temp);
+		
+		for (int i = 0; i < (numSlots/2); i++) {
+			matches.get(i).setPlayer1(temp.get(2*i));
+			matches.get(i).setPlayer2(temp.get(2*i+1));
+		}
+		/*
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(this.getKickoffDate());		
+		while (bracket >= 2) {
+			c.add(Calendar.DATE, 1);
+			java.sql.Date matchDate = new Date (c.getTimeInMillis());
+			for (int i = 0; i <bracket; i= i++) {
+				
+				addMatch(matchDate);			
+			}
+			bracket = bracket/2;
+		}*/
+	}
 	/*
 	 * Methods to remove elements from the event
 	 */

@@ -38,7 +38,45 @@
 			<P>Upcoming events</P>
 		</div>
 		<ul>
-			{{#upcomingEvents}}
+		{{#logged}}
+		{{#upEvents}}
+			<li class="upcoming-event-list">
+				<div class="upcoming-event-post">
+					<!-- <img src="/events/{{event.id}}/image"></img>  -->
+					<div class="upcoming-event-post__text">
+						<ul>
+							<li class="upcoming-event-post__text--title">
+								<a href="/events/{{event.id}}">{{event.eventName}}</a>
+							</li>
+							<li class="upcoming-event-post__text--game">
+								{{event.game}}
+							</li>
+						</ul>
+						<ul class="upcoming-event-post__text-list">
+							<li class="upcoming-event-post__text--state">
+								{{event.kickoffDateStr}}
+							</li>
+							<li class="upcoming-event-post__text--state2">
+									{{#isFull}}							
+										<a>FULL</a>
+									{{/isFull}}
+									{{^isFull}}
+										{{#isParticipant}}							
+											<a href="/events/{{event.id}}/unregister">UNREGISTER</a>
+										{{/isParticipant}}
+										{{^isParticipant}}							
+											<a href="/events/{{event.id}}/register">REGISTER</a>											
+										{{/isParticipant}}					
+									{{/isFull}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</li>
+			{{/upEvents}}
+	{{/logged}}
+	{{^logged}}
+		{{#upcomingEvents}}
 			<li class="upcoming-event-list">
 				<div class="upcoming-event-post">
 					<!-- <img src="/events/{{id}}/image"></img>  -->
@@ -54,15 +92,13 @@
 						<ul class="upcoming-event-post__text-list">
 							<li class="upcoming-event-post__text--state">
 								{{kickoffDateStr}}
-							</li>
-							<li class="upcoming-event-post__text--state2">
-							<a href="/events/{{id}}/register">REGISTER</a>
-							</li>
+							</li>					
 						</ul>
 					</div>
 				</div>
 			</li>
 			{{/upcomingEvents}}
+	{{/logged}}		
 		</ul>
 	</div>
 </div>

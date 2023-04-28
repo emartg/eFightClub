@@ -5,11 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.urjcdad.efightclub.application.model.Event;
-import com.urjcdad.efightclub.application.model.Match;
+import com.urjcdad.efightclub.application.model.Matches;
 
-public interface MatchRepository extends JpaRepository <Match, Long> {
-	
-	List<Match> findByEvent(Event event);	
-	List<Match> findByDate(Date date);
-	
+public interface MatchesRepository extends JpaRepository <Matches, Long>{
+	List<Matches> findByEvent(Event event);	
+	List<Matches> findByDate(Date date);
 }

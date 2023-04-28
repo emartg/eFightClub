@@ -2,6 +2,7 @@ package com.urjcdad.efightclub.application.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,18 +13,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.urjcdad.efightclub.application.model.Event;
+import com.urjcdad.efightclub.application.model.Matches;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
+import com.urjcdad.efightclub.application.repository.MatchesRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
 import com.urjcdad.efightclub.application.service.EventService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/events")
 public class EventController {
 	
 	@Autowired
@@ -33,9 +34,12 @@ public class EventController {
 	private EventRepository eventRepository;
 	
 	@Autowired
+	private MatchesRepository matchesRepository;
+	
+	@Autowired
 	private EventService eventService;
 
-	@GetMapping("/create")
+	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -45,7 +49,7 @@ public class EventController {
 		return "create_event";
 	}
 	
-	@PostMapping("/new")
+	@PostMapping("/events/new")
 	public String createEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
@@ -53,8 +57,8 @@ public class EventController {
 		
 		// Ensure the user has entered all the required parameters to
 		// create an event. Otherwise, reload the page
-		if (eventName.isBlank() || game.isBlank() || regDate == null || 
-				kickoffDate == null || numSlots.isBlank())
+		if (eventName == "" || game == "" || regDate == null || 
+				kickoffDate == null || numSlots == "")
 			return "redirect:/events/create";
 		
 		// Ensure that the new event registration due date is a 
@@ -76,13 +80,28 @@ public class EventController {
 		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
 		Integer slots = Integer.parseInt(numSlots); // parse the number of participants to an integer
 		Event event = new Event(eventName, game, regDate, kickoffDate, slots, user);
-		
+		eventRepository.save(event);
+		slots = slots/2;
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(kickoffDate);				
+		while (slots >= 2) {
+			Date matchDate = new Date (c.getTimeInMillis());
+			for (int i =0; i < slots; i++) {				
+				Matches match = new Matches (event, matchDate);
+				matchesRepository.save(match);
+			}		
+			c.add(Calendar.DATE, 1);
+			slots = (slots/2);
+		}
+		Date matchDate = new Date (c.getTimeInMillis());
+		Matches match = new Matches (event, matchDate);
+		matchesRepository.save(match);
 		eventRepository.save(event);
 		
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/events/{id}")
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -97,7 +116,7 @@ public class EventController {
 		return "show_event";
 	}
 	
-	@GetMapping("/{id}/edit")
+	@GetMapping("/events/{id}/edit")
 	public String editEvent(Model model, HttpSession session,
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -112,7 +131,7 @@ public class EventController {
 		return "edit_event";
 	}
 	
-	@PostMapping("/{id}/modify_ongoing")
+	@PostMapping("/events/{id}/modify_ongoing")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@PathVariable long id) {
@@ -125,9 +144,9 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();
 		
 		// Update the different event fields
-		if (!eventName.isBlank())
+		if (eventName != "")
 			event.setEventName(eventName);
-		if (!game.isBlank())
+		if (game != "")
 			event.setGame(game);
 		
 		// Update the database
@@ -136,11 +155,11 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@PostMapping("/{id}/modify_upcoming")
+	@PostMapping("/events/{id}/modify_upcoming")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate,
-			@PathVariable long id) {
+			@RequestParam String numSlots, @PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
@@ -165,14 +184,38 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();
 		
 		// Update the different event fields
-		if (!eventName.isBlank())
+		if (eventName != "")
 			event.setEventName(eventName);
-		if (!game.isBlank())
+		if (game != "")
 			event.setGame(game);
 		if (regDate != null)
 			event.setRegDate(regDate);
 		if (kickoffDate != null)
 			event.setKickoffDate(kickoffDate);
+<<<<<<< Updated upstream
+		if (numSlots != "") {
+			Integer slots = Integer.parseInt(numSlots);
+			event.setNumSlots(slots);
+		}
+=======
+			for (int i =0; i < event.getMatches().size(); i++) {				
+				int slots = event.getNumSlots()/2;
+				Calendar c = Calendar.getInstance(); 
+				c.setTime(kickoffDate);				
+				int k = 0;
+				while (slots >= 2) {
+					Date matchDate = new Date (c.getTimeInMillis());
+					for (int j =0; j < slots; j++) {				
+						event.getMatches().get(k).setDate(matchDate);
+						k ++;
+					}		
+					c.add(Calendar.DATE, 1);
+					slots = (slots/2);
+				}
+				Date matchDate = new Date (c.getTimeInMillis());
+				event.getMatches().get(k).setDate(matchDate);
+			}
+>>>>>>> Stashed changes
 		
 		// Update the database
 		eventRepository.save(event);
@@ -180,7 +223,7 @@ public class EventController {
 		return "redirect:/events/my_events";
 	}
 	
-	@GetMapping("/{id}/delete")
+	@GetMapping("/events/{id}/delete")
 	public String deleteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -193,8 +236,8 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/{id}/register")
-	public String register(Model model, HttpSession session, 
+	@GetMapping("/events/{id}/register")
+	public String competeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -216,8 +259,35 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
+<<<<<<< Updated upstream
+	@GetMapping("/events/{id}/subscribe")
+=======
+	@GetMapping("/{id}/unregister")
+	public String uncompeteEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			
+			long your_milliseconds = System.currentTimeMillis();
+			Date currentDate = new Date(your_milliseconds);
+			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Event event = eventRepository.findById(id).get();
+			
+			// Only remove user to the event if the registration
+			// has not closed yet
+			if (event.getRegDate().compareTo(currentDate) > 0) {
+				event.removeParticipant(user);	
+				eventRepository.save(event);
+			}
+		}
+	
+		return "redirect:/home";
+	}
+	
 	@GetMapping("/{id}/subscribe")
-	public String subscribe(Model model, HttpSession session, 
+>>>>>>> Stashed changes
+	public String subscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
@@ -232,7 +302,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/my_events")
+	@GetMapping("/events/my_events")
 	public String myEvents(Model model, HttpSession session) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
