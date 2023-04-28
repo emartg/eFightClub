@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Match {
+public class Matches {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +17,7 @@ public class Match {
 	
 	private Date date;
 	private int winner = 0;
+	private int tempWinner = 0;
 	
 	@ManyToOne
 	private Users player1;
@@ -29,40 +30,40 @@ public class Match {
 	/*
 	 * Constructors 
 	 */
-	protected Match() {}
+	protected Matches() {}
 	
-	public Match(Event event, Date date) {
+	public Matches(Event event, Date date) {
 		this.event = event;
 		this.date = date;
 	}
 	
-	public Match(Event event, Date date, Users player1) {
+	public Matches(Event event, Date date, Users player1) {
 		this.event = event;
 		this.date = date;
 		this.player1 = player1;
 	}
 
-	public Match(Event event, Date date, Users player1, Users player2) {
+	public Matches(Event event, Date date, Users player1, Users player2) {
 		this.event = event;
 		this.date = date;
 		this.player1 = player1;
 		this.player2 = player2;
 	}
 	
-	public Match(Event event) {
+	public Matches(Event event) {
 		this.event = event;
         long millis = System.currentTimeMillis();  
 		this.date = new java.sql.Date(millis);
 	}
 	
-	public Match(Event event, Users player1) {
+	public Matches(Event event, Users player1) {
 		this.event = event;
 	    long millis = System.currentTimeMillis();  
 	    date = new java.sql.Date(millis);
 		this.player1 = player1;
 	}
 
-	public Match(Event event, Users player1, Users player2) {
+	public Matches(Event event, Users player1, Users player2) {
 		this.event = event;
 	    long millis = System.currentTimeMillis();  
 		date = new java.sql.Date(millis);
@@ -92,6 +93,15 @@ public class Match {
 			throw new NullPointerException("No player assigned yet");
 		return player2;		
 	}
+	
+	public int getPlayerNumber(Users user) {
+		if (player1 == user) {
+			return 1;
+		}else {
+			return 2;
+		}		
+	}
+	
 	public int getWinner() {
 		if (winner == 0)
 			throw new NullPointerException("No winner assigned yet");
@@ -131,10 +141,46 @@ public class Match {
 			setPlayer1(player);
 		
 	}
-	public void setWinner(int winner) {		
+	private void setWinner(int winner) {
 		if (winner < 1 || winner > 2)
 			throw new IllegalArgumentException("The winner must be either 1 or 2");
 		this.winner = winner;
+	}
+	
+	
+	public void selectWinner(int winner) {
+		if (this.winner == 0) {			
+			if (winner < 1 || winner > 2)
+				throw new IllegalArgumentException("The winner must be either 1 or 2");
+			if (tempWinner == 0) {			
+				this.tempWinner = winner;
+			}else {			
+				if (this.tempWinner == winner) {				
+					setWinner(winner);
+				}else {
+					throw new IllegalArgumentException("Both players voted for a diffferent Winner");
+				}
+			}
+		}else {
+			throw new IllegalArgumentException("Winner has already been decided");			
+		}		
+	}
+	
+	public void forfeit (Users user) {
+		if (this.player1==null || this.player2==null) {
+			throw new IllegalArgumentException("There are not 2 contestants yet, forfeiting now is not allowed");
+		}
+		if (this.winner!=0) {
+			throw new IllegalArgumentException("Winner has already been decided");				
+		}
+		//This integer get assigned the value of the other player
+		int winnerByDefault = (getPlayerNumber(user)%2)+1;
+		setWinner(winnerByDefault);
+	}
+	
+	private int nextMatchAssignment(int currentMatch, int rosterSize) {
+		
+		return 1;
 	}
 	
 }

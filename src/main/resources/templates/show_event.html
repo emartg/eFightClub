@@ -18,6 +18,7 @@
             <p>{{event.numParticipants}}/{{event.numSlots}}</p>
             {{/event.ongoing}}
         </div>
+<<<<<<< Updated upstream
         <div class="edit-event-right">
             <div class="horizontal-list edit-event-right--items-alignment">
                 <p>Banner image</p>
@@ -36,6 +37,22 @@
                 <p>Kick-off date: {{event.kickoffDateStr}}</p>
             </div>
             {{/event.ongoing}}
+=======
+
+        <p id="show-event-info--2">Semi-finals</p>
+    </div>
+    <div id="show-event-game" class="horizontal-list">
+        <div id="show-event-game__participants">
+            <p>participant list: </p>
+            	{{#event}}
+            		{{#participants}}
+            				{{username}}
+            		{{/participants}}
+            	{{/event}}
+        </div>
+        <div id="show-event-game__bracket">
+            <p>bracket </p>
+>>>>>>> Stashed changes
         </div>
     </div>
 </div>

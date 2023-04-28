@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
@@ -40,10 +41,15 @@ public class HomeController {
 			session.removeAttribute("errorUsername");
 			session.removeAttribute("errorEmail");
 		}
+		Users currentUser = null;
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
+			String currentUsername = session.getAttribute("username").toString();
+			currentUser = userRepository.findByUsername(currentUsername);
+
 		}
+		//Get current User
 		
 		// Get all the events in the repository
 		List<Event> events = eventRepository.findAll();
@@ -51,7 +57,8 @@ public class HomeController {
 		// Lists for ongoing and upcoming events
 		List<Event> ongoingEvents = new ArrayList<Event>();
 		List<Event> upcomingEvents = new ArrayList<Event>();
-		
+		List<Boolean> participant = new ArrayList<Boolean>();
+		List <AuxiliarEventUsers> upEvents = new ArrayList<AuxiliarEventUsers>();
 		// Sort events by descending date
 		eventService.sortEventsByDescDate(events);
 		
@@ -61,15 +68,23 @@ public class HomeController {
 		Date currentDate = new Date(your_milliseconds);	
 		for (Event event: events)
 			if(event.getKickoffDate().compareTo(currentDate) < 0)
+			{
 				ongoingEvents.add(event);
+			}
 			else
+			{
 				upcomingEvents.add(event);
-		
+				if (currentUser!=null) {
+					upEvents.add(new AuxiliarEventUsers(event, currentUser));
+				}
+			}
 		model.addAttribute("ongoingEvents", ongoingEvents);
 		model.addAttribute("upcomingEvents", upcomingEvents);
-		
+		model.addAttribute("upEvents", upEvents);
 		return "home";
 	}
+	
+
 	
 	@GetMapping("/login")
 	public String logIn(Model model, HttpSession session) {
