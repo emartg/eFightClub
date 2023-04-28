@@ -192,12 +192,6 @@ public class EventController {
 			event.setRegDate(regDate);
 		if (kickoffDate != null)
 			event.setKickoffDate(kickoffDate);
-<<<<<<< Updated upstream
-		if (numSlots != "") {
-			Integer slots = Integer.parseInt(numSlots);
-			event.setNumSlots(slots);
-		}
-=======
 			for (int i =0; i < event.getMatches().size(); i++) {				
 				int slots = event.getNumSlots()/2;
 				Calendar c = Calendar.getInstance(); 
@@ -214,9 +208,7 @@ public class EventController {
 				}
 				Date matchDate = new Date (c.getTimeInMillis());
 				event.getMatches().get(k).setDate(matchDate);
-			}
->>>>>>> Stashed changes
-		
+			}		
 		// Update the database
 		eventRepository.save(event);
 	
@@ -259,9 +251,6 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-<<<<<<< Updated upstream
-	@GetMapping("/events/{id}/subscribe")
-=======
 	@GetMapping("/{id}/unregister")
 	public String uncompeteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
@@ -285,8 +274,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/{id}/subscribe")
->>>>>>> Stashed changes
+
 	public String subscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
