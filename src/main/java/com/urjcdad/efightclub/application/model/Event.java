@@ -190,6 +190,10 @@ public class Event {
 	public void addMatch(Date date) {
 		matches.add(new Matches(this, date));		
 	}
+	public void addMatch(Matches match) {
+		matches.add(match);		
+	}
+	
 	public void addMatch(Date date, Users player1) {
 		matches.add(new Matches(this, date, player1));	
 	}
@@ -247,6 +251,18 @@ public class Event {
 			}
 			bracket = bracket/2;
 		}*/
+	}
+	
+	
+	private int nextMatchAssignment(int currentMatch, int rosterSize) {
+		int initialMatches = rosterSize/2;
+		if ((currentMatch+1)>=(rosterSize-1)) {
+			return -1; //This indicates that its the final, and needs to be specified
+		}else {			
+			if (currentMatch%2 != 0) 
+				currentMatch--;
+			return (currentMatch + (initialMatches-(currentMatch/2)));
+		}
 	}
 	/*
 	 * Methods to remove elements from the event

@@ -1,9 +1,10 @@
 {{>header}}
 
 <div class="edit-event-container">
-    <h1 class="create-event--title">{{event.eventName}}</h1>
+    <h1 class="create-event--title">{{eventUser.event.eventName}}</h1>
     <div class="edit-event-body">
         <div class="edit-event-left">
+           {{#eventUser}}        
             <div class="edit-event-icon">
                 <p>Icon placeholder</p>
             </div>
@@ -36,12 +37,11 @@
                 <p>Kick-off date: {{event.kickoffDateStr}}</p>
             </div>
             {{/event.ongoing}}
-
         <p id="show-event-info--2">Semi-finals</p>
     </div>
     <div id="show-event-game" class="horizontal-list">
         <div id="show-event-game__participants">
-            <p>participant list: </p>
+            <p>participant list: </p>            
             	{{#event}}
             		{{#participants}}
             				{{username}}
@@ -50,6 +50,24 @@
         </div>
         <div id="show-event-game__bracket">
             <p>bracket </p>
+             	{{#eventMatches}}
+            		{{#isP1}}
+            			{{eventMatch.player1.username}}       
+            		{{/isP1}}
+            		{{^isP1}}
+            			???
+            		{{/isP1}}
+            		    VS
+            		{{#isP2}}
+            			{{eventMatch.player2.username}}   
+            		{{/isP2}}
+            		{{^isP2}}
+            			???
+            		{{/isP2}}			
+            		,
+            	{{/eventMatches}}
+            {{/eventUser}}        
+            	
         </div>
     </div>
 </div>

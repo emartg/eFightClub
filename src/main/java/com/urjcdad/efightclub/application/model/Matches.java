@@ -176,11 +176,27 @@ public class Matches {
 		//This integer get assigned the value of the other player
 		int winnerByDefault = (getPlayerNumber(user)%2)+1;
 		setWinner(winnerByDefault);
+	}	
+	
+	public boolean checkP1() {
+		if (player1 == null) {
+			return false;
+		}else {
+			return true;
+		}		
 	}
 	
-	private int nextMatchAssignment(int currentMatch, int rosterSize) {
-		
-		return 1;
+	public boolean checkP2() {
+		if (player2 == null) {
+			return false;
+		}else {
+			return true;
+		}		
 	}
 	
+	public boolean checkNoWinner() {
+		if (winner == 0)
+			return true;
+		return false;
+	}
 }
