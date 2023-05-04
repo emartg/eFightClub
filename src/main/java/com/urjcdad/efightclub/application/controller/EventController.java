@@ -166,8 +166,7 @@ public class EventController {
 	@PostMapping("/events/{id}/modify_upcoming")
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
-			@RequestParam Date regDate, @RequestParam Date kickoffDate,
-			@RequestParam String numSlots, @PathVariable long id) {
+			@RequestParam Date regDate, @RequestParam Date kickoffDate, @PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
