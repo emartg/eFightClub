@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Matches;
 import com.urjcdad.efightclub.application.model.Users;
@@ -89,6 +90,7 @@ public class EventController {
 			for (int i =0; i < slots; i++) {				
 				Matches match = new Matches (event, matchDate);
 				matchesRepository.save(match);
+				event.addMatch(match);
 			}		
 			c.add(Calendar.DATE, 1);
 			slots = (slots/2);
@@ -96,6 +98,7 @@ public class EventController {
 		Date matchDate = new Date (c.getTimeInMillis());
 		Matches match = new Matches (event, matchDate);
 		matchesRepository.save(match);
+		event.addMatch(match);
 		eventRepository.save(event);
 		
 		return "redirect:/events/my_events";
@@ -104,14 +107,19 @@ public class EventController {
 	@GetMapping("/events/{id}")
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
+		Users currentUser = null;
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
+			String currentUsername = session.getAttribute("username").toString();
+			currentUser = userRepository.findByUsername(currentUsername);
 		}
 		
 		// Get the existing event from the repository
-		Event event = eventRepository.findById(id).get();
-		model.addAttribute("event", event);
+		Event event = eventRepository.findById(id).get();		
+		AuxiliarEventUsers eventUser = new AuxiliarEventUsers(event, currentUser);
+		model.addAttribute("eventUser", eventUser);
+		
 	
 		return "show_event";
 	}
@@ -226,7 +234,7 @@ public class EventController {
 		eventRepository.deleteById(id);
 	
 		return "redirect:/home";
-	}
+	}	
 	
 	@GetMapping("/events/{id}/register")
 	public String competeEvent(Model model, HttpSession session, 
@@ -273,6 +281,7 @@ public class EventController {
 	
 		return "redirect:/home";
 	}
+	
 	
 
 	public String subscribeEvent(Model model, HttpSession session, 
