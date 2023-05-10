@@ -332,5 +332,26 @@ public class EventController {
 		
 		return "my_events";
 	}
+	@GetMapping("/events/{id}/matches")
+	public String matchFinished(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			
+			long your_milliseconds = System.currentTimeMillis();
+			Date currentDate = new Date(your_milliseconds);
+			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Event event = eventRepository.findById(id).get();
+			
+			// Only add user to the event if the registration
+			// has not closed yet
+			
+			
+		}
+	
+		return "redirect:/events/{id}";
+	}
+	
 	
 }

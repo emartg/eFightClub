@@ -18,7 +18,7 @@ import javax.persistence.Entity;
 		userChecker(user);
 		for (int i = 0; i <event1.getMatches().size(); i++) {
 			Matches tempMatch = event1.getMatches().get(i);
-			eventMatches.add(new AuxiliarEventMatchPlayers(tempMatch, user));			
+			eventMatches.add(new AuxiliarEventMatchPlayers(tempMatch, user, i, event.getNumParticipants()));			
 		}
 	}
 
