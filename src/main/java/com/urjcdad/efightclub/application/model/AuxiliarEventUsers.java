@@ -10,15 +10,17 @@ import javax.persistence.Entity;
 		private Boolean isParticipant;
 		private Boolean isSubscriber; 	
 		private Boolean isFull;
+		private long id;
 		public List <AuxiliarEventMatchPlayers> eventMatches = new ArrayList<AuxiliarEventMatchPlayers>();;
 		
 		
 	public AuxiliarEventUsers (Event event1, Users user) {
 		this.event = event1;	
+		id = event.getId();
 		userChecker(user);
 		for (int i = 0; i <event1.getMatches().size(); i++) {
 			Matches tempMatch = event1.getMatches().get(i);
-			eventMatches.add(new AuxiliarEventMatchPlayers(tempMatch, user, i, event.getNumParticipants()));			
+			eventMatches.add(new AuxiliarEventMatchPlayers(tempMatch, user, i, event.getNumParticipants(), i));			
 		}
 	}
 
@@ -35,6 +37,16 @@ import javax.persistence.Entity;
 		
 			
 	}
+	
+	public int getMatchActId () {
+	int a = 0;
+	for (int i = 0; i < eventMatches.size(); i++) {
+		if (eventMatches.get(i).canAct) {
+			a = i;
+		}		
+	}	
+	return a;	
+}
 
 	
 }
