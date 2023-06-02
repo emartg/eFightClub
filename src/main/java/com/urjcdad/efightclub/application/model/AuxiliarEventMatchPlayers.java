@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 		public boolean isP2;
 		public boolean canAct;
 		public int matchPosition;
+		
+		public boolean isFinals= false, isSemis= false, isQuarters= false, isEights = false;
 
 
 		
@@ -36,48 +38,58 @@ import javax.persistence.Entity;
 			}			
 		}else {
 			canAct = false;
-		}
+		}		
+		
 		switch(totalParticipants) 
 		{
 			case 4:
 				if(index == 0 || index == 1) 
 				{
 					matchPosition = 2;
+					isSemis = true;
 				}
 				else
 				{
 					matchPosition = 3;
+					isFinals= true;
 				}
 				break;
 			case 8:
 				if(index <= 3 ) 
 				{
+					isQuarters=true;
 					matchPosition = 1;
 				}
 				else if(index == 6)
 				{
 					matchPosition = 3;
+					isFinals=true;
 				}
 				else
 				{
 					matchPosition = 2;
+					isSemis=true;
 				}
 				break;
 			case 16:
 				if(index > 7 && index<= 11) 
 				{
 					matchPosition = 1;
+					isQuarters=true;
 				}
 				else if(index > 11 && index <= 13)
 				{
+					isSemis=true;
 					matchPosition = 2;
 				}
 				else if(index == 14)
 				{
+					isFinals=true;
 					matchPosition = 3;
 				}
 				else
 				{
+					isEights=true;
 					matchPosition = 0;
 				}
 				break;

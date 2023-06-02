@@ -32,17 +32,16 @@
                 {{/event}}
             </ul>
         </div>
-        <div id="bracket-display" class="horizontal-list">
-            
+        <div id="bracket-display">
             <div class="round r-of-4">
-                {{#eventMatches}}        
+                {{#eventMatches}}
                 <div class="bracket-game-{{matchPosition}}">
                     <div class="player top">
                         {{#isP1}}
-                            {{eventMatch.player1.username}}                            
+                        {{eventMatch.player1.username}}
                         {{/isP1}}
                         {{^isP1}}
-                            ???
+                        ???
                         {{/isP1}}
                         <div class="score">
                             <a href="" class="fill-div">
@@ -52,10 +51,10 @@
                     </div>
                     <div class="player bot ">
                         {{#isP2}}
-                            {{eventMatch.player2.username}}
+                        {{eventMatch.player2.username}}
                         {{/isP2}}
                         {{^isP2}}
-                            ???
+                        ???
                         {{/isP2}}
                         <div class="score">
                             <a href="" class="fill-div">
@@ -64,9 +63,12 @@
                         </div>
                     </div>
                 </div>
-                {{/eventMatches}} 
-            {{/eventUser}}
+                {{/eventMatches}}
+                {{/eventUser}}
+                <div id="quartersFill">a</div>
+                <div id="semisFill">b</div>
+                <div id="finalFill">c</div>
+            </div>
         </div>
     </div>
-</div>
-{{>footer}}
+    {{>footer}}
