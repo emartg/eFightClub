@@ -315,6 +315,22 @@ public class Event {
 		}*/
 	}
 	
+	public void setMatchWinner(int matchId, int winnerId){
+		if (matches.get(matchId).selectWinner(winnerId)) {
+			Users matchWinner = matches.get(matchId).getWinnerUser();
+			int nextMatchId = nextMatchAssignment(matchId, numSlots);
+			if (nextMatchId == -1) {
+				this.winner = matchWinner;
+			}else {				
+				if (matchId % 2 == 0) {
+					matches.get(nextMatchId).setPlayer1(matchWinner);
+				}else {
+					matches.get(nextMatchId).setPlayer2(matchWinner);
+				}
+			}
+		}
+	}
+	
 	
 	private int nextMatchAssignment(int currentMatch, int rosterSize) {
 		int initialMatches = rosterSize/2;

@@ -12,12 +12,14 @@ import javax.persistence.Entity;
 		public boolean isP2;
 		public boolean canAct;
 		public int matchPosition;
+		public int matchId;
 
 
 		
 		
-	public AuxiliarEventMatchPlayers (Matches match1, Users user, int index, int totalParticipants) {
+	public AuxiliarEventMatchPlayers (Matches match1, Users user, int index, int totalParticipants, int pos) {
 		this.eventMatch = match1;
+		this.matchId = pos;
 		if (eventMatch.checkP1()) {
 			isP1 = true;
 		}else {

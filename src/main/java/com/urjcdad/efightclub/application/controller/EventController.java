@@ -124,6 +124,28 @@ public class EventController {
 		return "show_event";
 	}
 	
+	
+	@PostMapping("/events/{id}")
+	public String showEvent(Model model, HttpSession session, 
+			@PathVariable long id, @RequestParam int Winner) {
+		Users currentUser = null;
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			String currentUsername = session.getAttribute("username").toString();
+			currentUser = userRepository.findByUsername(currentUsername);
+		}
+		
+		// Get the existing event from the repository
+		Event event = eventRepository.findById(id).get();		
+		AuxiliarEventUsers eventUser = new AuxiliarEventUsers(event, currentUser);
+		int matchId = eventUser.getMatchActId();
+		event.setMatchWinner(matchId, Winner);
+		eventRepository.save(event);
+		return "redirect:/events/{id}";
+	}
+	
+	
 	@GetMapping("/events/{id}/edit")
 	public String editEvent(Model model, HttpSession session,
 			@PathVariable long id) {

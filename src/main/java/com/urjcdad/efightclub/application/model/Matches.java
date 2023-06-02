@@ -148,21 +148,23 @@ public class Matches {
 	}
 	
 	
-	public void selectWinner(int winner) {
+	public Boolean selectWinner(int winner) {
 		if (this.winner == 0) {			
 			if (winner < 1 || winner > 2)
 				throw new IllegalArgumentException("The winner must be either 1 or 2");
 			if (tempWinner == 0) {			
 				this.tempWinner = winner;
+				return false;
 			}else {			
 				if (this.tempWinner == winner) {				
 					setWinner(winner);
+					return true;
 				}else {
 					throw new IllegalArgumentException("Both players voted for a diffferent Winner");
 				}
 			}
 		}else {
-			throw new IllegalArgumentException("Winner has already been decided");			
+			throw new IllegalArgumentException("Winner has already been decided");
 		}		
 	}
 	
