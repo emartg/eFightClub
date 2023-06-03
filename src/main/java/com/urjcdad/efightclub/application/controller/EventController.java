@@ -140,7 +140,7 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();		
 		AuxiliarEventUsers eventUser = new AuxiliarEventUsers(event, currentUser);
 		int matchId = eventUser.getMatchActId();
-		event.setMatchWinner(matchId, Winner);
+		event.setMatchWinner(matchId, Winner, currentUser);
 		eventRepository.save(event);
 		return "redirect:/events/{id}";
 	}

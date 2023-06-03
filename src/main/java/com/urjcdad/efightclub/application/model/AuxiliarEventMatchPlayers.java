@@ -25,6 +25,7 @@ import javax.persistence.Entity;
 	public AuxiliarEventMatchPlayers (Matches match1, Users user, int index, int totalParticipants, int pos) {
 		this.eventMatch = match1;
 		this.matchId = pos;
+		int position = this.eventMatch.getPlayerNumber(user) -1;
 		if (eventMatch.checkP1()) {
 			isP1 = true;
 		}else {
@@ -36,7 +37,7 @@ import javax.persistence.Entity;
 			isP2 = false;
 		}
 		if (user != null) {
-			if (isP1 ==true && isP2 == true && eventMatch.checkNoWinner() && (eventMatch.getPlayer1().equals(user)||eventMatch.getPlayer2().equals(user))) {
+			if (isP1 ==true && isP2 == true && eventMatch.checkNoWinner(position) && (eventMatch.getPlayer1().equals(user)||eventMatch.getPlayer2().equals(user))) {
 				canAct = true;
 			}else {
 				canAct = false;

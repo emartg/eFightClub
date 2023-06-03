@@ -17,7 +17,7 @@ public class Matches {
 	
 	private Date date;
 	private int winner = 0;
-	private int tempWinner = 0;
+	private int [] tempWinner = {0,0};
 	
 	@ManyToOne
 	private Users player1;
@@ -148,22 +148,31 @@ public class Matches {
 	}
 	
 	
-	public Boolean selectWinner(int winner) {
+	public Boolean selectWinner(int winner, Users user) {
+		int position = this.getPlayerNumber(user);
+		if (position == -1) {
+			throw new IllegalArgumentException("This user shouldn't be able to vote on this match");
+		}
 		if (this.winner == 0) {			
 			if (winner < 1 || winner > 2)
 				throw new IllegalArgumentException("The winner must be either 1 or 2");
-			if (tempWinner == 0) {			
-				this.tempWinner = winner;
-				return false;
+			if (tempWinner[position-1] == 0) {			
+				this.tempWinner[position-1] = winner;
 			}else {			
-				if (this.tempWinner == winner) {				
-					setWinner(winner);
+				throw new IllegalArgumentException("This player already voted");	
+			}
+			if (tempWinner[0] !=0 && tempWinner[1] != 0) {
+				if(tempWinner[0] == tempWinner[1]) {
+					this.setWinner(winner);
 					return true;
 				}else {
-					throw new IllegalArgumentException("Both players voted for a diffferent Winner");
+					throw new IllegalArgumentException("Both players voted for different winners");	
 				}
+			}else {
+				return false;
 			}
-		}else {
+			
+		}else{
 			throw new IllegalArgumentException("Winner has already been decided");
 		}		
 	}
@@ -196,9 +205,20 @@ public class Matches {
 		}		
 	}
 	
-	public boolean checkNoWinner() {
-		if (winner == 0)
+	public boolean checkNoWinner(int pos) {
+		if (tempWinner[pos]==0)
 			return true;
 		return false;
 	}
+	
+	public int checkPlayerPos(Users user) {
+		if (user == this.getPlayer1()) {
+			return 1;
+		}
+		if (user == this.getPlayer2()) {
+			return 2;
+		}
+		return -1;
+	}
+	
 }
