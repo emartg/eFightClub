@@ -180,7 +180,6 @@ form li {
 .my-account-container {
 	padding-top: 100px;
 	color: #0F3460;
-
 }
 
 .my-account-form {
@@ -215,6 +214,30 @@ form li {
 	color: white;
 	height: 45px;
 	width: 115px;
+}
+
+#my-account-notifications{
+	padding-top: 100px;
+	padding-left: 50px;	
+	
+}
+#my-account-notifications h2{
+	padding-bottom: 10px;
+}
+#notifications-list li{
+	padding-bottom: 40px;
+}
+
+.notification-item{
+	margin-bottom: 20px;
+	height: 100px;
+	width: 300px;
+	background-color:#FFCE1F;	
+	
+}
+.notification-item p{
+	padding: 10px 10px 0 10px;
+	text-align: justify;
 }
 
 /* Home */
