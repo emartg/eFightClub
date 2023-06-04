@@ -148,9 +148,7 @@ public class Event {
 	public Users getCreator() {
 		return creator;		
 	}
-	public Users getWinner() {
-		if (winner == null)
-			throw new NullPointerException("There is no winner yet");
+	public Users getWinner() {		
 		return winner;
 	}
 	public String getImageName() {
@@ -228,7 +226,7 @@ public class Event {
 	/*
 	 * Methods to add elements to the event
 	 */
-	public void addParticipant(Users user) {
+	public boolean addParticipant(Users user) {
 		if (participants.contains(user))
 			throw new IllegalArgumentException("This player is already participating in the event");
 		else if (numParticipants >= numSlots)
@@ -237,9 +235,11 @@ public class Event {
 		participants.add(user);
 		numParticipants++;
 		addSubscriber(user);
-		if (numParticipants >= numSlots) {
+		if (numParticipants >= numSlots) {			
 			assortMatches();
+			return true;
 		}
+		return false;
 	}
 	public void addSubscriber(Users user) {
 		if (!subscribers.contains(user))
@@ -264,6 +264,9 @@ public class Event {
 	}
 	public void addNotification(String title) {
 		notifications.add(new Notification(this, title));
+	}
+	public void addNotification(Notification notification) {
+		notifications.add(notification);
 	}
 	public void addNotification(String title, String text) {
 		notifications.add(new Notification(this, title, text));
@@ -315,20 +318,23 @@ public class Event {
 		}*/
 	}
 	
-	public void setMatchWinner(int matchId, int winnerId, Users usuario){
+	public boolean setMatchWinner(int matchId, int winnerId, Users usuario){
 		if (matches.get(matchId).selectWinner(winnerId, usuario)) {
 			Users matchWinner = matches.get(matchId).getWinnerUser();
 			int nextMatchId = nextMatchAssignment(matchId, numSlots);
 			if (nextMatchId == -1) {
-				this.winner = matchWinner;
-			}else {				
+				this.winner = matchWinner;				
+				return true;
+			}else {						
 				if (matchId % 2 == 0) {
 					matches.get(nextMatchId).setPlayer1(matchWinner);
 				}else {
 					matches.get(nextMatchId).setPlayer2(matchWinner);
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	

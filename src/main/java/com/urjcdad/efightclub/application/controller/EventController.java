@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Matches;
+import com.urjcdad.efightclub.application.model.Notification;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
 import com.urjcdad.efightclub.application.repository.MatchesRepository;
+import com.urjcdad.efightclub.application.repository.NotificationRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
 import com.urjcdad.efightclub.application.service.EventService;
 
@@ -36,6 +38,9 @@ public class EventController {
 	
 	@Autowired
 	private MatchesRepository matchesRepository;
+	
+	@Autowired
+	private NotificationRepository notificationRepository;
 	
 	@Autowired
 	private EventService eventService;
@@ -140,7 +145,20 @@ public class EventController {
 		Event event = eventRepository.findById(id).get();		
 		AuxiliarEventUsers eventUser = new AuxiliarEventUsers(event, currentUser);
 		int matchId = eventUser.getMatchActId();
-		event.setMatchWinner(matchId, Winner, currentUser);
+		if (event.setMatchWinner(matchId, Winner, currentUser)) {
+			String title = new String(event.getEventName()+" ; match nº"+matchId+" results");
+			String body = new String("player "+event.getMatches().get(matchId).getWinnerUser().getUsername()+ " won match nº"+matchId);			
+			Notification notif = new Notification(event, title, body);
+			notificationRepository.save(notif);
+			event.addNotification(notif);
+			if (event.getWinner()!=null) {				
+				 title = new String(event.getEventName()+" ended");
+				 body = new String("player "+event.getWinner().getUsername()+ " won the tournament!");
+				Notification notif2 = new Notification(event, title, body);
+				notificationRepository.save(notif2);	
+				event.addNotification(notif2);
+			}
+		}
 		eventRepository.save(event);
 		return "redirect:/events/{id}";
 	}
@@ -272,7 +290,14 @@ public class EventController {
 			// Only add user to the event if the registration
 			// has not closed yet
 			if (event.getRegDate().compareTo(currentDate) > 0) {
-				event.addParticipant(user);	
+				if (event.addParticipant(user)) {
+					String title = new String(event.getEventName()+" is full!");
+					String body = new String("event "+event.getEventName() +" has filled out, get ready!");			
+					Notification notif = new Notification(event, title, body);
+					notificationRepository.save(notif);
+					event.addNotification(notif);
+
+				}	
 				eventRepository.save(event);
 			}
 		}
@@ -350,7 +375,8 @@ public class EventController {
 				upcomingEvents.add(event);
 		
 		model.addAttribute("ongoingEvents", ongoingEvents);
-		model.addAttribute("upcomingEvents", upcomingEvents);
+		model.addAttribute("upcomingEvents", 
+				upcomingEvents);
 		
 		return "my_events";
 	}

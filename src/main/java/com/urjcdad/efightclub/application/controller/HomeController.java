@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
 import com.urjcdad.efightclub.application.model.Event;
+import com.urjcdad.efightclub.application.model.Notification;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
@@ -42,12 +43,21 @@ public class HomeController {
 			session.removeAttribute("errorEmail");
 		}
 		Users currentUser = null;
+		List <Notification> notifications = new ArrayList<Notification>();
+
 		if (session.getAttribute("logged") != null) {
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 			String currentUsername = session.getAttribute("username").toString();
 			currentUser = userRepository.findByUsername(currentUsername);
-
+			for (Event event: eventRepository.findAll())
+				if(event.isSubscriber(currentUser))
+				{
+					for (Notification notif: event.getNotifications()) {
+						notifications.add(notif);						
+					}
+				}
+			
 		}
 		//Get current User
 		
@@ -59,6 +69,7 @@ public class HomeController {
 		List<Event> upcomingEvents = new ArrayList<Event>();
 		List<Boolean> participant = new ArrayList<Boolean>();
 		List <AuxiliarEventUsers> upEvents = new ArrayList<AuxiliarEventUsers>();
+
 		// Sort events by descending date
 		eventService.sortEventsByDescDate(events);
 		
@@ -78,13 +89,42 @@ public class HomeController {
 					upEvents.add(new AuxiliarEventUsers(event, currentUser));
 				}
 			}
+		
 		model.addAttribute("ongoingEvents", ongoingEvents);
 		model.addAttribute("upcomingEvents", upcomingEvents);
 		model.addAttribute("upEvents", upEvents);
+		model.addAttribute("notifications", notifications);
+
 		return "home";
 	}
 	
+	@GetMapping("/my_accounts")
+	public String myAccount(Model model, HttpSession session) {
+		if (session.getAttribute("error") != null) {
+			session.removeAttribute("error");
+			session.removeAttribute("errorMsg");
+			session.removeAttribute("errorUsername");
+			session.removeAttribute("errorEmail");
+		}
+		Users currentUser = null;
+		List <Notification> notifications = new ArrayList<Notification>();
 
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+			String currentUsername = session.getAttribute("username").toString();
+			currentUser = userRepository.findByUsername(currentUsername);
+			for (Event event: eventRepository.findAll())
+				if(event.isSubscriber(currentUser))
+				{
+					for (Notification notif: event.getNotifications()) {
+						notifications.add(notif);						
+					}
+				}			
+		}		
+		model.addAttribute("notifications", notifications);
+		return "my_account";
+	}
 	
 	@GetMapping("/login")
 	public String logIn(Model model, HttpSession session) {
