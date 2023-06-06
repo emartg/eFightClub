@@ -234,7 +234,9 @@ public class Event {
 		
 		participants.add(user);
 		numParticipants++;
-		addSubscriber(user);
+		if(!this.getSubscribers().contains(user)) {
+			addSubscriber(user);
+		}		
 		if (numParticipants >= numSlots) {			
 			assortMatches();
 			return true;

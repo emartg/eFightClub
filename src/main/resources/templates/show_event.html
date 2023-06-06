@@ -33,55 +33,42 @@
                     {{/event}}
                 </ul>
             </div>
-            <div id="bracket-display">
+            <div id="bracket-display">                                            
                 <div class="round r-of-4">
-                    {{#eventMatches}}
-                    <div class="bracket-game-{{matchPosition}}">
-                        <div class="player top">
-                            {{#isP1}}
-                            {{eventMatch.player1.username}}
-                            {{/isP1}}
-                            {{^isP1}}
-                            ???
-                            {{/isP1}}
-                            <div class="score">
-                                {{#canAct}}
-                                <input type="radio" id="1" name="Winner" value="1" checked="checked">
-                                {{/canAct}}
-                                {{^canAct}}
-                                <p>X</p>
-                                </a>
-                                {{/canAct}}
-                            </div>
-                        </div>
-                        <div class="player bot ">
-                            {{#isP2}}
-                            {{eventMatch.player2.username}}
-                            {{/isP2}}
-                            {{^isP2}}
-                            ???
-                            {{/isP2}}
-                            <div class="score">
-                                {{#canAct}}
-                                <input type="radio" id="2" name="Winner" value="2">
-                                {{/canAct}}
-                                {{^canAct}}
-                                <p>X</p>
-                                </a>
-                                {{/canAct}}
-                            </div>
-                        </div>
+                    <div id="bracket-eights">
+                        {{#eventMatches}}                    
+                            {{#isEights}}                                            
+                                {{>match}}                                                                     
+                            {{/isEights}}
+                        {{/eventMatches}}
                     </div>
-                    {{#canAct}}
-                <input type='submit' value='SUBMIT' />
-                {{/canAct}}
-                {{/eventMatches}}
-                </div>
-
+                    <div id="bracket-quarters">
+                        {{#eventMatches}}
+                            {{#isQuarters}}                                            
+                                {{>match}}                                                                    
+                            {{/isQuarters}}
+                        {{/eventMatches}}
+                    </div>
+                    <div id="bracket-semis">
+                        {{#eventMatches}}
+                        {{#isSemis}}                                            
+                            {{>match}}                                                                   
+                        {{/isSemis}}
+                    {{/eventMatches}}
+                    </div>
+                    <div id="bracket-finals">
+                        {{#eventMatches}}
+                        {{#isFinals}}
+                            {{>match}}               
+                        {{/isFinals}}
+                    {{/eventMatches}}
+                    </div>
+                </div>                
                 
                 {{/eventUser}}
             </div>
         </div>
+        
     </form>
 </div>
 {{>footer}}

@@ -55,6 +55,17 @@
 							<li class="upcoming-event-post__text--state">
 								{{event.kickoffDateStr}}
 							</li>
+							<li>
+								{{^isParticipant}}
+									{{#isSubscriber}}
+										<a href="/events/{{event.id}}/unsubscribe">UNSUB</a>
+									{{/isSubscriber}}
+									
+									{{^isSubscriber}}
+										<a href="/events/{{event.id}}/subscribe">SUB</a>
+									{{/isSubscriber}}
+								{{/isParticipant}}
+							</li>
 							<li class="upcoming-event-post__text--state2">
 									{{#isFull}}							
 										<a>FULL</a>
@@ -67,6 +78,7 @@
 											<a href="/events/{{event.id}}/register">REGISTER</a>											
 										{{/isParticipant}}					
 									{{/isFull}}
+									
 							</li>
 						</ul>
 					</div>

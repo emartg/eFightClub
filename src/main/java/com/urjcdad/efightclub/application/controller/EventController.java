@@ -305,7 +305,7 @@ public class EventController {
 		return "redirect:/home";
 	}
 	
-	@GetMapping("/{id}/unregister")
+	@GetMapping("/events/{id}/unregister")
 	public String uncompeteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -329,7 +329,7 @@ public class EventController {
 	}
 	
 	
-
+	@GetMapping("/events/{id}/subscribe")
 	public String subscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		if (session.getAttribute("logged") != null) {
@@ -340,7 +340,26 @@ public class EventController {
 			Event event = eventRepository.findById(id).get();
 			
 			event.addSubscriber(user);		
+			eventRepository.save(event);
+		
 		}		
+	
+		return "redirect:/home";
+	}
+	
+	@GetMapping("/events/{id}/unsubscribe")
+	public String unsubscribeEvent(Model model, HttpSession session, 
+			@PathVariable long id) {
+		if (session.getAttribute("logged") != null) {
+			model.addAttribute("username", session.getAttribute("username"));
+			model.addAttribute("logged", true);
+					
+			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Event event = eventRepository.findById(id).get();
+			
+				event.removeSubscribers(user);
+				eventRepository.save(event);		
+		}
 	
 		return "redirect:/home";
 	}
