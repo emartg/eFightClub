@@ -3,42 +3,67 @@
 <div class="home-container">
 	<div class="ongoing-event">
 		<div class="section-title">
-			<P>Ongoing events</P>
+			<P>Finished events</P>
 		</div>
 		<ul>
-			{{#ongoingEvents}}
-			<li class="ongoing-event-list">
-				<div class="ongoing-event-post">
-					<div class="ongoing-event-post__text">
-						<ul>
-							<li class="ongoing-event-post__text--title">
-								<a href="/events/{{id}}">{{eventName}}</a>
-							</li>
-							<li class="ongoing-event-post__text--game">
-								{{game}}
-							</li>
-						</ul>
-						<ul class="ongoing-event-post__text-list">
-							<li class="ongoing-event-post__text--state">
-								LIVE
-							</li>
-							<li class="ongoing-event-post__text--state2">
-								Stage
-							</li>
-						</ul>
-					</div>
-				</div>
-			</li>
-			{{/ongoingEvents}}
+			{{#logged}}
+			{{#fiEvents}}
+					<li class="ongoing-event-list">
+						<div class="ongoing-event-post">
+							<div class="ongoing-event-post__text">
+								<ul>
+									<li class="ongoing-event-post__text--title">
+										<a href="/events/{{id}}">{{event.eventName}}</a>
+									</li>
+									<li class="ongoing-event-post__text--game">
+										{{event.game}}
+									</li>
+								</ul>
+								<ul class="ongoing-event-post__text-list">
+									<li class="ongoing-event-post__text--state">
+										FINISHED
+									</li>
+									
+								</ul>
+							</div>
+						</div>
+					</li>
+					{{/fiEvents}}
+			{{/logged}}
+			{{^logged}}
+				{{#finishedEvents}}
+					<li class="ongoing-event-list">
+						<div class="ongoing-event-post">
+							<div class="ongoing-event-post__text">
+								<ul>
+									<li class="ongoing-event-post__text--title">
+										<a href="/events/{{id}}">{{eventName}}</a>
+									</li>
+									<li class="ongoing-event-post__text--game">
+										{{game}}
+									</li>
+								</ul>
+								<ul class="ongoing-event-post__text-list">
+									<li class="ongoing-event-post__text--state">
+										FINISHED
+									</li>
+									
+								</ul>
+							</div>
+						</div>
+					</li>
+					{{/finishedEvents}}
+				{{/logged}}
+			
 		</ul>
 	</div>
 	<div class="upcoming-event">
 		<div class="section-title">
-			<P>Upcoming events</P>
+			<P>Current events</P>
 		</div>
 		<ul>
 		{{#logged}}
-		{{#upEvents}}
+		{{#cuEvents}}
 			<li class="upcoming-event-list">
 				<div class="upcoming-event-post">
 					<!-- <img src="/events/{{event.id}}/image"></img>  -->
@@ -84,10 +109,10 @@
 					</div>
 				</div>
 			</li>
-			{{/upEvents}}
+			{{/cuEvents}}
 	{{/logged}}
 	{{^logged}}
-		{{#upcomingEvents}}
+		{{#currentEvents}}
 			<li class="upcoming-event-list">
 				<div class="upcoming-event-post">
 					<div class="upcoming-event-post__text">
@@ -107,7 +132,7 @@
 					</div>
 				</div>
 			</li>
-			{{/upcomingEvents}}
+			{{/currentEvents}}
 	{{/logged}}		
 		</ul>
 	</div>

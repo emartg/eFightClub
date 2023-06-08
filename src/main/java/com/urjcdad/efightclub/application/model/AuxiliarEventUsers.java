@@ -10,14 +10,21 @@ import javax.persistence.Entity;
 		private Boolean isParticipant;
 		private Boolean isSubscriber; 	
 		private Boolean isFull;
+		private Boolean isFinished;
+
 		private long id;
 		public List <AuxiliarEventMatchPlayers> eventMatches = new ArrayList<AuxiliarEventMatchPlayers>();;
 		
 		
 	public AuxiliarEventUsers (Event event1, Users user) {
 		this.event = event1;	
-		id = event.getId();
+		id = event.getId();		
 		userChecker(user);
+		if (this.event.getWinner()!= null) {
+			isFinished = true;
+		}else {
+			isFinished = false;
+		}
 		for (int i = 0; i <event1.getMatches().size(); i++) {
 			Matches tempMatch = event1.getMatches().get(i);
 			eventMatches.add(new AuxiliarEventMatchPlayers(tempMatch, user, i, event.getNumParticipants(), i));			

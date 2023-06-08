@@ -3,10 +3,10 @@
 <div class="myevents-container">
     <div class="event ongoing">
         <div class="myevents-section-title">
-        	<P>Ongoing events</P>
+        	<P>Finished events</P>
         </div>
         <ul>
-        	{{#ongoingEvents}}
+        	{{#finishedEvents}}
         	<li class="event-list">
 	            <div class="event-post">
 	                <ul>
@@ -32,14 +32,13 @@
 	                    </li>
 	                    <li class="event-item">
 	                        <div class="event-status--logo">
-	                            LIVE
+	                            FINISHED
 	                        </div>
 	                    </li>
 	                    <li class="event-item">
 	                        <div class="event-status--text">
 	                            <ul>
-	                                <li>Phase</li>
-	                                <li>Participating?</li>
+	                                
 	                            </ul>
 	                        </div>
 	                    </li>
@@ -50,26 +49,19 @@
 	                                <li>Icon</li>
 	                            </ul>
 	                        </div>
-	                    </li>
-	                    <li class="event-item">
-	                        <div class="event-edit">
-	                            <a href="/events/{{id}}/edit">
-	                            	<p>EDIT</p>
-	                            </a>
-	                        </div>   
-	                    </li>
+	                    </li>	                   
 	                </ul>
 	            </div>
 	        </li>
-	        {{/ongoingEvents}}
+	        {{/finishedEvents}}
         </ul>
     </div>
     <div class="event upcoming">
         <div class="myevents-section-title">
-            <P>Upcoming events</P>
+            <P>Current events</P>
         </div>
         <ul>
-        	{{#upcomingEvents}}
+        	{{#currentEvents}}
         	<li class="event-list">
 	            <div class="event-post">
 	                <ul>
@@ -119,7 +111,7 @@
 	                </ul>
 	            </div>
 	        </li>
-	        {{/upcomingEvents}}
+	        {{/currentEvents}}
 	        <li class="event-list">
 		        <div class="event-create-post">
                     <a href="/events/create" class="fill-div">

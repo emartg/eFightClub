@@ -65,10 +65,12 @@ public class HomeController {
 		List<Event> events = eventRepository.findAll();
 		
 		// Lists for ongoing and upcoming events
-		List<Event> ongoingEvents = new ArrayList<Event>();
-		List<Event> upcomingEvents = new ArrayList<Event>();
+		List<Event> finishedEvents = new ArrayList<Event>();
+		List<Event> currentEvents = new ArrayList<Event>();
 		List<Boolean> participant = new ArrayList<Boolean>();
-		List <AuxiliarEventUsers> upEvents = new ArrayList<AuxiliarEventUsers>();
+		List <AuxiliarEventUsers> cuEvents = new ArrayList<AuxiliarEventUsers>();
+		List <AuxiliarEventUsers> fiEvents = new ArrayList<AuxiliarEventUsers>();
+
 
 		// Sort events by descending date
 		eventService.sortEventsByDescDate(events);
@@ -78,21 +80,25 @@ public class HomeController {
 		long your_milliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(your_milliseconds);	
 		for (Event event: events)
-			if(event.getKickoffDate().compareTo(currentDate) < 0)
+			if(event.getWinner()!=null)
 			{
-				ongoingEvents.add(event);
+				finishedEvents.add(event);
+				if (currentUser!=null) {
+					fiEvents.add(new AuxiliarEventUsers(event, currentUser));
+				}
 			}
 			else
 			{
-				upcomingEvents.add(event);
+				currentEvents.add(event);
 				if (currentUser!=null) {
-					upEvents.add(new AuxiliarEventUsers(event, currentUser));
+					cuEvents.add(new AuxiliarEventUsers(event, currentUser));
 				}
 			}
 		
-		model.addAttribute("ongoingEvents", ongoingEvents);
-		model.addAttribute("upcomingEvents", upcomingEvents);
-		model.addAttribute("upEvents", upEvents);
+		model.addAttribute("finishedEvents", finishedEvents);
+		model.addAttribute("fiEvents", fiEvents);
+		model.addAttribute("currentEvents", currentEvents);
+		model.addAttribute("cuEvents", cuEvents);
 		model.addAttribute("notifications", notifications);
 
 		return "home";

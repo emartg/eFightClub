@@ -14,10 +14,18 @@
                 <p>{{event.eventName}}</p>
                 <p>{{event.game}}</p>
 
-                <p id="edit-event-status">LIVE</p>
             </div>
-
-            <p id="show-event-info--2">Semi-finals</p>
+			 {{#isFinished}}
+			 			 <p id="show-event-info--2">FINISHED: WINNER {{event.winner.username}}</p>	 		
+			 {{/isFinished}}	
+			 {{^isFinished}}	
+			 			 {{#isFull}}			 
+			             <p id="show-event-info--2">LIVE</p>	
+			             {{/isFull}}
+			             {{^isFull}}			 
+			             <p id="show-event-info--2">PLAYERS REQUIRED</p>	
+			             {{/isFull}}				             		 		
+			 {{/isFinished}}	
         </div>
 
         <div id="show-event-game" class="horizontal-list ">

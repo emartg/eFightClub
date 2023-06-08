@@ -377,8 +377,8 @@ public class EventController {
 		List<Event> events = eventRepository.findByCreator(currentUser);
 		
 		// Lists for ongoing and upcoming events
-		List<Event> ongoingEvents = new ArrayList<Event>();
-		List<Event> upcomingEvents = new ArrayList<Event>();
+		List<Event> currentEvents = new ArrayList<Event>();
+		List<Event> finishedEvents = new ArrayList<Event>();
 		
 		// Sort events by descending date
 		eventService.sortEventsByDescDate(events);
@@ -388,14 +388,13 @@ public class EventController {
 		long your_milliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(your_milliseconds);	
 		for (Event event: events)
-			if (event.getKickoffDate().compareTo(currentDate) < 0)
-				ongoingEvents.add(event);
+			if (event.getWinner()!=null)
+				finishedEvents.add(event);
 			else
-				upcomingEvents.add(event);
+				currentEvents.add(event);
 		
-		model.addAttribute("ongoingEvents", ongoingEvents);
-		model.addAttribute("upcomingEvents", 
-				upcomingEvents);
+		model.addAttribute("finishedEvents", finishedEvents);
+		model.addAttribute("currentEvents", currentEvents);
 		
 		return "my_events";
 	}
