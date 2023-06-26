@@ -12,13 +12,18 @@
     </li>
     {{/logged}}
     {{^logged}}
+     <li class="login-button">
+        <a href="/create_account">SIGN UP</a>
+    </li>
     <li class="login-button">
         <a href="/login">LOG IN</a>
     </li>
     {{/logged}}
     {{#logged}}
     <li class="login-button">
-        <a href="/logout">LOG OUT</a>
+    	<form action="/logout" method="post">
+			<input type="submit" value="LOG OUT" />
+		</form>
     </li>
     {{/logged}}
 </ul>
