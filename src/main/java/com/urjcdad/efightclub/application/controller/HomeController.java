@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,10 @@ public class HomeController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	 @Autowired
+	 private PasswordEncoder passwordEncoder;
+
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
@@ -46,23 +51,18 @@ public class HomeController {
 			session.removeAttribute("errorEmail");
 		}
 		Users currentUser = null;
-		List <Notification> notifications = new ArrayList<Notification>();
-
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
-			model.addAttribute("logged", true);
-			String currentUsername = session.getAttribute("username").toString();
-			currentUser = userRepository.findByUsername(currentUsername);
-			for (Event event: eventRepository.findAll())
-				if(event.isSubscriber(currentUser))
-				{
-					for (Notification notif: event.getNotifications()) {
-						notifications.add(notif);						
-					}
-				}
-			
-		}
+		
 		//Get current User
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			currentUser = userRepository.findByUsername(currentUsername);
+			model.addAttribute("username", currentUsername);
+			model.addAttribute("logged", true);
+			currentUser = userRepository.findByUsername(currentUsername);
+		}
+	
 		
 		// Get all the events in the repository
 		List<Event> events = eventRepository.findAll();
@@ -102,50 +102,29 @@ public class HomeController {
 		model.addAttribute("fiEvents", fiEvents);
 		model.addAttribute("currentEvents", currentEvents);
 		model.addAttribute("cuEvents", cuEvents);
-		model.addAttribute("notifications", notifications);
 
 		return "home";
 	}
 	
-	@GetMapping("/my_accounts")
-	public String myAccount(Model model, HttpSession session) {
-		if (session.getAttribute("error") != null) {
-			session.removeAttribute("error");
-			session.removeAttribute("errorMsg");
-			session.removeAttribute("errorUsername");
-			session.removeAttribute("errorEmail");
-		}
-		Users currentUser = null;
-		List <Notification> notifications = new ArrayList<Notification>();
 
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
-			model.addAttribute("logged", true);
-			String currentUsername = session.getAttribute("username").toString();
-			currentUser = userRepository.findByUsername(currentUsername);
-			for (Event event: eventRepository.findAll())
-				if(event.isSubscriber(currentUser))
-				{
-					for (Notification notif: event.getNotifications()) {
-						notifications.add(notif);						
-					}
-				}			
-		}		
-		model.addAttribute("notifications", notifications);
-		return "my_account";
-	}
-	
 	
 	@GetMapping("/login")
 	public String login(Model model, HttpSession session) {
 		if (session.getAttribute("error") != null) {
 			model.addAttribute("error", true);
 			model.addAttribute("errorMsg",session.getAttribute("errorMsg"));
-			model.addAttribute("errorUsername", session.getAttribute("errorUsername"));
-			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
 			session.removeAttribute("error");
+			session.removeAttribute("errorMsg");
+
 		}
 		return "login";
+	}
+	
+	@GetMapping("/login_error")
+	public String loginError(Model model, HttpSession session) {			
+		session.setAttribute("error", true);
+		session.setAttribute("errorMsg", "Asegurese de rellenar correctamente los datos");
+		return "redirect:/login";
 	}
 	
 	@GetMapping("/create_account")
@@ -156,6 +135,7 @@ public class HomeController {
 			model.addAttribute("errorUsername", session.getAttribute("errorUsername"));
 			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
 			session.removeAttribute("error");
+			session.removeAttribute("errorMsg");
 		}
 		return "createAccount";
 	}
@@ -178,8 +158,8 @@ public class HomeController {
 		model.addAttribute("password", password);
 		model.addAttribute("logged", true);
 		
-		
-		Users user = new Users(username, email, password);
+		String pass = passwordEncoder.encode(password);
+		Users user = new Users(username, email, pass);
 		Users check = userRepository.findByUsername(username);
 		if (check != null) {
 			session.setAttribute("error", true);
@@ -215,6 +195,7 @@ public class HomeController {
 	}
 	
 	
+	/*
 	@GetMapping("/logged_in")
 	public String logedIn(Model model, HttpSession session) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -225,7 +206,7 @@ public class HomeController {
 		}
 		return "redirect:/home";
 	}
-	
+	*/
 	/*
 	@PostMapping("/created_account")
 	public String logIn(Model model, HttpSession session, 
@@ -286,20 +267,21 @@ public class HomeController {
 	
 	@GetMapping("/logged_out")
 	public String viewHomeLoggedOut(Model model, HttpSession session) {
-		
-		session.setAttribute("username", null);
-		session.setAttribute("logged", null);
-		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			session.setAttribute("username", null);
+			session.setAttribute("logged", null);
+		}
 		return "redirect:/home";
 	}
 	
-	 
+	/*
 	@PostMapping("/logout")
 	public String logOut(Model model, HttpSession session) {	
 		session.setAttribute("username", null);
 		session.setAttribute("logged", null);
 		
 		return "redirect:/home";
-	}
+	}*/
 	
 }

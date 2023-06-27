@@ -8,6 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,11 +50,12 @@ public class EventController {
 
 	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
-		
 		return "create_event";
 	}
 	
@@ -82,8 +86,16 @@ public class EventController {
 		if (kickoffDate.compareTo(regDate) < 0)
 			return "redirect:/events/create";
 		
+	    String currentUsername ="";
 		// Get the current user and create an event under its name
-		Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
+			model.addAttribute("logged", true);
+		}
+		
+		Users user = userRepository.findByUsername(currentUsername);
 		Integer slots = Integer.parseInt(numSlots); // parse the number of participants to an integer
 		Event event = new Event(eventName, game, regDate, kickoffDate, slots, user);
 		eventRepository.save(event);
@@ -113,13 +125,15 @@ public class EventController {
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
 		Users currentUser = null;
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		String currentUsername = "";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
-			String currentUsername = session.getAttribute("username").toString();
 			currentUser = userRepository.findByUsername(currentUsername);
+			
 		}
-		
 		// Get the existing event from the repository
 		Event event = eventRepository.findById(id).get();		
 		AuxiliarEventUsers eventUser = new AuxiliarEventUsers(event, currentUser);
@@ -134,12 +148,15 @@ public class EventController {
 	public String showEvent(Model model, HttpSession session, 
 			@PathVariable long id, @RequestParam int Winner) {
 		Users currentUser = null;
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		String currentUsername = "";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
-			String currentUsername = session.getAttribute("username").toString();
 			currentUser = userRepository.findByUsername(currentUsername);
 		}
+		
 		
 		// Get the existing event from the repository
 		Event event = eventRepository.findById(id).get();		
@@ -167,11 +184,12 @@ public class EventController {
 	@GetMapping("/events/{id}/edit")
 	public String editEvent(Model model, HttpSession session,
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
-		
 		// Get the existing event from the repository
 		Event event = eventRepository.findById(id).get();
 		model.addAttribute("event", event);
@@ -183,8 +201,11 @@ public class EventController {
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
 		
@@ -207,8 +228,10 @@ public class EventController {
 	public String editEvent(Model model, HttpSession session, 
 			@RequestParam String eventName, @RequestParam String game,
 			@RequestParam Date regDate, @RequestParam Date kickoffDate, @PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
 		
@@ -265,8 +288,10 @@ public class EventController {
 	@GetMapping("/events/{id}/delete")
 	public String deleteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
 		
@@ -278,13 +303,17 @@ public class EventController {
 	@GetMapping("/events/{id}/register")
 	public String competeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
-			model.addAttribute("logged", true);
-			
+		
+		  
+		
+	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		  	String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
+			model.addAttribute("logged", true);			
 			long your_milliseconds = System.currentTimeMillis();
 			Date currentDate = new Date(your_milliseconds);
-			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Users user = userRepository.findByUsername(currentUsername);
 			Event event = eventRepository.findById(id).get();
 			
 			// Only add user to the event if the registration
@@ -308,13 +337,14 @@ public class EventController {
 	@GetMapping("/events/{id}/unregister")
 	public String uncompeteEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
-			
 			long your_milliseconds = System.currentTimeMillis();
 			Date currentDate = new Date(your_milliseconds);
-			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Users user = userRepository.findByUsername(currentUsername);
 			Event event = eventRepository.findById(id).get();
 			
 			// Only remove user to the event if the registration
@@ -332,11 +362,12 @@ public class EventController {
 	@GetMapping("/events/{id}/subscribe")
 	public String subscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
-			
-			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Users user = userRepository.findByUsername(currentUsername);
 			Event event = eventRepository.findById(id).get();
 			
 			event.addSubscriber(user);		
@@ -350,11 +381,12 @@ public class EventController {
 	@GetMapping("/events/{id}/unsubscribe")
 	public String unsubscribeEvent(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
-					
-			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Users user = userRepository.findByUsername(currentUsername);
 			Event event = eventRepository.findById(id).get();
 			
 				event.removeSubscribers(user);
@@ -366,13 +398,15 @@ public class EventController {
 	
 	@GetMapping("/events/my_events")
 	public String myEvents(Model model, HttpSession session) {
-		if (session.getAttribute("logged") != null) {
-			model.addAttribute("username", session.getAttribute("username"));
+		String currentUsername = "";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
 			model.addAttribute("logged", true);
 		}
 		
 		// Get all the events created by the current user
-		String currentUsername = session.getAttribute("username").toString();
 		Users currentUser = userRepository.findByUsername(currentUsername);
 		List<Event> events = eventRepository.findByCreator(currentUser);
 		
@@ -401,13 +435,18 @@ public class EventController {
 	@GetMapping("/events/{id}/matches")
 	public String matchFinished(Model model, HttpSession session, 
 			@PathVariable long id) {
-		if (session.getAttribute("logged") != null) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUsername = authentication.getName();
+			model.addAttribute("username", currentUsername);
+			model.addAttribute("logged", true);
+		
 			model.addAttribute("username", session.getAttribute("username"));
 			model.addAttribute("logged", true);
 			
 			long your_milliseconds = System.currentTimeMillis();
 			Date currentDate = new Date(your_milliseconds);
-			Users user = userRepository.findByUsername(session.getAttribute("username").toString());
+			Users user = userRepository.findByUsername(currentUsername);
 			Event event = eventRepository.findById(id).get();
 			
 			// Only add user to the event if the registration
