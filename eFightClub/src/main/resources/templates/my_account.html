@@ -2,18 +2,18 @@
 
 <div class="my-account-container">
     <div class="my-account-form">
-        <form method='post' action='/my_account/modify'>            
+        <form method='post' action='/my_account/modify'>    
             <div class="horizontal-list items-alignment-my-account">
-                <p>Username</p>
+                <p>Username ({{username}}) </p>
                 <input type="text" name="username" value="">
             </div>
             <div class=" horizontal-list items-alignment-my-account">
-                <p>Email</p>
+                <p>Email  ({{email}})</p>
                 <input type="text" name="email" value="">
             </div>
             <div class="horizontal-list items-alignment-my-account">
                 <p>Current password</p>
-                <input type="password" name="password" placeholder="Current password">
+                <input type="password" name="currentPassword" placeholder="Current password">
             </div>
             <div class="horizontal-list items-alignment-my-account">
                 <p>New password</p>
@@ -22,11 +22,19 @@
             <div class="horizontal-list items-alignment-my-account">
                 <p>Re-enter new password</p>
                 <input type="password" name='reenterNewPassword' placeholder="Re-enter new password"/>
-            </div>
+            </div>       
             <div class="horizontal-list items-alignment-my-account">
                 <p></p>
                 <button type="submit" id="my-account-submit">Save changes</button>
             </div>
+             {{#error}}
+            <div class="horizontal-list items-alignment-my-account">
+                <li class="form-error">
+                    <a>{{errorMsg}}</a>
+                </li>
+            </div>
+            {{/error}}   
+        <input type="hidden" name="_csrf" value="{{token}}"/>            
         </form>
     </div>
     <div id="my-account-notifications">
@@ -39,7 +47,7 @@
           	{{/notifications}}
           	{{^notifications}}
             <li class="notification-item">
-                <p> aaa</p>                
+                <p> No Notifications!</p>                
             </li>           
           	{{/notifications}}              
         </ul>
