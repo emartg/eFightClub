@@ -26,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	 @Value("${security.encodedPassword}")
 	 private String encodedPassword;
 	 */
+	
 	@Autowired
 	public RepositoryUserDetailsService userDetailService;
 	
