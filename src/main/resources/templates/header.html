@@ -23,6 +23,7 @@
     <li class="login-button">
     	<form action="/logout" method="post">
 			<input type="submit" value="LOG OUT" />
+		<input type="hidden" name="_csrf" value="{{token}}"/>			
 		</form>
     </li>
     {{/logged}}

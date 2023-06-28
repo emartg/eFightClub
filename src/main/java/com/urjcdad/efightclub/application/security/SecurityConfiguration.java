@@ -80,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 		
 		//Disable CSRF (temporal)
-		http.csrf().disable();
+		//http.csrf().disable();
 		
 		 
 	 }
