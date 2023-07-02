@@ -2,6 +2,7 @@
 </header>
 
 <div class="login-box">    
+
     <form method='post' action='/login'>        
         
         <ul class="form">
@@ -28,6 +29,7 @@
             <li class="form-item">
                 <input type='text' name='password' placeholder="Password"/>
             </li>
+
             <li class="form-submit">
                 <input type='submit' value='ENTER'/>
             </li>
@@ -36,8 +38,10 @@
                     <a>{{errorMsg}}</a>
                 </li>
         {{/error}}
+
         </ul>
         <input type="hidden" name="_csrf" value="{{token}}"/>        
+
     </form>
 </div>
 

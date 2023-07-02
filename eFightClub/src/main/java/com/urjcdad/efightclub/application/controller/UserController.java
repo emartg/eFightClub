@@ -1,5 +1,9 @@
 package com.urjcdad.efightclub.application.controller;
 
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +23,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
+import com.urjcdad.efightclub.application.model.Users;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Notification;
@@ -77,6 +85,7 @@ public class UserController {
 			@RequestParam String username, @RequestParam String email, 
 			@RequestParam String currentPassword, @RequestParam String newPassword,
 			@RequestParam String reenterNewPassword) {
+
 		String currentUsername = null;
 		Boolean check = false;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -175,7 +184,6 @@ public class UserController {
 		
 		return "redirect:/home";
 	}
-	
 	
 	
 }
