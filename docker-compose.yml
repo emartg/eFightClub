@@ -1,7 +1,14 @@
 version: '3'
 services:
+  database: 
+    image: mysql:8
+    hostname: master
+    container_name: database
+    environment:
+      - MYSQL_ROOT_PASSWORD=WoozyGuy
+      - MYSQL_DATABASE=eFightClub_schema
   web:
-      build: .
+      build: eFightClub/.
       restart: unless-stopped
       expose:
         - '8443'
@@ -12,12 +19,13 @@ services:
         replicas: 2
       depends_on:
         - database
-  database: 
-    image: mysql:8
-    hostname: master
-    container_name: database
+  rabbitmq:
+    image: rabbitmq
+  loadbalancer:
+    image: haproxy:2.7.3
     ports:
-      - '3306:3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=WoozyGuy
-      - MYSQL_DATABASE=eFightClub_schema
+      - "8443:443" #Unico puerto abierto web, conecta con Haproxy
+      - "8181:8181" #Puerto para ver Stats
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+    restart: unless-stopped
