@@ -81,7 +81,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/my_account/modify")
-	public String signUp(Model model, HttpSession session, 
+	public String modifiedAccount(Model model, HttpSession session, 
 			@RequestParam String username, @RequestParam String email, 
 			@RequestParam String currentPassword, @RequestParam String newPassword,
 			@RequestParam String reenterNewPassword) {

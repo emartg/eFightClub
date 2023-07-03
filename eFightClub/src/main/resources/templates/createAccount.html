@@ -48,6 +48,12 @@
                     <a>{{errorMsg}}</a>
                 </li>
         {{/error}}
+        {{#cuentaCreada}}
+         <li class="a">
+        <a><strong> {{creadoMsg}}</strong> </a>
+    		</li>
+        	<p></p>
+        {{/cuentaCreada}}
         </ul>      
     <input type="hidden" name="_csrf" value="{{token}}"/>
     </form>

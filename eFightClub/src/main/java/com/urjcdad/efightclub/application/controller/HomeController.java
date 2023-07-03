@@ -44,8 +44,16 @@ public class HomeController {
 	 private PasswordEncoder passwordEncoder;
 
 
+	 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			session.setAttribute("username", null);
+			session.setAttribute("logged", null);
+		}
+		
 		if (session.getAttribute("error") != null) {
 			session.removeAttribute("error");
 			session.removeAttribute("errorMsg");
@@ -56,7 +64,6 @@ public class HomeController {
 		
 		//Get current User
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    String currentUsername = authentication.getName();
 			currentUser = userRepository.findByUsername(currentUsername);
@@ -112,32 +119,18 @@ public class HomeController {
 	
 	@GetMapping("/login")
 	public String login(Model model, HttpSession session, HttpServletRequest request) {
-		if (session.getAttribute("error") != null) {
-			model.addAttribute("error", true);
-			model.addAttribute("errorMsg",session.getAttribute("errorMsg"));
-			session.removeAttribute("error");
-			session.removeAttribute("errorMsg");
-		}
 		return "login";
 	}
 	
 	@GetMapping("/login_error")
 	public String loginError(Model model, HttpSession session) {			
-		session.setAttribute("error", true);
-		session.setAttribute("errorMsg", "Asegurese de rellenar correctamente los datos");
-		return "redirect:/login";
+		model.addAttribute("error", true);
+		model.addAttribute("errorMsg", "Asegurese de rellenar correctamente los datos");
+		return "login";
 	}
 	
 	@GetMapping("/create_account")
 	public String create_account(Model model, HttpSession session) {
-		if (session.getAttribute("error") != null) {
-			model.addAttribute("error", true);
-			model.addAttribute("errorMsg",session.getAttribute("errorMsg"));
-			model.addAttribute("errorUsername", session.getAttribute("errorUsername"));
-			model.addAttribute("errorEmail", session.getAttribute("errorEmail"));
-			session.removeAttribute("error");
-			session.removeAttribute("errorMsg");
-		}
 		return "createAccount";
 	}
 	
@@ -146,12 +139,12 @@ public class HomeController {
 			@RequestParam String username, @RequestParam String email, 
 			@RequestParam String password ,@RequestParam String reenterPassword) {	
 		if (username == ""||email==""||password==""|| reenterPassword=="") {
-			session.setAttribute("error", true);
-			session.setAttribute("errorUsername", username);
-			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "Rellene todos los campos para continuar");
+			model.addAttribute("error", true);
+			model.addAttribute("errorUsername", username);
+			model.addAttribute("errorEmail", email);
+			model.addAttribute("errorMsg", "Rellene todos los campos para continuar");
 			
-			return "redirect:/create_account";
+			return "createAccount";
 		}
 		
 		model.addAttribute("username", username);
@@ -163,36 +156,35 @@ public class HomeController {
 		Users user = new Users(username, email, pass);
 		Users check = userRepository.findByUsername(username);
 		if (check != null) {
-			session.setAttribute("error", true);
-			session.setAttribute("errorUsername", username);
-			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "El nombre de usuario ya existe");	
-			return "redirect:/create_account";
+			model.addAttribute("error", true);
+			model.addAttribute("errorUsername", username);
+			model.addAttribute("errorEmail", email);
+			model.addAttribute("errorMsg", "El nombre de usuario ya existe");	
+			return "createAccount";
 
 		}
 		check =  userRepository.findByEmail(email);
 		if (check != null) {
-			session.setAttribute("error", true);
-			session.setAttribute("errorUsername", username);
-			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "El correo ya está en uso");	
-			return "redirect:/create_account";
+			model.addAttribute("error", true);
+			model.addAttribute("errorUsername", username);
+			model.addAttribute("errorEmail", email);
+			model.addAttribute("errorMsg", "El correo ya está en uso");	
+			return "createAccount";
 		}
 		
 		if (!password.equals(reenterPassword)) {
-			session.setAttribute("error", true);
-			session.setAttribute("errorUsername", username);
-			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "Las contraseñas no coinciden");
-			return "redirect:/create_account";
+			model.addAttribute("error", true);
+			model.addAttribute("errorUsername", username);
+			model.addAttribute("errorEmail", email);
+			model.addAttribute("errorMsg", "Las contraseñas no coinciden");
+			return "createAccount";
 		}
 		
+		model.addAttribute("cuentaCreada", true);
+		model.addAttribute("creadoMsg", "cuenta creada correctamente");
+		
 		userRepository.save(user);
-		session.removeAttribute("error");
-		session.removeAttribute("errorMsg");
-		session.removeAttribute("errorUsername");
-		session.removeAttribute("errorEmail");
-		return "redirect:/home";			
+		return "createAccount";			
 	}
 	
 	
@@ -266,15 +258,6 @@ public class HomeController {
 	}
 	*/
 	
-	@GetMapping("/logged_out")
-	public String viewHomeLoggedOut(Model model, HttpSession session) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-			session.setAttribute("username", null);
-			session.setAttribute("logged", null);
-		}
-		return "redirect:/home";
-	}
 	
 	/*
 	@PostMapping("/logout")

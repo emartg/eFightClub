@@ -53,6 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		 //Public Pages
 		 http.authorizeHttpRequests().antMatchers("/").permitAll();
 		 http.authorizeHttpRequests().antMatchers("/home").permitAll();
+		 http.authorizeHttpRequests().antMatchers("/goingHome").permitAll();
 		 http.authorizeHttpRequests().antMatchers("/login").permitAll();
 		 http.authorizeHttpRequests().antMatchers("/login_error").permitAll();
 		 http.authorizeHttpRequests().antMatchers("/create_account").permitAll();
@@ -77,7 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		//Log-Out Form
 		
 		http.logout().logoutUrl("/logout");
-		http.logout().logoutSuccessUrl("/logged_out");
+		http.logout().logoutSuccessUrl("/home");
 		
 		
 		//Disable CSRF (temporal)
