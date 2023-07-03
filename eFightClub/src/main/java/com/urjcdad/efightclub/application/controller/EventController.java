@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.urjcdad.efightclub.application.internalServices.Producer;
 import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Matches;
@@ -47,6 +48,9 @@ public class EventController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+    private Producer producer;
 
 	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
@@ -118,6 +122,8 @@ public class EventController {
 		event.addMatch(match);
 		eventRepository.save(event);
 		
+		producer.SendNewEvent(user.getEmail(),"New event was created: " + event.getEventName());
+		
 		return "redirect:/events/my_events";
 	}
 	
@@ -168,12 +174,22 @@ public class EventController {
 			Notification notif = new Notification(event, title, body);
 			notificationRepository.save(notif);
 			event.addNotification(notif);
+			List<Users> subscribedUsers = event.getSubscribers();
+			for(int i = 0; i<subscribedUsers.size();i++) 
+			{				
+				producer.SendNotification(subscribedUsers.get(i).getEmail(), title + "\n" + body);	
+			}			
+			
 			if (event.getWinner()!=null) {				
 				 title = new String(event.getEventName()+" ended");
 				 body = new String("player "+event.getWinner().getUsername()+ " won the tournament!");
 				Notification notif2 = new Notification(event, title, body);
 				notificationRepository.save(notif2);	
 				event.addNotification(notif2);
+				for(int i = 0; i<subscribedUsers.size();i++) 
+				{
+					producer.SendNotification(subscribedUsers.get(i).getEmail(), title + "\n" + body);
+				}								
 			}
 		}
 		eventRepository.save(event);

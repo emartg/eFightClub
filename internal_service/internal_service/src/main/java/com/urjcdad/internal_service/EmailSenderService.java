@@ -15,12 +15,11 @@ public class EmailSenderService {
                                 String body
     ) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("fromemail@gmail.com");
+        message.setFrom("efightclub.urjc@gmail.com");
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
-        mailSender.send(message);
-        System.out.println("Mail Send...");
+        mailSender.send(message);        
 
 
     }
