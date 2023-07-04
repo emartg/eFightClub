@@ -8,11 +8,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Matches {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	private Long id;
 	
 	private Date date;
@@ -25,6 +33,9 @@ public class Matches {
 	private Users player2;
 	
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
 	private Event event;
 	
 	/*
@@ -85,12 +96,12 @@ public class Matches {
 	}
 	public Users getPlayer1() {
 		if (player1 == null)		
-			throw new NullPointerException("No player assigned yet");
+			return null;
 		return player1;		
 	}
 	public Users getPlayer2() {
 		if (player2 == null)			
-			throw new NullPointerException("No player assigned yet");
+			return null;
 		return player2;		
 	}
 	
@@ -104,12 +115,12 @@ public class Matches {
 	
 	public int getWinner() {
 		if (winner == 0)
-			throw new NullPointerException("No winner assigned yet");
+			return -1;
 		return winner;
 	}
 	public Users getWinnerUser() {
 		if (winner == 0)
-			throw new NullPointerException("No winner assigned yet");
+			return null;
 		if (winner == 1)
 			return player1;
 		else

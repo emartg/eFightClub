@@ -11,6 +11,11 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,16 +39,24 @@ public class Event {
 	private Users creator;
 	@ManyToOne
 	private Users winner;
-	
-	@ManyToMany
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Users> participants = new ArrayList<>();
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Users> subscribers = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Matches> matches = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "event", cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Notification> notifications = new ArrayList<>();
 	
 	private String bannerName = null;

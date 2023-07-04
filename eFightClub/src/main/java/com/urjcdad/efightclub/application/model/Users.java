@@ -10,6 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Users {
 	
@@ -25,10 +32,16 @@ public class Users {
 	private int losses = 0;
 	private float ratio = 0.0f;
 	
-	@OneToMany(mappedBy = "winner") 
+	@OneToMany(mappedBy = "winner",cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
 	private List<Event> eventsWon = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.PERSIST)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnore
 	private List<Event> eventsCreated = new ArrayList<>();
 
 	/*

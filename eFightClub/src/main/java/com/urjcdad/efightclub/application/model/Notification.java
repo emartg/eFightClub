@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Notification {
 	
@@ -14,8 +16,10 @@ public class Notification {
 	private Long id;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Event event;
 	
+	private String EventName;
 	private String title;
 	private String text = null;
 
@@ -27,12 +31,14 @@ public class Notification {
 	public Notification(Event event, String title) {	
 		this.event = event;
 		this.title = title;
+		this.EventName = event.getEventName();
 	}
 	
 	public Notification(Event event, String title, String text) {	
 		this.event = event;
 		this.title = title;
 		this.text = text;
+		this.EventName = event.getEventName();
 	}
 	
 	/*
@@ -50,6 +56,10 @@ public class Notification {
 	public String getText() {
 		return text;
 	}
+	public String getEventName() {
+		return EventName;
+	}
+	
 	
 	/*
 	 * Setters

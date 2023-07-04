@@ -7,11 +7,12 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Users;
 
-@CacheConfig(cacheNames="eventos")
+//@CacheConfig(cacheNames="eventos")
 public interface EventRepository extends JpaRepository <Event, Long> {
 	
 	//@Cacheable
@@ -21,9 +22,10 @@ public interface EventRepository extends JpaRepository <Event, Long> {
 	//@Cacheable
 	List<Event> findByWinner(Users winner);
 	//@Cacheable
-	List<Event> findByEventName(String eventName);
-	@Cacheable
+	Event findByEventName(String eventName);
+	//@Cacheable
 	List<Event> findAll();	
-	@CacheEvict(allEntries=true)
-	Event save(Event event);
+	//@Override
+	//@CacheEvict(allEntries=true)
+	//Event save(Event event);
 }

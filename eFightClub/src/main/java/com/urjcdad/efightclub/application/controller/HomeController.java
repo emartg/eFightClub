@@ -69,6 +69,7 @@ public class HomeController {
 		// Get all the events in the repository
 		List<Event> events = eventRepository.findAll();
 		
+		
 		// Lists for ongoing and upcoming events
 		List<Event> finishedEvents = new ArrayList<Event>();
 		List<Event> currentEvents = new ArrayList<Event>();
@@ -80,8 +81,6 @@ public class HomeController {
 		// Sort events by descending date
 		eventService.sortEventsByDescDate(events);
 		
-		// Check the current time to determine
-		// whether each event is an ongoing or upcoming event
 		long your_milliseconds = System.currentTimeMillis();
 		Date currentDate = new Date(your_milliseconds);	
 		for (Event event: events)

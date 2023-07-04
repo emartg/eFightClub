@@ -33,6 +33,6 @@ public class EFightClubApplication {
 
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("eventos");
+        return new ConcurrentMapCacheManager("notificaciones");
     }
 }
