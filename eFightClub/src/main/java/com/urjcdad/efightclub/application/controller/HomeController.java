@@ -172,14 +172,6 @@ public class HomeController {
 			return "redirect:/create_account";
 
 		}
-		check =  userRepository.findByEmail(email);
-		if (check != null) {
-			session.setAttribute("error", true);
-			session.setAttribute("errorUsername", username);
-			session.setAttribute("errorEmail", email);
-			session.setAttribute("errorMsg", "El correo ya está en uso");	
-			return "redirect:/create_account";
-		}
 		
 		if (!password.equals(reenterPassword)) {
 			session.setAttribute("error", true);

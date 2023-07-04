@@ -77,11 +77,15 @@ public class UserController {
 			currentUser = userRepository.findByUsername(currentUsername);
 			model.addAttribute("email", currentUser.getEmail());
 			List<Notification> allNotifications = notificationRepository.findAll();
-			for (Notification notif: allNotifications)
-				if(eventRepository.findByEventName(notif.getEventName()).isSubscriber(currentUser))
-				{
-					notifications.add(notif);
-				}	
+			for (Notification notif: allNotifications){
+				Event tempEvent = eventRepository.findByEventName(notif.getEventName());
+				if(tempEvent != null) {
+					if(tempEvent.isSubscriber(currentUser))
+					{
+						notifications.add(notif);
+					}
+				}				
+			}
 		}
 		model.addAttribute("notifications", notifications);
 		return "my_account";
@@ -150,15 +154,7 @@ public class UserController {
 		}
 		
 		if (email != "") {
-			Users temp = userRepository.findByEmail(email);
-			if (temp != null) {
-				String ErrorMsg = "El email escogido ya está en uso";
-				session.setAttribute("errorMsg", ErrorMsg);
-				session.setAttribute("error", true);				
-				return "redirect:/my_account";
-			}else {
-				newEmail = email;
-			}			
+			newEmail = email;						
 		}
 		
 		if (newEmail != "" && check) {

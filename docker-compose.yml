@@ -12,7 +12,8 @@ services:
       restart: unless-stopped
       expose:
         - '8443'
-      environment:        
+      environment:    
+        - SPRING_RABBITMQ_HOST=rabbitmq    
         - SPRING_DATASOURCE_URL=jdbc:mysql://database/eFightClub_schema
       deploy:
         mode: loadbalancer
@@ -20,11 +21,18 @@ services:
       depends_on:
         - database
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   internalservice:
     build: internal_service/internal_service/.
     environment:
-      - SPRING_RABBITMQ_HOST=broker
+      - SPRING_RABBITMQ_HOST=rabbitmq
     deploy:
       mode: replicated
       replicas: 2
