@@ -89,5 +89,38 @@ Juan de Carlos López:
 #### Diagrama de entidad/relación con atributos
 ![NAV](/diagrams/diagram_er_attr_dad.png)
 
+### Capturas de pantalla
+
+
+## Fase III
+
+### Diagramas
+
+Se han actualizado los diagramas de entidad/relación y de navegación para esta fase.
+
+#### Diagrama de navegación de la aplicación web
+![NAV](/diagrams/diagram_nav_dad.png)
+
+#### Diagrama de clases de la aplicación
+
+### Documentación interfaz del servicio interno
+La implementación del servicio interno se ha utilizado el broker de mensajes RabbitMQ para enviar correos electronicos cuando el usuario crea una cuenta, recibe una notificación o modifica datos de su cuenta. 
+Se ha creado una cola "messages" que será donde el servicio web mandará los mensajes codificados a través de una clase Publisher. Por otro lado el servicio interno tiene una clase Consumer que lee de la cola los mensajes, los descodifica, y envía los correos.
+
+### Despliegue de la aplicación
+
+#### Creación de los archivos jar
+Para generar los archivos jar de la web y del servicio interno, se ha utilizado el mismo entorno de desarrollo Eclipse con la función: Proyect => Run As => Maven Install
+
+#### Conexión y preparación de la máquina virtual 
+Antes que nada, se ha creado una máquina virtual con VirtualBox usando Ubunto como sistema operativo, desde el cual se hara el despliegue de la página web. Una vez creado, se han generado las claves SSH privada y pública con el siguiente comando:
+
+$sudo ssh-keygen -t rsa
+
+Una vez obtenida la clave privada de la máquina virtual, procedemos a realizar la conexión a ella desde el equipo local. Para ello se utiliza el siguiente comando desde la PowerShell:
+
+ssh -i nombre_archivo_clave_privada.pem ubuntu@ip
+
+
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
