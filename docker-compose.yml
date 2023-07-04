@@ -21,6 +21,13 @@ services:
         - database
   rabbitmq:
     image: rabbitmq
+  internalservice:
+    build: internal_service/internal_service/.
+    environment:
+      - SPRING_RABBITMQ_HOST=broker
+    deploy:
+      mode: replicated
+      replicas: 2
   loadbalancer:
     image: haproxy:2.7.3
     ports:
