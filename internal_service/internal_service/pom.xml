@@ -14,8 +14,7 @@
   <artifactId>internal_service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>internal_service</name>
-  <!-- FIXME change it to the project's website -->
+  <name>internal_service</name>  
   <url>http://www.example.com</url>
 
   <properties>

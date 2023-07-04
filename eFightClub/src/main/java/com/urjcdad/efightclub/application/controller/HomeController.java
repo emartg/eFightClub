@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.urjcdad.efightclub.application.model.AuxiliarEventUsers;
+import com.urjcdad.efightclub.application.internalServices.Producer;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Notification;
 import com.urjcdad.efightclub.application.model.Users;
@@ -42,7 +43,9 @@ public class HomeController {
 	
 	 @Autowired
 	 private PasswordEncoder passwordEncoder;
-
+	 
+	 @Autowired
+	    private Producer producer;
 
 	@GetMapping("/home")
 	public String viewHome(Model model, HttpSession session) {
@@ -191,6 +194,9 @@ public class HomeController {
 		session.removeAttribute("errorMsg");
 		session.removeAttribute("errorUsername");
 		session.removeAttribute("errorEmail");
+		
+		producer.SendNewUser(email,"Welcome " + user.getUsername() + "\n You just have created a new account on eFightClub!");
+		
 		return "redirect:/home";			
 	}
 	
