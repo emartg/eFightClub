@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.urjcdad.efightclub.application.model.Users;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.urjcdad.efightclub.application.internalServices.Producer;
 import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Notification;
 import com.urjcdad.efightclub.application.model.Users;
@@ -45,6 +47,8 @@ public class UserController {
 	
 	@Autowired
 	 private PasswordEncoder passwordEncoder;
+	 @Autowired
+	    private Producer producer;
 
 	
 	@GetMapping("/my_account")
@@ -178,7 +182,10 @@ public class UserController {
 
 					SecurityContextHolder.getContext().setAuthentication(auth);
 			userRepository.save(currentUser);
+			
+			
 		}
+		producer.SendModifiedChanges(currentUser.getEmail(),"There has been new changes in your account information!");
 		
 	
 		

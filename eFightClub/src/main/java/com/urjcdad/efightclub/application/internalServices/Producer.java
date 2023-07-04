@@ -37,5 +37,14 @@ public class Producer {
 		
 		rabbitTemplate.convertAndSend("messages", fullMessage);
 	}
+	public void SendModifiedChanges(String userEmail, String changesText) 
+	{
+		String email = userEmail;
+		String subject = "Account modified!";
+		String text = changesText;
+		String fullMessage = email + "//" + subject + "//" + text;
+		
+		rabbitTemplate.convertAndSend("messages", fullMessage);
+	}
 	
 }
