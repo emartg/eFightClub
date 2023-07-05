@@ -127,7 +127,7 @@ Se han actualizado los diagramas de entidad/relación y de navegación para esta
 ![NAV](/diagrams/diagram_nav_dad_updated.png)
 
 #### Diagrama de clases de la aplicación
-![NAV](/diagrams/Diagrama_Clases_Templates_actualizado.png)
+![NAV](/diagrams/Diagrama_Clases_Templates.png)
 
 ### Documentación interfaz del servicio interno
 La implementación del servicio interno se ha utilizado el broker de mensajes RabbitMQ para enviar correos electronicos cuando el usuario crea una cuenta, recibe una notificación o modifica datos de su cuenta. 
