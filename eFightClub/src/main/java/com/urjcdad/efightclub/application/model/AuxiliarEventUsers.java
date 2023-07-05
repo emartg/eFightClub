@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Entity;
 
 	public class AuxiliarEventUsers {
+		
+		
 		private Event event;
 		private Boolean isParticipant;
 		private Boolean isSubscriber; 	

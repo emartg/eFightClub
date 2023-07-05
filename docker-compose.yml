@@ -1,23 +1,46 @@
 version: '3'
 services:
+  database: 
+    image: mysql:8
+    hostname: master
+    container_name: database
+    environment:
+      - MYSQL_ROOT_PASSWORD=WoozyGuy
+      - MYSQL_DATABASE=eFightClub_schema
   web:
-      build: .
+      build: eFightClub/.
       restart: unless-stopped
       expose:
         - '8443'
-      environment:        
+      environment:    
+        - SPRING_RABBITMQ_HOST=rabbitmq    
         - SPRING_DATASOURCE_URL=jdbc:mysql://database/eFightClub_schema
       deploy:
         mode: loadbalancer
         replicas: 2
       depends_on:
         - database
-  database: 
-    image: mysql:8
-    hostname: master
-    container_name: database
-    ports:
-      - '3306:3306'
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
     environment:
-      - MYSQL_ROOT_PASSWORD=WoozyGuy
-      - MYSQL_DATABASE=eFightClub_schema
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  internalservice:
+    build: internal_service/internal_service/.
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    deploy:
+      mode: replicated
+      replicas: 2
+  loadbalancer:
+    image: haproxy:2.7.3
+    ports:
+      - "8443:443" #Unico puerto abierto web, conecta con Haproxy
+      - "8181:8181" #Puerto para ver Stats
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro"
+    restart: unless-stopped

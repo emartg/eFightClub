@@ -34,6 +34,7 @@ import com.urjcdad.efightclub.application.model.Event;
 import com.urjcdad.efightclub.application.model.Notification;
 import com.urjcdad.efightclub.application.model.Users;
 import com.urjcdad.efightclub.application.repository.EventRepository;
+import com.urjcdad.efightclub.application.repository.NotificationRepository;
 import com.urjcdad.efightclub.application.repository.UsersRepository;
 
 @Controller
@@ -44,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private NotificationRepository notificationRepository;
 	
 	@Autowired
 	 private PasswordEncoder passwordEncoder;
@@ -72,13 +76,16 @@ public class UserController {
 			model.addAttribute("logged", true);
 			currentUser = userRepository.findByUsername(currentUsername);
 			model.addAttribute("email", currentUser.getEmail());
-			for (Event event: eventRepository.findAll())
-				if(event.isSubscriber(currentUser))
-				{
-					for (Notification notif: event.getNotifications()) {
-						notifications.add(notif);						
+			List<Notification> allNotifications = notificationRepository.findAll();
+			for (Notification notif: allNotifications){
+				Event tempEvent = eventRepository.findByEventName(notif.getEventName());
+				if(tempEvent != null) {
+					if(tempEvent.isSubscriber(currentUser))
+					{
+						notifications.add(notif);
 					}
-				}	
+				}				
+			}
 		}
 		model.addAttribute("notifications", notifications);
 		return "my_account";
@@ -147,15 +154,7 @@ public class UserController {
 		}
 		
 		if (email != "") {
-			Users temp = userRepository.findByEmail(email);
-			if (temp != null) {
-				String ErrorMsg = "El email escogido ya está en uso";
-				session.setAttribute("errorMsg", ErrorMsg);
-				session.setAttribute("error", true);				
-				return "redirect:/my_account";
-			}else {
-				newEmail = email;
-			}			
+			newEmail = email;						
 		}
 		
 		if (newEmail != "" && check) {

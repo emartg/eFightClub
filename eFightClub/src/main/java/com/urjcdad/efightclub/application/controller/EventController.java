@@ -46,12 +46,15 @@ public class EventController {
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
+	
 	@Autowired
 	private EventService eventService;
 	
 	@Autowired
     private Producer producer;
 
+	
+	
 	@GetMapping("/events/create")
 	public String createEvent(Model model, HttpSession session) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -344,6 +347,7 @@ public class EventController {
 
 				}	
 				eventRepository.save(event);
+
 			}
 		}
 	
