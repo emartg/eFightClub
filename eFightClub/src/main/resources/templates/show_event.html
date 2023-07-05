@@ -1,0 +1,82 @@
+{{>header}}
+<div class="show-event-banner">
+    <!-- <img src="/events/{{id}}/banner"></img> -->
+    <p>Banner image</p>
+</div>
+<div class="show-event-container vertical-list">
+    <form method='post' action='/events/{{id}}'>
+        <div id="show-event-info" class="horizontal-list">
+            <div id="show-event-icon">
+                <!-- <img src="/events/{{id}}/image"></img> -->
+            </div>
+            <div id="show-event-info--1">
+                {{#eventUser}}
+                <p>{{event.eventName}}</p>
+                <p>{{event.game}}</p>
+
+            </div>
+			 {{#isFinished}}
+			 			 <p id="show-event-info--2">FINISHED: WINNER {{event.winner.username}}</p>	 		
+			 {{/isFinished}}	
+			 {{^isFinished}}	
+			 			 {{#isFull}}			 
+			             <p id="show-event-info--2">LIVE</p>	
+			             {{/isFull}}
+			             {{^isFull}}			 
+			             <p id="show-event-info--2">PLAYERS REQUIRED</p>	
+			             {{/isFull}}				             		 		
+			 {{/isFinished}}	
+        </div>
+
+        <div id="show-event-game" class="horizontal-list ">
+            <div id="participants-display">
+                <h4 style="padding-bottom: 15px;">Participants </h4>
+                <ul class="vertical-list">
+                    {{#event}}
+                    {{#participants}}
+                    <li>
+                        <p class="participants-list-item"> {{username}}</p>
+                    </li>
+                    {{/participants}}
+                    {{/event}}
+                </ul>
+            </div>
+            <div id="bracket-display">                                            
+                <div class="round r-of-4">
+                    <div id="bracket-eights">
+                        {{#eventMatches}}                    
+                            {{#isEights}}                                            
+                                {{>match}}                                                                     
+                            {{/isEights}}
+                        {{/eventMatches}}
+                    </div>
+                    <div id="bracket-quarters">
+                        {{#eventMatches}}
+                            {{#isQuarters}}                                            
+                                {{>match}}                                                                    
+                            {{/isQuarters}}
+                        {{/eventMatches}}
+                    </div>
+                    <div id="bracket-semis">
+                        {{#eventMatches}}
+                        {{#isSemis}}                                            
+                            {{>match}}                                                                   
+                        {{/isSemis}}
+                    {{/eventMatches}}
+                    </div>
+                    <div id="bracket-finals">
+                        {{#eventMatches}}
+                        {{#isFinals}}
+                            {{>match}}               
+                        {{/isFinals}}
+                    {{/eventMatches}}
+                    </div>
+                </div>                
+                
+                {{/eventUser}}
+            </div>
+        </div>
+        <input type="hidden" name="_csrf" value="{{token}}"/>
+    </form>
+</div>
+{{>footer}}

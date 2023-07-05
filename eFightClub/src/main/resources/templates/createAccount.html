@@ -1,0 +1,56 @@
+{{>basic_header}}
+</header>
+
+<div class="login-box">    
+    <form method='post' action='/create_account'>        
+        
+        <ul class="form">
+        {{^error}}
+            <li><h3>Create Account</h3>    </li>
+            
+            <li class="form-item">
+                <input type='text' name='username' placeholder="username"/>
+            </li>
+            <li class="form-item">
+                <input type='text' name='email' placeholder="Email"/>
+            </li>
+            <li class="form-item">
+                <input type='password' name='password' placeholder="password"/>
+            </li>
+            <li class="form-item">
+                <input type='password' name='reenterPassword' placeholder="Re-enter password"/>
+            </li>
+            <li class="form-submit">
+                <input type='submit' value='ENTER'/>
+            </li>
+            <li class="form-signin"><a href="/login">I already have an account</a></li>
+        {{/error}}            
+        {{#error}}
+            <li><h3>Create Account</h3>    </li>
+            
+            <li class="form-item">
+                <input type='text' name='username' value ="{{errorUsername}}" placeholder="Username"/>
+            </li>
+            <li class="form-item">
+                <input type='text' name='email'  placeholder="Email" value ="{{errorEmail}}" />
+            </li>
+            <li class="form-item">
+                <input type='text' name='password' placeholder="Password"/>
+            </li>
+            <li class="form-item">
+                <input type='text' name='reenterPassword' placeholder="Re-enter password"/>
+            </li>
+            <li class="form-submit">
+                <input type='submit' value='ENTER'/>
+            </li>
+            <li class="form-signin"><a href="/login">I already have an account</a></li>
+                <li class="form-error">
+                    <a>{{errorMsg}}</a>
+                </li>
+        {{/error}}
+        </ul>      
+    <input type="hidden" name="_csrf" value="{{token}}"/>
+    </form>
+</div>
+
+{{>footer}}
