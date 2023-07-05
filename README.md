@@ -169,7 +169,7 @@ sudo apt-get install rabbitmq-server -y --fix-missing
 #### Diagrama de clases de la aplicación actualizados
 
 #### Diagrama de los contenedores e infraestructura en Docker
-
+![NAV](/diagrams/diagram_docker_dad.png)
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
