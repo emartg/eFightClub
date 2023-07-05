@@ -124,7 +124,7 @@ Página de la cuenta del usuario para cambiar los datos de la cuenta.
 Se han actualizado los diagramas de entidad/relación y de navegación para esta fase.
 
 #### Diagrama de navegación de la aplicación web
-![NAV](/diagrams/diagram_nav_dad.png)
+![NAV](/diagrams/diagram_nav_dad_updated.png)
 
 #### Diagrama de clases de la aplicación
 
