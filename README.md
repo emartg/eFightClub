@@ -121,6 +121,14 @@ Una vez obtenida la clave privada de la máquina virtual, procedemos a realizar 
 
 ssh -i nombre_archivo_clave_privada.pem ubuntu@ip
 
+## Fase IV
+
+### Diagramas
+
+#### Diagrama de clases de la aplicación actualizados
+
+#### Diagrama de los contenedores e infraestructura en Docker
+
 
 ## Licencia
 Este proyecto está bajo la licencia `Apache License 2.0`. Mira el archivo [LICENSE](LICENSE) para más detalles.
