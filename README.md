@@ -90,6 +90,31 @@ Juan de Carlos López:
 ![NAV](/diagrams/diagram_er_attr_dad.png)
 
 ### Capturas de pantalla
+Página principal de la web donde se pordrán ver todos los eventos disponibles.
+![NAV](/Capturas/Pagina_Principal.png)
+Sign up de la web, donde el usuario se puede crear una cuenta.
+![NAV](/Capturas/Sign_up.png)
+Login de la web, donde una vez creada la cuenta, se inicia sesión desde aquí.
+![NAV](/Capturas/Login.png)
+Página principal después de loggearte, donde se muestran las otras páginas que como usuraio registrado puede entrar
+![NAV](/Capturas/Pagina_Principal_logged.png)
+Página de eventos donde se puede ver todos los eventos creados por el usurio, además de que también se puede crear un evento.
+![NAV](/Capturas/My_events.png)
+Página para crear evento, configurando las fechas, tamaño y nombre del torneo.
+![NAV](/Capturas/Create_event.png)
+Página de eventos con un evento ya creado.
+![NAV](/Capturas/Event_Created.png)
+Página para editar un evento ya creado.
+![NAV](/Capturas/Edit_Event.png)
+Página web principal de la web con un evento en marcha.
+![NAV](/Capturas/Pagina_Principal_logged_evento.png)
+Página del evento creado sin jugadores inscritos.
+![NAV](/Capturas/Event.png)
+Página del evento creado lleno y con los jugadores listos para apuntar los resultados.
+![NAV](/Capturas/Event_ongoing.png)
+Página de la cuenta del usuario para cambiar los datos de la cuenta.
+![NAV](/Capturas/My_account.png)
+
 
 
 ## Fase III
