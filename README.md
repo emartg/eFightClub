@@ -114,13 +114,54 @@ Para generar los archivos jar de la web y del servicio interno, se ha utilizado 
 
 #### Conexión y preparación de la máquina virtual 
 Antes que nada, se ha creado una máquina virtual con VirtualBox usando Ubunto como sistema operativo, desde el cual se hara el despliegue de la página web. Una vez creado, se han generado las claves SSH privada y pública con el siguiente comando:
-
+```
 $sudo ssh-keygen -t rsa
-
+```
 Una vez obtenida la clave privada de la máquina virtual, procedemos a realizar la conexión a ella desde el equipo local. Para ello se utiliza el siguiente comando desde la PowerShell:
-
+```
 ssh -i nombre_archivo_clave_privada.pem ubuntu@ip
+```
+Para subir los archivos .jar a la máquina virtual se ha utilizado el siguiente comando en la PowerShell:
+```
+scp nombre_archivo_clave_privada.pen ubuntu@ip:/directorio_destino
+```
+Dentro de la máquina virtual, se hace unos preparativos previos antes de iniciar la página web, que es instalar el JDK, la base de datos de mySQL y RabbitMQ:
+JDK:
+```
+sudo apt install default-jdk
+```
+mySQL:
+```
+sudo apt install mysql-server
+sudo mysql
+	create database efightclub_schema;
+	create user 'adming'@'%' indentified by 'WoozyGuy';
+	grant all on efightclub_schema.* to 'admin'@'%';
+ exit
+ ```
+RabbitMQ:
+```
+sudo apt-get install curl gnupg apt-transport-https -y
+curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null
+curl -1sLf https://ppa1.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg > /dev/null
+curl -1sLf https://ppa1.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg > /dev/null
+sudo tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
 
+	deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
+	deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
+	
+	deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
+	deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
+	EOF
+
+sudo apt-get update -y
+sudo apt-get install -y erlang-base \
+                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
+                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
+                        erlang-runtime-tools erlang-snmp erlang-ssl \
+                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+sudo apt-get install rabbitmq-server -y --fix-missing
+```
 ## Fase IV
 
 ### Diagramas
