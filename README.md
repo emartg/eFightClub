@@ -188,6 +188,10 @@ sudo apt-get install -y erlang-base \
                         erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
 sudo apt-get install rabbitmq-server -y --fix-missing
 ```
+Por último, para ejecutar ambos servicios, web e interno, se usa el siguiente comando:
+```
+java -jar nombre_archivo_java.jar
+```
 ## Fase IV
 
 ### Diagramas
