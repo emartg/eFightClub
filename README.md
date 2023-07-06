@@ -27,7 +27,10 @@ Juan de Carlos López:
 - [Fase II](#fase-II)
 	- [Diagramas](#diagramas)
 - [Licencia](#licencia) 
- 
+
+#### Enlace Video demostración
+https://youtu.be/gMJWqQ19lcc
+
 ## Fase I 
  
 ### Descripción de la aplicación web 
@@ -200,8 +203,6 @@ java -jar nombre_archivo_java.jar
 ![NAV](/diagrams/Diagrama_Clases_Templates_actualizado.png)
 #### Diagrama de los contenedores e infraestructura en Docker
 ![NAV](/diagrams/diagram_docker_dad.png)
-#### Enlace Video demostración
-https://youtu.be/gMJWqQ19lcc
 
 
 ## Licencia
