@@ -149,7 +149,7 @@ ssh -i nombre_archivo_clave_privada.pem ubuntu@ip
 ```
 Para subir los archivos .jar a la máquina virtual se ha utilizado el siguiente comando en la PowerShell:
 ```
-scp nombre_archivo_clave_privada.pen ubuntu@ip:/directorio_destino
+scp nombre_archivo_clave_privada.pen nombre_archivo_copiar ubuntu@ip:/directorio_destino
 ```
 Dentro de la máquina virtual, se hace unos preparativos previos antes de iniciar la página web, que es instalar el JDK, la base de datos de mySQL y RabbitMQ:
 JDK:
