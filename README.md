@@ -161,7 +161,7 @@ mySQL:
 sudo apt install mysql-server
 sudo mysql
 	create database efightclub_schema;
-	create user 'adming'@'%' indentified by 'WoozyGuy';
+	create user 'admin'@'%' indentified by 'WoozyGuy';
 	grant all on efightclub_schema.* to 'admin'@'%';
  exit
  ```
